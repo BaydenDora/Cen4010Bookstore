@@ -1,24 +1,84 @@
-import java.sql.*;
-
-
 public class book
 {
-    public static String url = "jdbc:mysql://localhost:3306/project";
-    public static String username = "java";
-    public static String password = "password";
-    public static void main(String []args)
-    {
-        
-        System.out.println("My First Java Program.");
-        System.out.println("Connecting database ...");
-
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            System.out.println("Database connected!");
-        } catch (SQLException e) {
-            throw new IllegalStateException("Cannot connect the database!", e);
-        }
-    }
-};
-
-
-
+	String myGenre;
+	String myPublisher;
+	int myCopiesSold;
+	int myRating;
+	
+	// No Arg Constructor
+	public book()
+	{
+		myGenre = "Novel";
+		myPublisher = "Books Publishing";
+		myCopiesSold = 0;
+		myRating = 0;
+	}
+	
+	
+	
+	// Constructor
+	public book (String genre, String publisher, int copiesSold, int rating)
+	{
+		setGenre (genre);
+		setPublisher (publisher);
+		setCopiesSold (copiesSold);
+		setRating (rating);
+	}
+	
+	// Copy Constructor
+	public book (book cloneBook)
+	{
+		setGenre (cloneBook.getGenre());
+		setPublisher (cloneBook.getPublisher());
+		setCopiesSold (cloneBook.getCopiesSold());
+		setRating (cloneBook.getRating());
+	}
+	
+	
+	
+	// Getters
+	public String getGenre()
+	{
+		return myGenre;
+	}
+	
+	public String getPublisher()
+	{
+		return myPublisher;
+	}
+	
+	public int getCopiesSold()
+	{
+		return myCopiesSold;
+	}
+	
+	public int getRating()
+	{
+		return myRating;
+	}
+	
+	
+	
+	// Setters
+	protected void setGenre (String genre)
+	{
+		myGenre = genre;
+	}
+		
+	protected void setPublisher (String publisher)
+	{
+		myPublisher = publisher;
+	}
+	protected void setCopiesSold (int copiesSold)
+	{
+		myCopiesSold = copiesSold;
+		if (myCopiesSold < 0) myCopiesSold = 0;
+	}
+		
+	protected void setRating (int rating)
+	{
+		myRating = rating;
+		if (myRating > 10) myRating = 10;
+		if (myRating < 0) myRating = 0;
+	}
+}
