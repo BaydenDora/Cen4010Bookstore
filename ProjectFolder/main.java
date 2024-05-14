@@ -1,7 +1,7 @@
 import java.sql.*;
 
 
-public class book
+public class main
 {
     public static String url = "jdbc:mysql://localhost:3306/project";
     public static String username = "java";
