@@ -1,6 +1,6 @@
 {
     "java.project.sourcePaths": [
-        "ProjectFolder",
-        "bookstore"
-    ]
+    
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
 }
