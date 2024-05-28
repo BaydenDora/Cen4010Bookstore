@@ -2,11 +2,11 @@ package geekText;
 
 public class author 
 {
-	int myAuthorID; // 9 digit number to differentiate different authors (Some authors may share names)
-	String myFirstName;
-	String myLastName;
-	String myBiography;
-	publisher myPublisher;
+	private int myAuthorID; // 9 digit number to differentiate different authors (Some authors may share names)
+	private String myFirstName;
+	private String myLastName;
+	private String myBiography;
+	private publisher myPublisher;
 
 	// No Arg Constructor
 	public author ()

@@ -2,7 +2,7 @@ package geekText;
 
 public class publisher 
 {
-	String myName;
+	private String myName;
 	
 	// No-Arg constructor
 	public publisher()
