@@ -1,4 +1,4 @@
-package geekText;
+package app.bookstore;
 
 public class publisher 
 {
