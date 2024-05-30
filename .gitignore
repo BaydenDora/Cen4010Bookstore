@@ -86,3 +86,10 @@ local.properties
 # Typically, this file would be tracked if it contains build/dependency configurations:
 .project
 .classpath
+bookstore/target/classes/META-INF/MANIFEST.MF
+bookstore/target/classes/META-INF/maven/app/bookstore/pom.properties
+bookstore/target/classes/META-INF/maven/app/bookstore/pom.xml
+bookstore/target/classes/app/bookstore/BookstoreApplication.class
+bookstore/target/classes/app/bookstore/BookRepo.class
+bookstore/target/classes/app/bookstore/Book.class
+bookstore/src/main/java/app/bookstore/BookRepo.java
