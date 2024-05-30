@@ -5,22 +5,22 @@ import org.springframework.data.repository.CrudRepository;
 //import java.util.ArrayList;
 import java.util.List;
 
-public interface BookRepo extends CrudRepository<book, Integer>, BookRepoCustom 
+public interface BookRepo extends CrudRepository<Book, Integer>, BookRepoCustom 
 {
-	book findByISBN(long ISBN);
+	Book findByISBN(long ISBN);
 	
 	void listBookDetails (long ISBN);
 	
-	List<book> findByPublisher(publisher publisher);
+	List<Book> findByPublisher(Publisher publisher);
 	
-	List<book> findByAuthor(author author);
+	List<Book> findByAuthor(Author author);
 	
-	List<book> findByGenre(String genre);
+	List<Book> findByGenre(String genre);
 	
-	List<book> findByRating(int rating);
+	List<Book> findByRating(int rating);
 	
-	List<book> findTopTenSellers();
+	List<Book> findTopTenSellers();
 	
-	void discountByPublisher(publisher publisher);
+	void discountByPublisher(Publisher publisher);
 }
 

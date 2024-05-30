@@ -1,25 +1,25 @@
 package app.bookstore;
 
-public class author 
+public class Author 
 {
 	private int myAuthorID; // 9 digit number to differentiate different authors (Some authors may share names)
 	private String myFirstName;
 	private String myLastName;
 	private String myBiography;
-	private publisher myPublisher;
+	private Publisher myPublisher;
 
 	// No Arg Constructor
-	public author ()
+	public Author ()
 	{
 		setAuthorID (000000000);
 		setFirstName ("Jo");
 		setLastName ("Doe");
 		setBiography ("Biography");
-		setPublisher (new publisher());
+		setPublisher (new Publisher());
 	}
 	
 	// Constructor
-	public author (int ID, String firstName, String lastName, String bio, publisher publisher)
+	public Author (int ID, String firstName, String lastName, String bio, Publisher publisher)
 	{
 		setAuthorID (ID);
 		setFirstName (firstName);
@@ -29,7 +29,7 @@ public class author
 	}
 	
 	//Copy constructor
-	public author(author cloneAuthor)
+	public Author(Author cloneAuthor)
 	{
 		setAuthorID (cloneAuthor.getAuthorID());
 		setFirstName (cloneAuthor.getFirstName());
@@ -64,7 +64,7 @@ public class author
 		return myBiography;
 	}
 	
-	public publisher getPublisher ()
+	public Publisher getPublisher ()
 	{
 		return myPublisher;
 	}
@@ -98,7 +98,7 @@ public class author
 		myBiography = bio;
 	}
 	
-	public void setPublisher (publisher publisher)
+	public void setPublisher (Publisher publisher)
 	{
 		myPublisher = publisher;
 	}

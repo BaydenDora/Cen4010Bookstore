@@ -1,23 +1,23 @@
 package app.bookstore;
 
-public class publisher 
+public class Publisher 
 {
 	private String myName;
 	
 	// No-Arg constructor
-	public publisher()
+	public Publisher()
 	{
 		setName("Publisher");
 	}
 	
 	// Constructor
-	public publisher(String name)
+	public Publisher(String name)
 	{
 		setName(name);
 	}
 	
 	//Copy constructor
-	public publisher(publisher clonePublisher)
+	public Publisher(Publisher clonePublisher)
 	{
 		setName(clonePublisher.getName());
 	}

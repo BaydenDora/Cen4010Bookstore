@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity // This tells Hibernate to make a table out of this class
-public class book 
+public class Book 
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -15,21 +15,21 @@ public class book
 	private String myTitle;
 	private String myDescription;
 	private int myYearPublished;
-	private author myAuthor;
-	private publisher myPublisher;
+	private Author myAuthor;
+	private Publisher myPublisher;
 	private String myGenre;
 	private int myCopiesSold;
 	private int myRating; // This assumes a rating system from 0 - 10
 	private double myPrice;
 	
 	// No Arg Constructor
-	public book()
+	public Book()
 	{
 		setISBN (0000000000000L); // ISBNs are 13-digit numbers
 		setTitle ("The Book");
 		setDescription ("Book Description");
 		setYearPublished (0000);
-		setAuthor (new author());
+		setAuthor (new Author());
 		setGenre ("Novel");
 		setPublisher (myAuthor.getPublisher());
 		setCopiesSold (0);
@@ -40,7 +40,7 @@ public class book
 	
 	
 	// Constructor
-	public book (long ISBN, String title, String description, int yearPublished, author author, publisher publisher, String genre, int copiesSold, int rating, double price)
+	public Book (long ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, String genre, int copiesSold, int rating, double price)
 	{
 		setISBN (ISBN);
 		setTitle (title);
@@ -55,7 +55,7 @@ public class book
 	}
 	
 	// Copy Constructor
-	public book (book cloneBook)
+	public Book (Book cloneBook)
 	{
 		setISBN (cloneBook.getISBN());
 		setTitle (cloneBook.getTitle());
@@ -92,12 +92,12 @@ public class book
 		return myYearPublished;
 	}
 	
-	public author getAuthor()
+	public Author getAuthor()
 	{
 		return myAuthor;
 	}
 	
-	public publisher getPublisher()
+	public Publisher getPublisher()
 	{
 		return myPublisher;
 	}
@@ -149,12 +149,12 @@ public class book
 		if (myYearPublished < 0) myYearPublished = 0;
 	}
 	
-	protected void setAuthor (author author)
+	protected void setAuthor (Author author)
 	{
 		myAuthor = author;
 	}
 		
-	protected void setPublisher (publisher publisher)
+	protected void setPublisher (Publisher publisher)
 	{
 		myPublisher = publisher;
 	}
