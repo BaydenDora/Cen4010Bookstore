@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Publisher 
@@ -23,7 +25,7 @@ public class Publisher
 	}
 	
 	// Constructor
-	public Publisher(long ID String name)
+	public Publisher(long ID, String name)
 	{
 		setID(ID);
 		setName(name);
@@ -39,7 +41,7 @@ public class Publisher
 	// Getters
 	public long getID ()
 	{
-		return myID;
+		return myPublisherID;
 	}
 	
 	public String getName ()

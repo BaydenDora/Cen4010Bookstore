@@ -1,9 +1,11 @@
-package src.main.java.app.bookstore;
+package app.bookstore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class CreditCard 
