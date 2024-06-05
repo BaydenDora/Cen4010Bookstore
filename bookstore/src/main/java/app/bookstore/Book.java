@@ -11,15 +11,18 @@ public class Book
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long myISBN; // ISBNs are 13-digit numbers
+	private int myBookID; // ISBNs are 13-digit numbers
 	
-	@Column(nullable = false, length = 500)
+	@Column(name = "ISBN", nullable = false, length = 100)
+	private long myISBN; // ISBNs are 13-digit numbers
+
+	@Column(name = "BookName", nullable = false, length = 500)
 	private String myTitle;
 	
-	@Column(nullable = false, length = 100)
+	@Column(name = "BookDescription", nullable = false, length = 100)
 	private String myDescription;
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "YearPublished", nullable = false, length = 100)
 	private int myYearPublished;
 	
 	// unsure how to address objects at the moment
@@ -28,16 +31,16 @@ public class Book
 	// unsure how to address objects at the moment
 	private Publisher myPublisher;
 	
-	@Column(nullable = false, length = 100)
-	private String myGenre;
+	@Column(name = "Genre", nullable = false, length = 100)
+	private String myGenre; //enum take examples from MySQL
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "CopiesSold", nullable = false, length = 100)
 	private int myCopiesSold;
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int myRating; // This assumes a rating system from 0 - 10
+	@Column(name = "Rating", nullable = false, length = 100)
+	private int myRating; // Ratings are item based need class for reviews
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "Price", nullable = false, length = 100)
 	private double myPrice;
 	
 	// No-Arg Constructor
