@@ -1,0 +1,3 @@
+app\bookstore\BookstoreApplication.class
+app\bookstore\Book.class
+app\bookstore\BookRepo.class
