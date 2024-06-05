@@ -10,19 +10,36 @@ public class Book
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	
 	private long myISBN; // ISBNs are 13-digit numbers
+	
+	@Column(nullable = false, length = 500)
 	private String myTitle;
+	
+	@Column(nullable = false, length = 100)
 	private String myDescription;
+	
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int myYearPublished;
+	
+	// unsure how to address objects at the moment
 	private Author myAuthor;
+	
+	// unsure how to address objects at the moment
 	private Publisher myPublisher;
+	
+	@Column(nullable = false, length = 100)
 	private String myGenre;
+	
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int myCopiesSold;
+	
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int myRating; // This assumes a rating system from 0 - 10
+	
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private double myPrice;
 	
-	// No Arg Constructor
+	// No-Arg Constructor
 	public Book()
 	{
 		setISBN (0000000000000L); // ISBNs are 13-digit numbers

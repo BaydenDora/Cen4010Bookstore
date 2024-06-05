@@ -1,24 +1,78 @@
 package app.bookstore;
 
 import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity // This tells Hibernate to make a table out of this class
 public class User 
 {
-    private String myUserID;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long myUserID;
+	
+	@Column(nullable = false, length = 100)
     private String myUsername;
+    
+	@Column(nullable = false, length = 100)
     private String myPassword;
+    
+	@Column(nullable = false, length = 100)
     private String myEmailAddress;
+    
+	@Column(nullable = false, length = 100)
     private String myHomeAddress;
+    
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
     private List<Book> myWishlist;
+    
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
     private List<Book> myShoppingCart;
+    
+	// unsure how to address objects at the moment
     private CreditCard myCreditCard;
     
-    //*Constructors go here*
+    // No-Arg constructor
+    public User() {
+        setUserID(0);
+        setUsername("user1");
+        setPassword("password");
+        setEmailAddress("None");
+        setHomeAddress("None");
+        setWishlist(null);
+        setShoppingCart(null);
+        setCreditCard(null);
+    }
 
-  	//*Constructors go here*
+    // Constructor
+    public User(long userID, String username, String password, String emailAddress, String homeAddress, 
+                List<Book> wishlist, List<Book> shoppingCart, CreditCard creditCard) {
+        setUserID(userID);
+        setUsername(username);
+        setPassword(password);
+        setEmailAddress(emailAddress);
+        setHomeAddress(homeAddress);
+        setWishlist(wishlist);
+        setShoppingCart(shoppingCart);
+        setCreditCard(creditCard);
+    }
+
+    // Copy Constructor
+    public User(User cloneUser) {
+        setUserID(cloneUser.getUserID());
+        setUsername(cloneUser.getUsername());
+        setPassword(cloneUser.getPassword());
+        setEmailAddress(cloneUser.getEmailAddress());
+        setHomeAddress(cloneUser.getHomeAddress());
+        setWishlist(cloneUser.getWishlist());
+        setShoppingCart(cloneUser.getShoppingCart());
+        setCreditCard(cloneUser.getCreditCard());
+    }
     
     // Getters
-    public String getUserID() 
+    public long getUserID() 
     {
         return myUserID;
     }
@@ -59,42 +113,42 @@ public class User
     }
     
     // Setters
-    public void setUserID(String userID) 
+    protected void setUserID(long userID) 
     {
-        myUserID = UserID;
+        myUserID = userID;
     }
 
-    public void setUsername(String username) 
+    protected void setUsername(String username) 
     {
         myUsername = username;
     }
 
-    public void setPassword(String password) 
+    protected void setPassword(String password) 
     {
         myPassword = password;
     }
 
-    public void setEmailAddress(String emailAddress) 
+    protected void setEmailAddress(String emailAddress) 
     {
         myEmailAddress = emailAddress;
     }
 
-    public void setHomeAddress(String myHomeAddress) 
+    protected void setHomeAddress(String myHomeAddress) 
     {
         myHomeAddress = myHomeAddress;
     }
 
-    public void setWishlist(List<Book> wishlist) 
+    protected void setWishlist(List<Book> wishlist) 
     {
         myWishlist = wishlist;
     }
     
-    public void setShoppingCart(List<Book> shoppingCart) 
+    protected void setShoppingCart(List<Book> shoppingCart) 
     {
         myShoppingCart = ShoppingCart;
     }
 
-    public void setCreditCard(CreditCard creditCard) 
+    protected void setCreditCard(CreditCard creditCard) 
     {
         myCreditCard = creditCard;
     }
