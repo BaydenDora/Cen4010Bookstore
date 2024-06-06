@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "book")
 public class Book 
 {
 	@Id
@@ -18,7 +19,7 @@ public class Book
 	@Column(nullable = false, length = 100)
 	private String myDescription;
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(nullable = false, length = 100)
 	private int myYearPublished;
 	
 	// unsure how to address objects at the moment
@@ -30,13 +31,13 @@ public class Book
 	@Column(nullable = false, length = 100)
 	private String myGenre;
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(nullable = false, length = 100)
 	private int myCopiesSold;
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(nullable = false, length = 100)
 	private int myRating; // This assumes a rating system from 0 - 10
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(nullable = false, length = 100)
 	private double myPrice;
 	
 	// No-Arg Constructor

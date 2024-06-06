@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "user")
 public class User 
 {
 	@Id
@@ -26,10 +27,10 @@ public class User
     private String myHomeAddress;
     
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Book> myWishlist;
+    private List<Wishlist> myWishlist;
     
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Book> myShoppingCart;
+    private List<ShoppingCart> myShoppingCart;
     
 	// unsure how to address objects at the moment
     private CreditCard myCreditCard;
