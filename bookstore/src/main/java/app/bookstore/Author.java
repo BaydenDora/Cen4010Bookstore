@@ -15,17 +15,22 @@ public class Author
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int myAuthorID; // 9 digit number to differentiate different authors (Some authors may share names)
 	
-	@Column(nullable = false, length = 100)
+	@Column(name = "First Name", nullable = false, length = 100)
 	private String myFirstName;
 	
-	@Column(nullable = false, length = 100)
+	@Column(name = "Last Name", nullable = false, length = 100)
 	private String myLastName;
 	
-	@Column(nullable = false, length = 1000)
+	@Column(name = "Biography", nullable = false, length = 1000)
 	private String myBiography;
 	
-	// unsure how to address objects at the moment
+	@ManyToOne
+	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private Publisher myPublisher;
+	
+	@OneToMany(mappedBy = "myAuthor")
+    private List<Book> booksWritten = new ArrayList<>();
+	
 
 	// No-Arg Constructor
 	public Author ()
