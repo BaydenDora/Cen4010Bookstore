@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "publisher")
 public class Publisher 
 {
 	@Id
@@ -16,6 +17,12 @@ public class Publisher
 	
 	@Column(nullable = false, length = 100)
 	private String myName;
+	
+	@OneToMany(mappedBy = "myPublisher")
+    private List<Author> authorsPublished = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "myPublisher")
+    private List<Book> booksPublished = new ArrayList<>();
 	
 	// No-Arg constructor
 	public Publisher()

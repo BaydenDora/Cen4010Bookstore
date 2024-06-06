@@ -8,29 +8,34 @@ import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "user")
 public class User 
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long myUserID;
 	
-	@Column(nullable = false, length = 100)
+	@Column(name = "Username", nullable = false, length = 100)
     private String myUsername;
     
-	@Column(nullable = false, length = 100)
+	@Column(name = "Password", nullable = false, length = 100)
     private String myPassword;
     
-	@Column(nullable = false, length = 100)
+	@Column(name = "Email Address", nullable = false, length = 100)
     private String myEmailAddress;
     
-	@Column(nullable = false, length = 100)
+	@Column(name = "Home Address", nullable = false, length = 100)
     private String myHomeAddress;
     
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Book> myWishlist;
+	@OneToMany(name = "Wishlist", mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private List<Wishlist> myWishlist;
     
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Book> myShoppingCart;
+	@OneToMany(name = "Shopping Cart", mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private List<ShoppingCart> myShoppingCart;
+	
+	@OneToMany
+	@JoinColumn(name ="CreditCard_ID", nullable = false)
+    private List<CreditCard> creditCards = new ArrayList<>();
     
 	// unsure how to address objects at the moment
     private CreditCard myCreditCard;

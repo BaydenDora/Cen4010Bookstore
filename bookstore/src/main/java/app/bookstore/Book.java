@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "book")
 public class Book 
 {
 	@Id
@@ -19,22 +20,25 @@ public class Book
 	@Column(name = "BookName", nullable = false, length = 500)
 	private String myTitle;
 	
-	@Column(name = "BookDescription", nullable = false, length = 100)
+	@Column(name = "BookDescription", nullable = false, length = 1000)
 	private String myDescription;
 	
-	@Column(name = "YearPublished", nullable = false, length = 100)
+
+	@Column(name = "YearPublished", nullable = false, length = 4)
 	private int myYearPublished;
 	
-	// unsure how to address objects at the moment
+	@ManyToOne
+	@JoinColumn(name ="Author_ID", nullable = false)
 	private Author myAuthor;
 	
-	// unsure how to address objects at the moment
+	@ManyToOne
+	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private Publisher myPublisher;
 	
 	@Column(name = "Genre", nullable = false, length = 100)
 	private String myGenre; //enum take examples from MySQL
-	
-	@Column(name = "CopiesSold", nullable = false, length = 100)
+
+	@Column(name = "CopiesSold", nullable = false, length = 1000)
 	private int myCopiesSold;
 	
 	@Column(name = "Rating", nullable = false, length = 100)

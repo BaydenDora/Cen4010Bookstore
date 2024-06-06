@@ -8,29 +8,34 @@ import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "creditcard")
 public class CreditCard 
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	long myCardID;
 	
-	@Column(nullable = false, length = 100)
+	@Column(name = "Brand", nullable = false, length = 100)
 	String myCardBrand; //Visa, Discover, MasterCard, etc
 	
-	@Column(nullable = false, length = 100)
+	@Column(name = "Holder", nullable = false, length = 100)
 	String myCardHolder; //Name of the card holder
 	
-	@Column(nullable = false, length = 100)
+	@Column(name = "CardNumber", nullable = false, length = 16)
 	long myCardNumber; //The digits in groups of 4
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "ExpirationMonth", nullable = false, length = 2)
 	int myExpirationMonth; // 01 - 12
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "ExpirationYear", nullable = false, length = 2)
 	int myExpirationYear; // Two digit year (24 for 2024, 25 for 2025, etc)
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "CVC", nullable = false, length = 3)
 	int myCVC; // The three funny numbers on the back
+	
+	@ManyToOne
+	@JoinColumn(name ="User_ID", nullable = false)
+	private User myUser;
 	
 	// No-Arg constructor
     public CreditCard() 
