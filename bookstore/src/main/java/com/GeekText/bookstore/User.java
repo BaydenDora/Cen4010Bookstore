@@ -1,6 +1,6 @@
 package com.GeekText.bookstore;
 
-import java.util.List;
+// import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,20 +11,16 @@ import jakarta.persistence.*;
 public class User 
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	private Long myUserID;
-	
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long userID;
 	@Column(nullable = false, length = 100)
-    private String myUsername;
-    
+    private String username;
 	@Column(nullable = false, length = 100)
-    private String myPassword;
-    
+    private String password;
 	@Column(nullable = false, length = 100)
-    private String myEmailAddress;
-    
+    private String emailAddress;
 	@Column(nullable = true, length = 100)
-    private String myHomeAddress;
+    private String homeAddress;
     
 	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
     // private List<Book> myWishlist;
@@ -37,33 +33,31 @@ public class User
     
     // No-Arg constructor
     public User() {
-        // setUserID(0);
-        setUsername("user1");
-        setPassword("password");
-        setEmailAddress("Null");
-        setHomeAddress("Null");
+        username = "user1";
+        password = "password";
+        emailAddress = null;
+        homeAddress = null;
         // setWishlist(null);
         // setShoppingCart(null);
         // setCreditCard(null);
     }
 
     // Constructor
-    public User(long userID, String username, String password, String emailAddress, String homeAddress
+    public User(String username, String password, String emailAddress, String homeAddress
             // , List<Book> wishlist, List<Book> shoppingCart, CreditCard creditCard
                 ) {
-        setUserID(userID);
-        setUsername(username);
-        setPassword(password);
-        setEmailAddress(emailAddress);
-        setHomeAddress(homeAddress);
+        this.username = username;
+        this.password = password;
+        this.emailAddress = emailAddress;
+        this.homeAddress = homeAddress;
         // setWishlist(wishlist);
         // setShoppingCart(shoppingCart);
         // setCreditCard(creditCard);
     }
 
     //  NOT NULL parameters constructor
-    public User(Long userID, String username, String password, String emailAddress) {
-        this(userID, username, password, emailAddress, null);
+    public User(String username, String password, String emailAddress) {
+        this(username, password, emailAddress, null);
     }
 
     // Copy Constructor
@@ -79,21 +73,21 @@ public class User
     // }
     
     // Getters
-    public Long getUserID() { return myUserID; }
-    public String getUsername() { return myUsername; }
-    public String getPassword() { return myPassword; }
-    public String getEmailAddress() { return myEmailAddress;}
-    public String getHomeAddress() { return myHomeAddress; }
+    public Long getUserID() { return userID; }
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+    public String getEmailAddress() { return emailAddress;}
+    public String getHomeAddress() { return homeAddress; }
     // public List<Book> getWishlist() { return myWishlist; }
     // public List<Book> getShoppingCart() { return myShoppingCart; }
     // public CreditCard getCreditCard() { return myCreditCard; }
     
     // Setters
-    protected void setUserID(Long userID) { myUserID = userID; }
-    protected void setUsername(String username) { myUsername = username; }
-    protected void setPassword(String password) { myPassword = password; }
-    protected void setEmailAddress(String emailAddress) { myEmailAddress = emailAddress; }
-    protected void setHomeAddress(String myHomeAddress) { this.myHomeAddress = myHomeAddress; }
+    protected void setUserID(Long userID) { this.userID = userID; }
+    protected void setUsername(String username) { this.username = username; }
+    protected void setPassword(String password) { this.password = password; }
+    protected void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
+    protected void setHomeAddress(String homeAddress) { this.homeAddress = homeAddress; }
     // protected void setWishlist(List<Book> wishlist) { myWishlist = wishlist; }
     // protected void setShoppingCart(List<Book> shoppingCart) { myShoppingCart = shoppingCart; }
     // protected void setCreditCard(CreditCard creditCard) { myCreditCard = creditCard; }
