@@ -61,7 +61,7 @@ public class User
         // setCreditCard(creditCard);
     }
 
-    //
+    //  NOT NULL parameters constructor
     public User(Long userID, String username, String password, String emailAddress) {
         this(userID, username, password, emailAddress, null);
     }
@@ -79,7 +79,6 @@ public class User
     // }
     
     // Getters
-    // public Integer getUserID() { return myUserID; }
     public Long getUserID() { return myUserID; }
     public String getUsername() { return myUsername; }
     public String getPassword() { return myPassword; }
@@ -90,7 +89,6 @@ public class User
     // public CreditCard getCreditCard() { return myCreditCard; }
     
     // Setters
-    // public void setUserID(Integer id) { this.myUserID = id; }
     protected void setUserID(Long userID) { myUserID = userID; }
     protected void setUsername(String username) { myUsername = username; }
     protected void setPassword(String password) { myPassword = password; }
