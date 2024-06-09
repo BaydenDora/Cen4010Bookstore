@@ -1,6 +1,6 @@
-package com.GeekText.bookstore;
+// package com.GeekText.bookstore;
 
-public interface BookRepoCustom 
-{
+// public interface BookRepoCustom 
+// {
 	
-}
+// }
