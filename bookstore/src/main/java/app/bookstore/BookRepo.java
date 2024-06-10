@@ -21,3 +21,23 @@ public interface BookRepo extends CrudRepository<Book, Integer>
 //	void discountByPublisher(Publisher publisher);
 }
 
+public interface BookRepo extends CrudRepository<Book, Integer>
+{}
+
+public interface BookRepo extends CrudRepository<Book, Integer>
+{}
+
+public interface BookRepo extends CrudRepository<Book, Integer>
+{}
+
+public interface BookRepo extends CrudRepository<Book, Integer>
+{}
+
+public interface BookRepo extends CrudRepository<Book, Integer>
+{}
+
+public interface BookRepo extends CrudRepository<Book, Integer>
+{}
+
+public interface BookRepo extends CrudRepository<Book, Integer>
+{}
