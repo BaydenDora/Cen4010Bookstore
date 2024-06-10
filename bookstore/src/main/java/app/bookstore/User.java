@@ -1,11 +1,17 @@
 package app.bookstore;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.*;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "user")
@@ -27,11 +33,11 @@ public class User
 	@Column(name = "Home Address", nullable = false, length = 100)
     private String myHomeAddress;
     
-	@OneToMany(name = "Wishlist", mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Wishlist> myWishlist;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private List<Book> myWishlist;
     
-	@OneToMany(name = "Shopping Cart", mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<ShoppingCart> myShoppingCart;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private List<Book> myShoppingCart;
 	
 	@OneToMany
 	@JoinColumn(name ="CreditCard_ID", nullable = false)

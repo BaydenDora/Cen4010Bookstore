@@ -1,3 +1,9 @@
 app\bookstore\BookstoreApplication.class
 app\bookstore\Book.class
+app\bookstore\Controller.class
+app\bookstore\BookRepoCustom.class
+app\bookstore\Author.class
 app\bookstore\BookRepo.class
+app\bookstore\Publisher.class
+app\bookstore\CreditCard.class
+app\bookstore\User.class
