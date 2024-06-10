@@ -1,4 +1,4 @@
-package main.java.app.bookstore;
+package app.bookstore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
@@ -18,11 +17,11 @@ public class ShoppingCart
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int myCartID;
 	
-	@OnetoMany(mappedBy = "myShoppingCart")
+	@OneToMany(mappedBy = "myShoppingCart")
     private List<Book> myBooksInCart = new ArrayList<>();
 	
-	@Column(name = "User", nullable = false, length = 100)
-	@ManyToOne(mappedBy = "myWishlist")
+	@ManyToOne
+    @Column(name = "User", nullable = false, length = 100)
 	private int myUserID;
 	
     // Getters

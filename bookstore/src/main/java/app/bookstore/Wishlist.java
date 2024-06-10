@@ -1,14 +1,16 @@
-package main.java.app.bookstore;
+package app.bookstore;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Id;
-import jakarta.persistence.*;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "wishlist")
@@ -22,8 +24,8 @@ public class Wishlist
 	@OneToMany(mappedBy = "myWishlist")
 	private List<Book> myBooksWishlisted = new ArrayList<>();
 	
+    @ManyToOne
 	@Column(name = "User", nullable = false, length = 100)
-	@ManyToOne(mappedBy = "myWishlist")
 	private int myUserID;
 	
 	// Getters
