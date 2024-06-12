@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -25,8 +26,8 @@ public class Wishlist
 	private List<Book> myBooksWishlisted = new ArrayList<>();
 	
     @ManyToOne
-	@Column(name = "User", nullable = false, length = 100)
-	private int myUserID;
+    @JoinColumn(name ="User_ID", nullable = false)
+	private User myUserID;
 	
 	// Getters
     public int getWishlistID() {
@@ -37,7 +38,7 @@ public class Wishlist
         return myBooksWishlisted;
     }
 
-    public int getUserID() {
+    public User getUserID() {
         return myUserID;
     }
 
@@ -50,7 +51,7 @@ public class Wishlist
     	myBooksWishlisted = booksWishlisted;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(User userID) {
     	myUserID = userID;
     }
 	

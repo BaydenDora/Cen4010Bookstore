@@ -49,7 +49,7 @@ public class Book
 	@Column(name = "CopiesSold", nullable = false, length = 1000)
 	private int myCopiesSold;
 	
-	@Column(name = "Rating", nullable = false, length = 100)
+	@Column(name = "Review", nullable = false, length = 100)
 	private int myRating; // Ratings are item based need class for reviews
 	
 	@Column(name = "Price", nullable = false, length = 100)

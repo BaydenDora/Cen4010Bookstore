@@ -14,12 +14,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
-@Table(name = "user")
+@Table(name = "User")
 public class User 
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long myUserID;
+	private int myUserID;
 	
 	@Column(name = "Username", nullable = false, length = 100)
     private String myUsername;
@@ -33,11 +33,14 @@ public class User
 	@Column(name = "Home Address", nullable = false, length = 100)
     private String myHomeAddress;
     
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Book> myWishlist;
+    @OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
+    private List<Review> myReview;
+
+	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
+    private List<Wishlist> myWishlist;
     
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Book> myShoppingCart;
+	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
+    private List<ShoppingCart> myShoppingCart;
 	
 	@OneToMany
 	@JoinColumn(name ="CreditCard_ID", nullable = false)
@@ -53,19 +56,21 @@ public class User
         setPassword("password");
         setEmailAddress("None");
         setHomeAddress("None");
+        setReview(null);
         setWishlist(null);
         setShoppingCart(null);
         setCreditCard(null);
     }
 
     // Constructor
-    public User(long userID, String username, String password, String emailAddress, String homeAddress, 
-                List<Book> wishlist, List<Book> shoppingCart, CreditCard creditCard) {
+    public User(int userID, String username, String password, String emailAddress, String homeAddress, List<Review> review,
+                List<Wishlist> wishlist, List<ShoppingCart> shoppingCart, CreditCard creditCard) {
         setUserID(userID);
         setUsername(username);
         setPassword(password);
         setEmailAddress(emailAddress);
         setHomeAddress(homeAddress);
+        setReview(review);
         setWishlist(wishlist);
         setShoppingCart(shoppingCart);
         setCreditCard(creditCard);
@@ -84,7 +89,7 @@ public class User
     }
     
     // Getters
-    public long getUserID() 
+    public int getUserID() 
     {
         return myUserID;
     }
@@ -108,13 +113,17 @@ public class User
     {
         return myHomeAddress;
     }
+    public List<Review> getReview() 
+    {
+        return myReview;
+    }
 
-    public List<Book> getWishlist() 
+    public List<Wishlist> getWishlist() 
     {
         return myWishlist;
     }
     
-    public List<Book> getShoppingCart() 
+    public List<ShoppingCart> getShoppingCart() 
     {
         return myShoppingCart;
     }
@@ -125,7 +134,7 @@ public class User
     }
     
     // Setters
-    protected void setUserID(long userID) 
+    protected void setUserID(int userID) 
     {
         myUserID = userID;
     }
@@ -150,12 +159,17 @@ public class User
         myHomeAddress = myHomeAddress;
     }
 
-    protected void setWishlist(List<Book> wishlist) 
+    protected void setReview(List<Review> review) 
+    {
+        myReview = review;
+    }
+
+    protected void setWishlist(List<Wishlist> wishlist) 
     {
         myWishlist = wishlist;
     }
     
-    protected void setShoppingCart(List<Book> shoppingCart) 
+    protected void setShoppingCart(List<ShoppingCart> shoppingCart) 
     {
         myShoppingCart = shoppingCart;
     }
