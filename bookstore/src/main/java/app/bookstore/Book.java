@@ -1,17 +1,17 @@
 package app.bookstore;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "book")
@@ -42,8 +42,9 @@ public class Book
 	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private Publisher myPublisher;
 	
-	@Column(name = "Genre", nullable = false, length = 100)
-	private String myGenre; //enum take examples from MySQL
+	@Enumerated(EnumType.STRING)
+	@Column(name = "Genre", nullable = false)
+	private Genre myGenre; //enum take examples from MySQL
 
 	@Column(name = "CopiesSold", nullable = false, length = 1000)
 	private int myCopiesSold;
@@ -62,7 +63,7 @@ public class Book
 		setDescription ("Book Description");
 		setYearPublished (0000);
 		setAuthor (new Author());
-		setGenre ("Novel");
+		setGenre (Genre.TEXTBOOK);
 		setPublisher (myAuthor.getPublisher());
 		setCopiesSold (0);
 		setRating (0);
@@ -72,7 +73,7 @@ public class Book
 	
 	
 	// Constructor
-	public Book (long ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, String genre, int copiesSold, int rating, double price)
+	public Book (long ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, int rating, double price)
 	{
 		setISBN (ISBN);
 		setTitle (title);
@@ -134,7 +135,7 @@ public class Book
 		return myPublisher;
 	}
 	
-	public String getGenre()
+	public Genre getGenre()
 	{
 		return myGenre;
 	}
@@ -191,10 +192,9 @@ public class Book
 		myPublisher = publisher;
 	}
 	
-	protected void setGenre (String genre)
+	protected void setGenre (Genre genre)
 	{
 		myGenre = genre;
-		if (myGenre.trim() == "" || myGenre == null) myGenre = "Genre";
 	}
 	
 	protected void setCopiesSold (int copiesSold)
