@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -30,9 +31,9 @@ public class Author
 	@Column(name = "Biography", nullable = false, length = 1000)
 	private String myBiography;
 	
-	@ManyToOne
+	@ManyToMany
 	@JoinColumn(name ="Publisher_ID", nullable = false)
-	private Publisher myPublisher;
+	private List<Publisher> myPublisher;
 	
 	@OneToMany(mappedBy = "myAuthor")
     private List<Book> booksWritten = new ArrayList<>();

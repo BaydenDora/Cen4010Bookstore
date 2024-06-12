@@ -2,12 +2,14 @@ package app.bookstore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -16,38 +18,53 @@ import jakarta.persistence.Table;
 public class Review {
 
     @Id
-    @Column(name = "isbn")
-    private int isbn;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private int reviewID;
+    
+    @ManyToOne
+    @Column(name = "book", length = 300)
+    private Book book;
 
-    @Id
-    @Column(name = "username", length = 300)
-    private String username;
+	@ManyToOne
+    @Column(name = "User", nullable = false, length = 100)
+	private User user;
+    
+    @Column(name = "comment", length = 300)
+    private String comment;
 
     @Column(name = "rating")
     private int rating;
 
-    @Column(name = "comment", length = 300)
-    private String comment;
+    @Column(name = "date", length = 30)
+    private Date date;
 
-    @Column(name = "time", length = 30)
-    private String time;
-
+   // Constructors
     public Review() {}
 
-    public Review(int isbn, String username, int rating, String comment, String time) {
-        this.isbn = isbn;
-        this.username = username;
+    public Review(int id, Book book, User user, int rating, String comment, Date date) {
+    	this.reviewID = id;
+    	this.book = book;
+        this.user = user;
         this.rating = rating;
         this.comment = comment;
-        this.time = time;
+        this.date = date;
+    }
+    
+    //Getters and Setters
+    public int getID() {
+    	return reviewID;
+    }
+    
+    public void setID(int id) {
+    	this.reviewID = id;
+    }
+    
+    public Book getIsbn() {
+        return book;
     }
 
-    public int getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(int isbn) {
-        this.isbn = isbn;
+    public void setIsbn(Book book) {
+        this.book = book;
     }
 
     public String getUsername() {
@@ -74,11 +91,11 @@ public class Review {
         this.comment = comment;
     }
 
-    public String getTime() {
-        return time;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTime(Date date) {
+        this.date = date;
     }
 }

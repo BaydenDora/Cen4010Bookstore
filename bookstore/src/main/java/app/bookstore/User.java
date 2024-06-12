@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -34,14 +35,16 @@ public class User
     private String myHomeAddress;
     
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Book> myWishlist;
+    private List<Wishlist> myWishlists;
     
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Book> myShoppingCart;
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private ShoppingCart myShoppingCart;
 	
-	@OneToMany
-	@JoinColumn(name ="CreditCard_ID", nullable = false)
-    private List<CreditCard> creditCards = new ArrayList<>();
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private List<CreditCard> myCreditCards = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private List<Review> myReviews = new ArrayList<>();
     
 	// unsure how to address objects at the moment
     private CreditCard myCreditCard;

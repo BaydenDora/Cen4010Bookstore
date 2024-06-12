@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -20,12 +21,10 @@ public class Wishlist
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int myWishlistID;
 	
-	@Column(name = "Book", nullable = false, length = 100)
-	@OneToMany(mappedBy = "myWishlist")
+	@ManyToMany(mappedBy = "myWishlist")
 	private List<Book> myBooksWishlisted = new ArrayList<>();
 	
     @ManyToOne
-	@Column(name = "User", nullable = false, length = 100)
 	private int myUserID;
 	
 	// Getters

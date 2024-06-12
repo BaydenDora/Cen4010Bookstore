@@ -17,11 +17,10 @@ public class ShoppingCart
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int myCartID;
 	
-	@OneToMany(mappedBy = "myShoppingCart")
+	@ManyToMany(mappedBy = "myShoppingCart")
     private List<Book> myBooksInCart = new ArrayList<>();
 	
-	@ManyToOne
-    @Column(name = "User", nullable = false, length = 100)
+	@OneToOne(mappedBy = "myShoppingCart")
 	private int myUserID;
 	
     // Getters

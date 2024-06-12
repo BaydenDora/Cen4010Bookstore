@@ -10,7 +10,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -41,6 +43,15 @@ public class Book
 	@ManyToOne
 	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private Publisher myPublisher;
+	
+	@OneToMany
+	private List<Review> reviews;
+	
+	@ManyToMany
+	private List<ShoppingCart> shoppingCarts;
+	
+	@ManyToMany
+	private List<Wishlist> wishlists;
 	
 	@Column(name = "Genre", nullable = false, length = 100)
 	private String myGenre; //enum take examples from MySQL
