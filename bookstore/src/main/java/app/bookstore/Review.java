@@ -1,84 +1,72 @@
 package app.bookstore;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "review")
-public class Review {
-
-    @Id
-    @Column(name = "isbn")
-    private int isbn;
-
-    @Id
-    @Column(name = "username", length = 300)
-    private String username;
-
-    @Column(name = "rating")
+@Entity // This tells Hibernate to make a table out of this class
+@Table(name = "comment")
+public class Review 
+{
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int myCommentID;
+	
+	@Column(name = "comment", nullable = false, length = 100)
+	private String myCommentText;
+	
+	@Column(name = "Rating", nullable = false, length = 100)
     private int rating;
 
-    @Column(name = "comment", length = 300)
-    private String comment;
 
-    @Column(name = "time", length = 30)
-    private String time;
-
-    public Review() {}
-
-    public Review(int isbn, String username, int rating, String comment, String time) {
-        this.isbn = isbn;
-        this.username = username;
-        this.rating = rating;
-        this.comment = comment;
-        this.time = time;
+	
+	@Column(name = "datePosted", nullable = false, length = 100)
+	private Date myDatePosted;
+	
+	
+	@ManyToOne
+    @JoinColumn(name ="User_ID", nullable = false)
+	private User myUserID;
+	
+	// Getters
+    public int getCommentID() {
+        return myCommentID;
     }
 
-    public int getIsbn() {
-        return isbn;
+    public String getCommentText() {
+        return myCommentText;
     }
 
-    public void setIsbn(int isbn) {
-        this.isbn = isbn;
+    public Date getDatePosted() {
+        return myDatePosted;
     }
 
-    public String getUsername() {
-        return username;
+    public User getUserID() {
+        return myUserID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    // Setters
+    public void setCommentID(int commentID) {
+        myCommentID = commentID;
     }
 
-    public int getRating() {
-        return rating;
+    public void setCommentText(String commentText) {
+    	myCommentText = commentText;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setDatePosted(Date datePosted) {
+    	myDatePosted = datePosted;
     }
 
-    public String getComment() {
-        return comment;
+    public void setUserID(User userID) {
+    	myUserID = userID;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 }
