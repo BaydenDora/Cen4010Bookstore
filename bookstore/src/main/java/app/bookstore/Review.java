@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "comment")
-public class Comment 
+public class Review 
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
