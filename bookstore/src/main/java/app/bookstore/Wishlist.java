@@ -31,7 +31,7 @@ public class Wishlist
 	
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	private User myUserID;
 	
 	// Getters
     public int getWishlistID() {
@@ -43,7 +43,7 @@ public class Wishlist
     }
 
     public User getUser() {
-        return user;
+        return myUserID;
     }
 
     // Setters
@@ -56,7 +56,7 @@ public class Wishlist
     }
 
     public void setUser(User user) {
-    	this.user = user;
+    	myUserID = user;
     }
 	
 }
