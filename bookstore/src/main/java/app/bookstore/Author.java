@@ -9,8 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -32,8 +32,13 @@ public class Author
 	private String myBiography;
 	
 	@ManyToMany
-	@JoinColumn(name ="Publisher_ID", nullable = false)
-	private List<Publisher> myPublisher;
+	@JoinTable(
+        name = "author_publisher", 
+        joinColumns = @JoinColumn(name = "author_id"), 
+        inverseJoinColumns = @JoinColumn(name = "publisher_id")
+    )
+
+	private List<Publisher> myPublishers = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "myAuthor")
     private List<Book> booksWritten = new ArrayList<>();
@@ -46,17 +51,17 @@ public class Author
 		setFirstName ("Jo");
 		setLastName ("Doe");
 		setBiography ("Biography");
-		setPublisher (new Publisher());
+		setPublishers (new ArrayList<>());
 	}
 	
 	// Constructor
-	public Author (int ID, String firstName, String lastName, String bio, Publisher publisher)
+	public Author (int ID, String firstName, String lastName, String bio, List<Publisher> publishers)
 	{
 		setAuthorID (ID);
 		setFirstName (firstName);
 		setLastName (lastName);
 		setBiography (bio);
-		setPublisher (publisher);
+		setPublishers (publishers);
 	}
 	
 	//Copy constructor
@@ -66,7 +71,7 @@ public class Author
 		setFirstName (cloneAuthor.getFirstName());
 		setLastName (cloneAuthor.getLastName());
 		setBiography (cloneAuthor.getBiography());
-		setPublisher (cloneAuthor.getPublisher());
+		setPublishers (cloneAuthor.getPublishers());
 	}
 	
 	// Getters
@@ -95,9 +100,9 @@ public class Author
 		return myBiography;
 	}
 	
-	public Publisher getPublisher ()
+	public List<Publisher> getPublishers()
 	{
-		return myPublisher;
+		return myPublishers;
 	}
 	
 	
@@ -129,8 +134,8 @@ public class Author
 		myBiography = bio;
 	}
 	
-	protected void setPublisher (Publisher publisher)
+	protected void setPublishers (List<Publisher> publishers)
 	{
-		myPublisher = publisher;
+		myPublishers = publishers;
 	}
 }

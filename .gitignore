@@ -98,3 +98,5 @@ bookstore/target/classes/app/bookstore/BookRepo.class
 bookstore/target/classes/app/bookstore/BookstoreApplication.class
 bookstore/target/classes/app/bookstore/BookRepo.class
 bookstore/target/classes/app/bookstore/Book.class
+bookstore/src/main/resources/application.properties
+bookstore/target/classes/application.properties

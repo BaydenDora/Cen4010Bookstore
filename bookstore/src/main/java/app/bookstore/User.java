@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -46,8 +45,6 @@ public class User
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
     private List<Review> myReviews = new ArrayList<>();
     
-	// unsure how to address objects at the moment
-    private CreditCard myCreditCard;
     
     // No-Arg constructor
     public User() {
@@ -56,22 +53,15 @@ public class User
         setPassword("password");
         setEmailAddress("None");
         setHomeAddress("None");
-        setWishlist(null);
-        setShoppingCart(null);
-        setCreditCard(null);
     }
 
     // Constructor
-    public User(long userID, String username, String password, String emailAddress, String homeAddress, 
-                List<Book> wishlist, List<Book> shoppingCart, CreditCard creditCard) {
+    public User(long userID, String username, String password, String emailAddress, String homeAddress) {
         setUserID(userID);
         setUsername(username);
         setPassword(password);
         setEmailAddress(emailAddress);
         setHomeAddress(homeAddress);
-        setWishlist(wishlist);
-        setShoppingCart(shoppingCart);
-        setCreditCard(creditCard);
     }
 
     // Copy Constructor
@@ -81,9 +71,9 @@ public class User
         setPassword(cloneUser.getPassword());
         setEmailAddress(cloneUser.getEmailAddress());
         setHomeAddress(cloneUser.getHomeAddress());
-        setWishlist(cloneUser.getWishlist());
+        setWishlists(cloneUser.getWishlists());
         setShoppingCart(cloneUser.getShoppingCart());
-        setCreditCard(cloneUser.getCreditCard());
+        setCreditCards(cloneUser.getCreditCards());
     }
     
     // Getters
@@ -112,19 +102,23 @@ public class User
         return myHomeAddress;
     }
 
-    public List<Book> getWishlist() 
+    public List<Wishlist> getWishlists() 
     {
-        return myWishlist;
+        return myWishlists;
     }
     
-    public List<Book> getShoppingCart() 
+    public ShoppingCart getShoppingCart() 
     {
         return myShoppingCart;
     }
 
-    public CreditCard getCreditCard() 
+    public List<CreditCard> getCreditCards() 
     {
-        return myCreditCard;
+        return myCreditCards;
+    }
+
+    public List<Review> getReviews() {
+        return myReviews;
     }
     
     // Setters
@@ -148,23 +142,23 @@ public class User
         myEmailAddress = emailAddress;
     }
 
-    protected void setHomeAddress(String myHomeAddress) 
+    protected void setHomeAddress(String homeAddress) 
     {
-        myHomeAddress = myHomeAddress;
+        myHomeAddress = homeAddress;
     }
 
-    protected void setWishlist(List<Book> wishlist) 
+    protected void setWishlists(List<Wishlist> wishlists) 
     {
-        myWishlist = wishlist;
+        myWishlists = wishlists;
     }
     
-    protected void setShoppingCart(List<Book> shoppingCart) 
+    protected void setShoppingCart(ShoppingCart shoppingCart) 
     {
         myShoppingCart = shoppingCart;
     }
 
-    protected void setCreditCard(CreditCard creditCard) 
+    protected void setCreditCards(List<CreditCard> creditCards) 
     {
-        myCreditCard = creditCard;
+        myCreditCards = creditCards;
     }
 }

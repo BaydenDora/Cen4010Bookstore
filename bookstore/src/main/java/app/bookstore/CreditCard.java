@@ -15,29 +15,29 @@ public class CreditCard
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	long myCardID;
+	private long myCardID;
 	
 	@Column(name = "Brand", nullable = false, length = 100)
-	String myCardBrand; //Visa, Discover, MasterCard, etc
+	private String myCardBrand; //Visa, Discover, MasterCard, etc
 	
 	@Column(name = "Holder", nullable = false, length = 100)
-	String myCardHolder; //Name of the card holder
+	private String myCardHolder; //Name of the card holder
 	
 	@Column(name = "CardNumber", nullable = false, length = 16)
-	long myCardNumber; //The digits in groups of 4
+	private long myCardNumber; //The digits in groups of 4
 	
 	@Column(name = "ExpirationMonth", nullable = false, length = 2)
-	int myExpirationMonth; // 01 - 12
+	private int myExpirationMonth; // 01 - 12
 	
 	@Column(name = "ExpirationYear", nullable = false, length = 2)
-	int myExpirationYear; // Two digit year (24 for 2024, 25 for 2025, etc)
+	private int myExpirationYear; // Two digit year (24 for 2024, 25 for 2025, etc)
 	
 	@Column(name = "CVC", nullable = false, length = 3)
-	int myCVC; // The three funny numbers on the back
+	private int myCVC; // The three funny numbers on the back
 	
 	@ManyToOne
 	@JoinColumn(name ="User_ID", nullable = false)
-	private User myUser;
+	private User user;
 	
 	// No-Arg constructor
     public CreditCard() 
@@ -53,7 +53,7 @@ public class CreditCard
     
     // constructor
     public CreditCard(long cardID, String cardBrand, String cardHolder, long cardNumber, 
-                      int expirationMonth, int expirationYear, int cvc) {
+                      int expirationMonth, int expirationYear, int cvc, User user) {
         setCardID(cardID);
         setCardBrand(cardBrand);
         setCardHolder(cardHolder);
@@ -61,6 +61,7 @@ public class CreditCard
         setExpirationMonth(expirationMonth);
         setExpirationYear(expirationYear);
         setCVC(cvc);
+		setUser(user);
     }
     
     // Copy constructor
@@ -72,43 +73,42 @@ public class CreditCard
         setExpirationMonth(cloneCard.getExpirationMonth());
         setExpirationYear(cloneCard.getExpirationYear());
         setCVC(cloneCard.getCVC());
+		setUser(cloneCard.getUser());
     }
 	
 	// Getters
-    long getCardID()
-    {
-    	return myCardID;
+	public long getCardID() {
+        return myCardID;
     }
-	String getCardBrand()
-	{
-		return myCardBrand;
-	}
-	
-	String getCardHolder()
-	{
-		return myCardHolder;
-	}
-	
-	long getCardNumber()
-	{
-		return myCardNumber;
-	}
-	
-	int getExpirationMonth()
-	{
-		return myExpirationMonth;
-	}
-	
-	int getExpirationYear()
-	{
-		return myExpirationYear;
-	}
-	
-	int getCVC()
-	{
-		return myCVC;
-	}
-	
+
+    public String getCardBrand() {
+        return myCardBrand;
+    }
+
+    public String getCardHolder() {
+        return myCardHolder;
+    }
+
+    public long getCardNumber() {
+        return myCardNumber;
+    }
+
+    public int getExpirationMonth() {
+        return myExpirationMonth;
+    }
+
+    public int getExpirationYear() {
+        return myExpirationYear;
+    }
+
+    public int getCVC() {
+        return myCVC;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    	
 	// Setters
 	protected void setCardID(long cardID)
 	{
@@ -144,5 +144,9 @@ public class CreditCard
 	{
 		myCVC = cvc;
 	}
+	
+    protected void setUser(User user) {
+        this.user = user;
+    }
 }
 

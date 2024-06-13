@@ -23,7 +23,7 @@ public class Publisher
 	@Column(nullable = false, length = 100)
 	private String myName;
 	
-	@ManyToMany(mappedBy = "myPublisher")
+	@ManyToMany(mappedBy = "myPublishers")
     private List<Author> authorsPublished = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "myPublisher")
