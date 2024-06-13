@@ -1,15 +1,19 @@
 package app.bookstore;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -42,8 +46,26 @@ public class Book
 	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private Publisher myPublisher;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "Genre", nullable = false)
+	@OneToMany(mappedBy = "book")
+    private List<Review> reviews = new ArrayList<>();
+	
+	@ManyToMany
+	@JoinTable(
+        name = "book_shopping_cart",
+        joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name = "shopping_cart_id")
+    )
+    private List<ShoppingCart> shoppingCarts = new ArrayList<>();
+	
+	@ManyToMany
+	@JoinTable(
+        name = "book_wishlist",
+        joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name = "wishlist_id")
+    )
+    private List<Wishlist> wishlists = new ArrayList<>();
+	
+	@Column(name = "Genre", nullable = false, length = 100)
 	private Genre myGenre; //enum take examples from MySQL
 
 	@Column(name = "CopiesSold", nullable = false, length = 1000)
@@ -64,7 +86,7 @@ public class Book
 		setYearPublished (0000);
 		setAuthor (new Author());
 		setGenre (Genre.TEXTBOOK);
-		setPublisher (myAuthor.getPublisher());
+		setPublisher (new Publisher());
 		setCopiesSold (0);
 		setRating (0);
 		setPrice (00.00);
@@ -154,6 +176,21 @@ public class Book
 	{
 		return myPrice;
 	}
+
+	public List<Review> getReviews()
+    {
+        return reviews;
+    }
+
+	public List<ShoppingCart> getShoppingCarts()
+    {
+        return shoppingCarts;
+    }
+    
+    public List<Wishlist> getWishlists()
+    {
+        return wishlists;
+    }
 	
 	
 	// Setters
@@ -215,4 +252,19 @@ public class Book
 		myPrice = price;
 		if (myPrice < 0) myPrice = 0;
 	}
+
+	protected void setReviews(List<Review> reviews)
+    {
+        this.reviews = reviews;
+    }
+    
+    protected void setShoppingCarts(List<ShoppingCart> shoppingCarts)
+    {
+        this.shoppingCarts = shoppingCarts;
+    }
+    
+    protected void setWishlists(List<Wishlist> wishlists)
+    {
+        this.wishlists = wishlists;
+    }
 }

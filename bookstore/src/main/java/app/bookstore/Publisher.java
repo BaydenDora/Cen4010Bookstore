@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -22,7 +23,7 @@ public class Publisher
 	@Column(nullable = false, length = 100)
 	private String myName;
 	
-	@OneToMany(mappedBy = "myPublisher")
+	@ManyToMany(mappedBy = "myPublishers")
     private List<Author> authorsPublished = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "myPublisher")

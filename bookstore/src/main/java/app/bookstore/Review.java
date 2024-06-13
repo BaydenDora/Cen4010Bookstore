@@ -11,62 +11,89 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity // This tells Hibernate to make a table out of this class
-@Table(name = "comment")
-public class Review 
-{
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int myCommentID;
-	
-	@Column(name = "comment", nullable = false, length = 100)
-	private String myCommentText;
-	
-	@Column(name = "Rating", nullable = false, length = 100)
-    private int rating;
+@Entity
+@Table(name = "review")
+public class Review {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private int reviewID;
+    
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
 
-	
-	@Column(name = "datePosted", nullable = false, length = 100)
-	private Date myDatePosted;
-	
-	
 	@ManyToOne
-    @JoinColumn(name ="User_ID", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
 	private User myUserID;
-	
-	// Getters
-    public int getCommentID() {
-        return myCommentID;
+    
+    @Column(name = "comment", length = 300)
+    private String myComment;
+
+    @Column(name = "rating")
+    private int myRating;
+
+    @Column(name = "date", length = 30)
+    private Date myDate;
+
+   // Constructors
+    public Review() {}
+
+    public Review(int id, Book book, User user, int rating, String comment, Date date) {
+    	this.reviewID = id;
+    	this.book = book;
+        this.user = user;
+        this.rating = rating;
+        this.comment = comment;
+        this.date = date;
+    }
+    
+    //Getters and Setters
+    public int getID() {
+    	return reviewID;
+    }
+    
+    public void setID(int id) {
+    	this.reviewID = id;
+    }
+    
+    public Book getIsbn() {
+        return book;
     }
 
-    public String getCommentText() {
-        return myCommentText;
+    public void setIsbn(Book book) {
+        this.book = book;
     }
 
-    public Date getDatePosted() {
-        return myDatePosted;
+    public User getUsername() {
+        return user;
     }
 
-    public User getUserID() {
-        return myUserID;
-    }
-
-    // Setters
-    public void setCommentID(int commentID) {
-        myCommentID = commentID;
+    public void setUsername(User user) {
+        this.user = user;
     }
 
     public void setCommentText(String commentText) {
-    	myCommentText = commentText;
+    	myComment = commentText;
     }
 
     public void setDatePosted(Date datePosted) {
-    	myDatePosted = datePosted;
+    	myDate = datePosted;
     }
 
     public void setUserID(User userID) {
     	myUserID = userID;
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Date getDate() {
+        return myDate;
+    }
+
+    public void setTime(Date date) {
+        this.date = date;
+    }
 }

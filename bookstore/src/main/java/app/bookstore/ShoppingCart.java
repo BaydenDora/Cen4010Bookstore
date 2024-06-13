@@ -8,8 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -17,15 +18,20 @@ import jakarta.persistence.Table;
 public class ShoppingCart 
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int myCartID;
 	
-	@OneToMany(mappedBy = "myShoppingCart")
+    @ManyToMany
+    @JoinTable(
+        name = "cart_book",
+        joinColumns = @JoinColumn(name = "cart_id"),
+        inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
     private List<Book> myBooksInCart = new ArrayList<>();
 	
-	@ManyToOne
-    @JoinColumn(name ="User_ID", nullable = false)
-	private User myUserID;
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 	
     // Getters
     public int getCartID() {
@@ -36,8 +42,8 @@ public class ShoppingCart
         return myBooksInCart;
     }
 
-    public User getUserID() {
-        return myUserID;
+    public User getUser() {
+        return user;
     }
 
     // Setters
@@ -49,7 +55,7 @@ public class ShoppingCart
         myBooksInCart = booksInCart;
     }
 
-    public void setUserID(User userID) {
-        myUserID = userID;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

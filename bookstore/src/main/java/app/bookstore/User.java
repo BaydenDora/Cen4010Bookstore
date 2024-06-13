@@ -9,8 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -33,21 +33,18 @@ public class User
 	@Column(name = "Home Address", nullable = false, length = 100)
     private String myHomeAddress;
     
-    @OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
-    private List<Review> myReview;
-
-	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
-    private List<Wishlist> myWishlist;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private List<Wishlist> myWishlists;
     
-	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
-    private List<ShoppingCart> myShoppingCart;
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private ShoppingCart myShoppingCart;
 	
-	@OneToMany
-	@JoinColumn(name ="CreditCard_ID", nullable = false)
-    private List<CreditCard> creditCards = new ArrayList<>();
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private List<CreditCard> myCreditCards = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
+    private List<Review> myReviews = new ArrayList<>();
     
-	// unsure how to address objects at the moment
-    private CreditCard myCreditCard;
     
     // No-Arg constructor
     public User() {
@@ -56,24 +53,15 @@ public class User
         setPassword("password");
         setEmailAddress("None");
         setHomeAddress("None");
-        setReview(null);
-        setWishlist(null);
-        setShoppingCart(null);
-        setCreditCard(null);
     }
 
     // Constructor
-    public User(int userID, String username, String password, String emailAddress, String homeAddress, List<Review> review,
-                List<Wishlist> wishlist, List<ShoppingCart> shoppingCart, CreditCard creditCard) {
+    public User(long userID, String username, String password, String emailAddress, String homeAddress) {
         setUserID(userID);
         setUsername(username);
         setPassword(password);
         setEmailAddress(emailAddress);
         setHomeAddress(homeAddress);
-        setReview(review);
-        setWishlist(wishlist);
-        setShoppingCart(shoppingCart);
-        setCreditCard(creditCard);
     }
 
     // Copy Constructor
@@ -83,9 +71,9 @@ public class User
         setPassword(cloneUser.getPassword());
         setEmailAddress(cloneUser.getEmailAddress());
         setHomeAddress(cloneUser.getHomeAddress());
-        setWishlist(cloneUser.getWishlist());
+        setWishlists(cloneUser.getWishlists());
         setShoppingCart(cloneUser.getShoppingCart());
-        setCreditCard(cloneUser.getCreditCard());
+        setCreditCards(cloneUser.getCreditCards());
     }
     
     // Getters
@@ -118,19 +106,23 @@ public class User
         return myReview;
     }
 
-    public List<Wishlist> getWishlist() 
+    public List<Wishlist> getWishlists() 
     {
-        return myWishlist;
+        return myWishlists;
     }
     
-    public List<ShoppingCart> getShoppingCart() 
+    public ShoppingCart getShoppingCart() 
     {
         return myShoppingCart;
     }
 
-    public CreditCard getCreditCard() 
+    public List<CreditCard> getCreditCards() 
     {
-        return myCreditCard;
+        return myCreditCards;
+    }
+
+    public List<Review> getReviews() {
+        return myReviews;
     }
     
     // Setters
@@ -154,28 +146,23 @@ public class User
         myEmailAddress = emailAddress;
     }
 
-    protected void setHomeAddress(String myHomeAddress) 
+    protected void setHomeAddress(String homeAddress) 
     {
-        myHomeAddress = myHomeAddress;
+        myHomeAddress = homeAddress;
     }
 
-    protected void setReview(List<Review> review) 
+    protected void setWishlists(List<Wishlist> wishlists) 
     {
-        myReview = review;
-    }
-
-    protected void setWishlist(List<Wishlist> wishlist) 
-    {
-        myWishlist = wishlist;
+        myWishlists = wishlists;
     }
     
-    protected void setShoppingCart(List<ShoppingCart> shoppingCart) 
+    protected void setShoppingCart(ShoppingCart shoppingCart) 
     {
         myShoppingCart = shoppingCart;
     }
 
-    protected void setCreditCard(CreditCard creditCard) 
+    protected void setCreditCards(List<CreditCard> creditCards) 
     {
-        myCreditCard = creditCard;
+        myCreditCards = creditCards;
     }
 }

@@ -3,14 +3,14 @@ package app.bookstore;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -21,13 +21,17 @@ public class Wishlist
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int myWishlistID;
 	
-	@Column(name = "Book", nullable = false, length = 100)
-	@OneToMany(mappedBy = "myWishlist")
+	@ManyToMany
+    @JoinTable(
+        name = "wishlist_book",
+        joinColumns = @JoinColumn(name = "wishlist_id"),
+        inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
 	private List<Book> myBooksWishlisted = new ArrayList<>();
 	
     @ManyToOne
-    @JoinColumn(name ="User_ID", nullable = false)
-	private User myUserID;
+    @JoinColumn(name = "user_id", nullable = false)
+	private User user;
 	
 	// Getters
     public int getWishlistID() {
@@ -38,8 +42,8 @@ public class Wishlist
         return myBooksWishlisted;
     }
 
-    public User getUserID() {
-        return myUserID;
+    public User getUser() {
+        return user;
     }
 
     // Setters
@@ -51,8 +55,8 @@ public class Wishlist
     	myBooksWishlisted = booksWishlisted;
     }
 
-    public void setUserID(User userID) {
-    	myUserID = userID;
+    public void setUser(User user) {
+    	this.user = user;
     }
 	
 }
