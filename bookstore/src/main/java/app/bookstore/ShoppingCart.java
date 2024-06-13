@@ -31,7 +31,7 @@ public class ShoppingCart
 	
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User myUserID;
 	
     // Getters
     public int getCartID() {
@@ -43,7 +43,7 @@ public class ShoppingCart
     }
 
     public User getUser() {
-        return user;
+        return myUserID;
     }
 
     // Setters
@@ -56,6 +56,6 @@ public class ShoppingCart
     }
 
     public void setUser(User user) {
-        this.user = user;
+        myUserID = user;
     }
 }

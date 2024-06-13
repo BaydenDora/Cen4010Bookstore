@@ -37,7 +37,7 @@ public class CreditCard
 	
 	@ManyToOne
 	@JoinColumn(name ="User_ID", nullable = false)
-	private User user;
+	private User myUserID;
 	
 	// No-Arg constructor
     public CreditCard() 
@@ -106,7 +106,7 @@ public class CreditCard
     }
 
     public User getUser() {
-        return user;
+        return myUserID;
     }
     	
 	// Setters
@@ -146,7 +146,7 @@ public class CreditCard
 	}
 	
     protected void setUser(User user) {
-        this.user = user;
+        myUserID = user;
     }
 }
 
