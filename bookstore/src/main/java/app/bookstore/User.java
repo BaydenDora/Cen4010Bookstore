@@ -43,7 +43,7 @@ public class User
     private List<CreditCard> myCreditCards = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
-    private List<Review> myReviews = new ArrayList<>();
+    private List<Review> myReview = new ArrayList<>();
     
     
     // No-Arg constructor
@@ -56,7 +56,7 @@ public class User
     }
 
     // Constructor
-    public User(long userID, String username, String password, String emailAddress, String homeAddress) {
+    public User(int userID, String username, String password, String emailAddress, String homeAddress) {
         setUserID(userID);
         setUsername(username);
         setPassword(password);
@@ -122,7 +122,7 @@ public class User
     }
 
     public List<Review> getReviews() {
-        return myReviews;
+        return myReview;
     }
     
     // Setters

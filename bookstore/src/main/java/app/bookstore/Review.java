@@ -21,7 +21,7 @@ public class Review {
     
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+    private Book myBook;
 
 	@ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -40,12 +40,12 @@ public class Review {
     public Review() {}
 
     public Review(int id, Book book, User user, int rating, String comment, Date date) {
-    	this.reviewID = id;
-    	this.book = book;
-        this.user = user;
-        this.rating = rating;
-        this.comment = comment;
-        this.date = date;
+    	reviewID = id;
+    	myBook = book;
+        myUserID = user;
+        myRating = rating;
+        myComment = comment;
+        myDate = date;
     }
     
     //Getters and Setters
@@ -58,19 +58,19 @@ public class Review {
     }
     
     public Book getIsbn() {
-        return book;
+        return myBook;
     }
 
     public void setIsbn(Book book) {
-        this.book = book;
+        myBook = book;
     }
 
     public User getUsername() {
-        return user;
+        return myUserID;
     }
 
     public void setUsername(User user) {
-        this.user = user;
+        myUserID = user;
     }
 
     public void setCommentText(String commentText) {
@@ -86,7 +86,7 @@ public class Review {
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        myComment = comment;
     }
 
     public Date getDate() {
@@ -94,6 +94,6 @@ public class Review {
     }
 
     public void setTime(Date date) {
-        this.date = date;
+        myDate = date;
     }
 }
