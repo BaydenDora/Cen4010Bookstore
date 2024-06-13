@@ -44,7 +44,7 @@ public class Book
 	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private Publisher myPublisher;
 	
-	@OneToMany
+	@OneToMany (mappedBy = "book")
 	private List<Review> reviews;
 	
 	@ManyToMany

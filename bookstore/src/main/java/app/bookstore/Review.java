@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -22,11 +23,11 @@ public class Review {
     private int reviewID;
     
     @ManyToOne
-    @Column(name = "book", length = 300)
+    @JoinColumn(name = "book", nullable = false)
     private Book book;
 
 	@ManyToOne
-    @Column(name = "User", nullable = false, length = 100)
+    @JoinColumn(name = "User", nullable = false)
 	private User user;
     
     @Column(name = "comment", length = 300)

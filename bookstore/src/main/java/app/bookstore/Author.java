@@ -32,7 +32,6 @@ public class Author
 	private String myBiography;
 	
 	@ManyToMany
-	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private List<Publisher> myPublisher;
 	
 	@OneToMany(mappedBy = "myAuthor")

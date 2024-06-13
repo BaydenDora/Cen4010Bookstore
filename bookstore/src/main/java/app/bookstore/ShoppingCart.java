@@ -20,8 +20,9 @@ public class ShoppingCart
 	@ManyToMany(mappedBy = "myShoppingCart")
     private List<Book> myBooksInCart = new ArrayList<>();
 	
-	@OneToOne(mappedBy = "myShoppingCart")
-	private int myUserID;
+	@OneToOne
+	@JoinColumn (name = "User", nullable = false)
+	private User myUser;
 	
     // Getters
     public int getCartID() {
@@ -32,8 +33,8 @@ public class ShoppingCart
         return myBooksInCart;
     }
 
-    public int getUserID() {
-        return myUserID;
+    public User getUserID() {
+        return myUser;
     }
 
     // Setters
@@ -45,7 +46,7 @@ public class ShoppingCart
         myBooksInCart = booksInCart;
     }
 
-    public void setUserID(int userID) {
-        myUserID = userID;
+    public void setUserID(User user) {
+        myUser = user;
     }
 }
