@@ -6,21 +6,27 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.ToString;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Data
+@ToString
 public class User 
 {
 	@Id
+    @Column(name="USER_ID", nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long userID;
-	@Column(nullable = false, length = 100)
+	private long userID;
+	@Column(name="USER_NAME", nullable=false, length=100)
     private String username;
-	@Column(nullable = false, length = 100)
+	@Column(name="PASSWORD", nullable=false, length=100)
     private String password;
-	@Column(nullable = false, length = 100)
+	@Column(name="EMAIL", nullable=false, length=100)
     private String emailAddress;
-	@Column(nullable = true, length = 100)
+	@Column(name="HOMEADDRESS", nullable=true, length=100)
     private String homeAddress;
+ 
     
 	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //check this one
     // private List<Book> myWishlist;
@@ -73,7 +79,7 @@ public class User
     // }
     
     // Getters
-    public Long getUserID() { return userID; }
+    public long getUserID() { return userID; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
     public String getEmailAddress() { return emailAddress;}
@@ -83,7 +89,7 @@ public class User
     // public CreditCard getCreditCard() { return myCreditCard; }
     
     // Setters
-    protected void setUserID(Long userID) { this.userID = userID; }
+    protected void setUserID(long userID) { this.userID = userID; }
     protected void setUsername(String username) { this.username = username; }
     protected void setPassword(String password) { this.password = password; }
     protected void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }

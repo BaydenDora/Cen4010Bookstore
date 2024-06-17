@@ -41,6 +41,7 @@ create table `User` (
 	User_ID int primary key,
 	User_Name varchar(50) not null,
 	Password varchar(50) not null,
+    Email varchar(100) not null,
     HomeAddress varchar(100),
 	Wishlist int,
 	ShoppingCart int
