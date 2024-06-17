@@ -1,7 +1,8 @@
 package com.GeekText.bookstore;
 
 import com.GeekText.bookstore.User;
-import com.GeekText.bookstore.UserRepository;
+import com.GeekText.repo.UserRepository;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -19,7 +20,7 @@ public class CLRunner implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     List<User> users = this.userRepository.findAll();
-    Optional<User> user = this.userRepository.findById(1L);
+    Optional<User> user = this.userRepository.findById(1);
     System.out.println(user);
     users.forEach(System.out::println);
   }

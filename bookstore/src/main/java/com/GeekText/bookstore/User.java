@@ -17,7 +17,7 @@ public class User
 	@Id
     @Column(name="USER_ID", nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long userID;
+	private int userID;
 	@Column(name="USER_NAME", nullable=false, length=100)
     private String username;
 	@Column(name="PASSWORD", nullable=false, length=100)
@@ -79,7 +79,7 @@ public class User
     // }
     
     // Getters
-    public long getUserID() { return userID; }
+    public int getUserID() { return userID; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
     public String getEmailAddress() { return emailAddress;}
@@ -89,7 +89,7 @@ public class User
     // public CreditCard getCreditCard() { return myCreditCard; }
     
     // Setters
-    protected void setUserID(long userID) { this.userID = userID; }
+    protected void setUserID(int userID) { this.userID = userID; }
     protected void setUsername(String username) { this.username = username; }
     protected void setPassword(String password) { this.password = password; }
     protected void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }

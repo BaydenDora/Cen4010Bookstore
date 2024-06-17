@@ -1,4 +1,4 @@
-package com.GeekText.bookstore;
+package app.bookstore;
 
 import java.util.ArrayList;
 import java.util.List;
