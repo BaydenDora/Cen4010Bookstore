@@ -2,5 +2,6 @@ package app.bookstore;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface PublisherRepo extends CrudRepository<Publisher, Integer>
-{}
+public interface PublisherRepo extends CrudRepository<Publisher, Long> {
+
+}
