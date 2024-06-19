@@ -37,7 +37,9 @@ create table `User` (
 	User_ID int primary key,
 	User_Name varchar(50),
     Email varchar(50),
-	Pass varchar(50)
+	Pass varchar(50),
+	foreign key (Wishlist_ID) references Wishlist(Wishlist_ID) on update cascade,
+    foreign key (Cart_ID) references ShoppingCart(Cart_ID) on update cascade
 );
 
 create table Review (
@@ -60,29 +62,12 @@ create table Wishlist (
     foreign key (ISBN) references Book(ISBN) on update cascade
 );
 
-create table WishlistBook (
-	Wish_ID int,
-	ISBN char(13),
-	primary key (Wish_ID, ISBN),
-    foreign key (Wish_ID) references Wishlist(Wishlist_ID) on update cascade,
-    foreign key (ISBN) references Book(ISBN) on update cascade
-);
-
 create table ShoppingCart (
 	Cart_ID int primary key,
     User_ID int,
     ISBN char(13),
     foreign key (User_ID) references `User`(User_ID) on update cascade,
     foreign key (ISBN) references Book(ISBN) on update cascade
-);
-
-create table CartBook (
-	Cart_ID int,
-	ISBN char(13),
-	Quantity int,
-	primary key (Cart_ID, ISBN),
-    foreign key (Cart_ID) references ShoppingCart(Cart_ID) on update cascade,
-    foreign key (ISBN) references Book(ISBN) on update cascade on delete cascade
 );
 
 alter table `User` add constraint Wishlist foreign key (Wishlist) 
