@@ -1,13 +1,10 @@
 package app.bookstore;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+
 @RequestMapping(path="/demo") // This means URL's start with /demo (after Application path)
 public class Controller {
   @Autowired
@@ -66,7 +63,7 @@ public class Controller {
   @PostMapping(path="/addReview")
   public @ResponseBody String addNewReview(@RequestParam long id, @RequestParam String content, @RequestParam int rating, @RequestParam long bookId) {
     Review review = new Review();
-    review.setId(id);
+    review.setID(id);
     review.setContent(content);
     review.setRating(rating);
     review.setBookId(bookId);
