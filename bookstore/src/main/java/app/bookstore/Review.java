@@ -17,30 +17,30 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private int reviewID;
+    private int Review_ID;
     
     @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
+    @JoinColumn(name = "ISBN", nullable = false)
     private Book myBook;
 
 	@ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "User_ID", nullable = false)
 	private User myUserID;
     
-    @Column(name = "comment", length = 300)
+    @Column(name = "'Text'", length = 300)
     private String myComment;
 
-    @Column(name = "rating")
+    @Column(name = "Rating")
     private int myRating;
 
-    @Column(name = "date", length = 30)
+    @Column(name = "'Date'", length = 30)
     private Date myDate;
 
    // Constructors
     public Review() {}
 
     public Review(int id, Book book, User user, int rating, String comment, Date date) {
-    	reviewID = id;
+    	Review_ID = id;
     	myBook = book;
         myUserID = user;
         myRating = rating;
@@ -50,11 +50,11 @@ public class Review {
     
     //Getters and Setters
     public int getID() {
-    	return reviewID;
+    	return Review_ID;
     }
     
     public void setID(int id) {
-    	this.reviewID = id;
+    	this.Review_ID = id;
     }
     
     public Book getIsbn() {

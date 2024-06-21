@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.time.Year;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "book")
@@ -23,10 +24,7 @@ public class Book
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int myBookID; // ISBNs are 13-digit numbers
-	
-	@Column(name = "ISBN", nullable = false, length = 100)
-	private long myISBN; // ISBNs are 13-digit numbers
+	private String ISBN; // ISBNs are 13-digit numbers
 
 	@Column(name = "BookName", nullable = false, length = 500)
 	private String myTitle;
@@ -35,7 +33,7 @@ public class Book
 	private String myDescription;
 	
 	@Column(name = "YearPublished", nullable = false, length = 4)
-	private int myYearPublished;
+	private Year myYearPublished;
 	
 	@ManyToOne
 	@JoinColumn(name ="Author_ID", nullable = false)
@@ -45,7 +43,7 @@ public class Book
 	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private Publisher myPublisher;
 	
-	@OneToMany(mappedBy = "myBook")
+	@OneToMany(mappedBy = "ISBN")
     private List<Review> reviews = new ArrayList<>();
 	
 	@ManyToMany
@@ -74,27 +72,27 @@ public class Book
 	private int myRating; // Ratings are item based need class for reviews
 	
 	@Column(name = "Price", nullable = false, length = 100)
-	private double myPrice;
+	private float myPrice;
 	
 	// No-Arg Constructor
 	public Book()
 	{
-		setISBN (0000000000000L); // ISBNs are 13-digit numbers
+		setISBN ("0000000000000"); // ISBNs are 13-digit numbers
 		setTitle ("The Book");
 		setDescription ("Book Description");
-		setYearPublished (0000);
+		setYearPublished (Year.of(0000));
 		setAuthor (new Author());
 		setGenre (Genre.TEXTBOOK);
 		setPublisher (new Publisher());
 		setCopiesSold (0);
 		setRating (0);
-		setPrice (00.00);
+		setPrice (00);
 	}
 	
 	
 	
 	// Constructor
-	public Book (long ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, int rating, double price)
+	public Book (String ISBN, String title, String description, Year yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, int rating, float price)
 	{
 		setISBN (ISBN);
 		setTitle (title);
@@ -126,9 +124,9 @@ public class Book
 	
 	
 	// Getters
-	public long getISBN()
+	public String getISBN()
 	{
-		return myISBN;
+		return ISBN;
 	}
 	
 	public String getTitle()
@@ -141,7 +139,7 @@ public class Book
 		return myDescription;
 	}
 	
-	public int getYearPublished()
+	public Year getYearPublished()
 	{
 		return myYearPublished;
 	}
@@ -171,7 +169,7 @@ public class Book
 		return myRating;
 	}
 	
-	public double getPrice()
+	public float getPrice()
 	{
 		return myPrice;
 	}
@@ -193,11 +191,9 @@ public class Book
 	
 	
 	// Setters
-	protected void setISBN(long ISBN)
+	protected void setISBN(String ISBN)
 	{
-		myISBN = ISBN;
-		if (myISBN > 9999999999999L) myISBN = 9999999999999L;
-		if (myISBN < 0L) myISBN = 0L;
+		this.ISBN = ISBN;
 	}
 	
 	protected void setTitle(String title)
@@ -212,10 +208,9 @@ public class Book
 		if (myDescription.trim() == "" || myDescription == null) myDescription = "Description";
 	}
 	
-	protected void setYearPublished(int yearPublished)
+	protected void setYearPublished(Year yearPublished)
 	{
 		myYearPublished = yearPublished;
-		if (myYearPublished < 0) myYearPublished = 0;
 	}
 	
 	protected void setAuthor (Author author)
@@ -246,7 +241,7 @@ public class Book
 		if (myRating < 0) myRating = 0;
 	}
 	
-	protected void setPrice (double price)
+	protected void setPrice (float price)
 	{
 		myPrice = price;
 		if (myPrice < 0) myPrice = 0;

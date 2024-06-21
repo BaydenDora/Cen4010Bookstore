@@ -3,6 +3,7 @@ package app.bookstore;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,23 +20,26 @@ public class Wishlist
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int myWishlistID;
+	private int Wishlist_ID;
 	
 	@ManyToMany
     @JoinTable(
-        name = "wishlist_book",
-        joinColumns = @JoinColumn(name = "wishlist_id"),
-        inverseJoinColumns = @JoinColumn(name = "book_id")
+        name = "ISBN",
+        joinColumns = @JoinColumn(name = "Wishlist_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ISBN")
     )
 	private List<Book> myBooksWishlisted = new ArrayList<>();
 	
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "User_ID", nullable = false)
 	private User myUserID;
+    
+    @Column(name = "WishlistName", length = 25)
+    private String myWishlistName;
 	
 	// Getters
     public int getWishlistID() {
-        return myWishlistID;
+        return Wishlist_ID;
     }
 
     public List<Book> getBooksWishlisted() {
@@ -45,10 +49,14 @@ public class Wishlist
     public User getUser() {
         return myUserID;
     }
+    
+    public String getName() {
+    	return myWishlistName;
+    }
 
     // Setters
     public void setWishlistID(int wishlistID) {
-    	myWishlistID = wishlistID;
+    	Wishlist_ID = wishlistID;
     }
 
     public void setBooksWishlisted(List<Book> booksWishlisted) {
@@ -57,6 +65,10 @@ public class Wishlist
 
     public void setUser(User user) {
     	myUserID = user;
+    }
+    
+    public void setName(String name) {
+    	myWishlistName = name;
     }
 	
 }

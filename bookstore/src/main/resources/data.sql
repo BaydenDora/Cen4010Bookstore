@@ -10,32 +10,32 @@ create table Publisher (
 create table Author (
 	Author_ID int primary key,
     Publisher_ID int,
-    FirstName varchar(25) not null,
-    LastName varchar(25) not null,
-    Biography varchar(300),
+    FirstName varchar(100) not null,
+    LastName varchar(100) not null,
+    Biography varchar(1000) not null,
     foreign key (Publisher_ID) references Publisher(Publisher_ID) 
 		on update cascade on delete cascade
 );
 
 create table Book (
-	ISBN char(13) primary key,
+	ISBN varchar(13) primary key,
 		constraint isbn_num_chk check(ISBN not like '%[^0-9]%'),
 		constraint isbn_len_chk check(char_length(ISBN) = 13),
-	BookName varchar(100) not null,
+	BookName varchar(500) not null,
     Author_ID int,
     Publisher_ID int,
-    BookDescription varchar(500),
+    BookDescription varchar(1000),
 	Genre enum('Textbook', 'Academic/Report', 'Biography', 'How-to/Manual', 'Fantasy', 'Science Fiction', 'Action/Adventure', 'Historical', 'Fiction', 'Non-Fiction', 'Other') default 'Other',
 	YearPublished year,
-	CopiesSold int unsigned not null,
-	Price float not null,
+	CopiesSold int(1000) unsigned not null,
+	Price float(100) not null,
     foreign key (Author_ID) references Author(Author_ID) on update cascade,
     foreign key (Publisher_ID) references Publisher(Publisher_ID) on update cascade
 );
 
 create table `User` (
 	User_ID int primary key,
-	User_Name varchar(50),
+	Username varchar(50),
     Email varchar(50),
 	Pass varchar(50),
     HomeAddress varchar(100),
@@ -44,13 +44,15 @@ create table `User` (
 );
 
 create table Review (
+	Review_ID int primary key,
     ISBN char(13),
     User_ID int,
     `Text` varchar(500),
     Rating int,
     `Date` datetime,
-    primary key (ISBN, User_ID),
-    foreign key (ISBN) references Book(ISBN)
+    foreign key (ISBN) references Book(ISBN),
+    foreign key (User_ID) references `User` (User_ID) 
+		on update cascade on delete cascade
 );
 
 create table Wishlist (
@@ -80,7 +82,7 @@ references ShoppingCart(Cart_ID) on update cascade;
 create table CreditCard (
 	Card_ID int primary key,
     User_ID int,
-    CardNumber char(16) unique,
+    CardNumber char(16) unique not null,
 		constraint card_num_check check(CardNumber not like '%[^0-9]%'), 
 		constraint card_len_chk check(char_length(CardNumber) = 16),
     ExpirationDate varchar(5),

@@ -20,28 +20,27 @@ public class Author
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int myAuthorID; // 9 digit number to differentiate different authors (Some authors may share names)
+	private int Author_ID; // 9 digit number to differentiate different authors (Some authors may share names)
 	
 	@Column(name = "First Name", nullable = false, length = 100)
-	private String myFirstName;
+	private String FirstName;
 	
 	@Column(name = "Last Name", nullable = false, length = 100)
-	private String myLastName;
+	private String LastName;
 	
 	@Column(name = "Biography", nullable = false, length = 1000)
-	private String myBiography;
+	private String Biography;
 	
 	@ManyToMany
 	@JoinTable(
-        name = "author_publisher", 
-        joinColumns = @JoinColumn(name = "author_id"), 
-        inverseJoinColumns = @JoinColumn(name = "publisher_id")
+        name = "Publisher_ID", 
+        joinColumns = @JoinColumn(name = "Author_id"), 
+        inverseJoinColumns = @JoinColumn(name = "Publisher_id")
     )
-
-	private List<Publisher> myPublishers = new ArrayList<>();
+	private List<Publisher> Publisher_ID = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "myAuthor")
-    private List<Book> booksWritten = new ArrayList<>();
+    private List<Book> BooksWritten = new ArrayList<>();
 	
 
 	// No-Arg Constructor
@@ -77,65 +76,65 @@ public class Author
 	// Getters
 	public int getAuthorID ()
 	{
-		return myAuthorID;
+		return Author_ID;
 	}
 	
 	public String getFirstName ()
 	{
-		return myFirstName;
+		return FirstName;
 	}
 	
 	public String getLastName ()
 	{
-		return myLastName;
+		return LastName;
 	}
 	
 	public String getName ()
 	{
-		return myFirstName + " " + myLastName;
+		return FirstName + " " + LastName;
 	}
 	
 	public String getBiography ()
 	{
-		return myBiography;
+		return Biography;
 	}
 	
 	public List<Publisher> getPublishers()
 	{
-		return myPublishers;
+		return Publisher_ID;
 	}
 	
 	
 	// Setters
 	protected void setAuthorID (int ID)
 	{
-		myAuthorID = ID;
-		if (myAuthorID < 0) myAuthorID = 0; 
+		Author_ID = ID;
+		if (Author_ID < 0) Author_ID = 0; 
 	}
 	
 	protected void setFirstName (String firstName)
 	{
-		myFirstName = firstName;
+		FirstName = firstName;
 	}
 	
 	protected void setLastName (String lastName)
 	{
-		myLastName = lastName;
+		LastName = lastName;
 	}
 	
 	protected void setName (String firstName, String lastName)
 	{
-		myFirstName = firstName;
-		myLastName = lastName;
+		FirstName = firstName;
+		LastName = lastName;
 	}
 	
 	protected void setBiography (String bio)
 	{
-		myBiography = bio;
+		Biography = bio;
 	}
 	
 	protected void setPublishers (List<Publisher> publishers)
 	{
-		myPublishers = publishers;
+		Publisher_ID = publishers;
 	}
 }

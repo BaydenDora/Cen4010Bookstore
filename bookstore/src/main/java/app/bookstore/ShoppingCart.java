@@ -19,23 +19,23 @@ public class ShoppingCart
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int myCartID;
+	private int Cart_ID;
 	
     @ManyToMany
     @JoinTable(
-        name = "cart_book",
-        joinColumns = @JoinColumn(name = "cart_id"),
-        inverseJoinColumns = @JoinColumn(name = "book_id")
+        name = "ISBN",
+        joinColumns = @JoinColumn(name = "Cart_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ISBN")
     )
     private List<Book> myBooksInCart = new ArrayList<>();
 	
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "User_ID", nullable = false)
     private User myUserID;
 	
     // Getters
     public int getCartID() {
-        return myCartID;
+        return Cart_ID;
     }
 
     public List<Book> getBooksInCart() {
@@ -48,7 +48,7 @@ public class ShoppingCart
 
     // Setters
     public void setCartID(int cartID) {
-        myCartID = cartID;
+    	Cart_ID = cartID;
     }
 
     public void setBooksInCart(List<Book> booksInCart) {

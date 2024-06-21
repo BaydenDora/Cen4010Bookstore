@@ -19,30 +19,30 @@ public class User
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int myUserID;
+	private int User_ID;
 	
-	@Column(name = "Username", nullable = false, length = 100)
+	@Column(name = "Username", nullable = false, length = 50)
     private String myUsername;
     
-	@Column(name = "Password", nullable = false, length = 100)
+	@Column(name = "Pass", nullable = false, length = 50)
     private String myPassword;
     
-	@Column(name = "Email Address", nullable = false, length = 100)
+	@Column(name = "Email", nullable = false, length = 50)
     private String myEmailAddress;
     
 	@Column(name = "Home Address", nullable = false, length = 100)
     private String myHomeAddress;
     
-	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
+	@OneToMany(mappedBy = "User_ID", cascade = CascadeType.ALL) //check this one
     private List<Wishlist> myWishlists;
     
-	@OneToOne(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
+	@OneToOne(mappedBy = "User_ID", cascade = CascadeType.ALL) //check this one
     private ShoppingCart myShoppingCart;
 	
-	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
+	@OneToMany(mappedBy = "User_ID", cascade = CascadeType.ALL) //check this one
     private List<CreditCard> myCreditCards = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
+	@OneToMany(mappedBy = "User_ID", cascade = CascadeType.ALL) //check this one
     private List<Review> myReview = new ArrayList<>();
     
     
@@ -79,7 +79,7 @@ public class User
     // Getters
     public int getUserID() 
     {
-        return myUserID;
+        return User_ID;
     }
 
     public String getUsername() 
@@ -128,7 +128,7 @@ public class User
     // Setters
     protected void setUserID(int userID) 
     {
-        myUserID = userID;
+    	User_ID = userID;
     }
 
     protected void setUsername(String username) 
