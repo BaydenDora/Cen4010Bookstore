@@ -1,6 +1,6 @@
-drop database if exists GeekText_Bookstore;
-create schema GeekText_Bookstore;
-use GeekText_Bookstore;
+drop database if exists GeekText_bookstore;
+create schema GeekText_bookstore;
+use GGeekText_bookstore;
 
 create table Publisher (
 	Publisher_ID int primary key,
