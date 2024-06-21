@@ -51,19 +51,19 @@ public class UserController {
         return this.userRepository.findAll();
     }
 
-    @PutMapping(path="/all")
-    public User updateUser(@PathVariable("id")int id, @RequestBody User user) {
-        //TODO: process PUT request
-        if (id != user.getUserID()){
-            throw new BadRequestException("Invalid id\n");
-        }
-        return this.userRepository.save(user);
-    }
+    // @PutMapping(path="/all")
+    // public User updateUser(@PathVariable("id")int id, @RequestBody User user) {
+    //     //TODO: process PUT request
+    //     if (id != user.getUserID()){
+    //         throw new BadRequestException("Invalid id\n");
+    //     }
+    //     return this.userRepository.save(user);
+    // }
     
-    @DeleteMapping(path="/all")
-    public void deleteUser(){
+    // @DeleteMapping(path="/all")
+    // public void deleteUser(){
 
-    }
+    // }
 
     // private User verifyUser(int userID) throws NoSuchElementException{
     //     return userRepository.findById(userID).orElseThrow(() ->
