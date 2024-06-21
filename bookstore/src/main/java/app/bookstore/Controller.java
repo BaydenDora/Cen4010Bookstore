@@ -31,28 +31,68 @@ public class Controller {
   @Autowired
   private WishlistRepo wishlistRepository;
 
-  @PostMapping(path="/add") // Map ONLY POST Requests
-  public @ResponseBody String addNewBook (@RequestParam long myISBN, @RequestParam String myTitle) {
-    Book n = new Book();
-    n.setISBN(myISBN);
-    n.setTitle(myTitle);
-    bookRepository.save(n);
-    return "Saved";
+  @PostMapping(path="/addBook") // Map ONLY POST Requests
+  public @ResponseBody String addNewBook (@RequestParam long myISBN, @RequestParam String myTitle,
+                                          @RequestParam String myDescription, @RequestParam int myYearPublished,
+                                          @RequestParam int authorId, @RequestParam long publisherId,
+                                          @RequestParam int genreIndex, @RequestParam int myCopiesSold, 
+                                          @RequestParam int myRating, @RequestParam double myPrice) {
+    Book book = new Book();
+    book.setISBN(myISBN);
+    book.setTitle(myTitle);
+    book.setDescription(myDescription);
+    book.setYearPublished(myYearPublished);
+    book.setGenre(Genre.fromInt(genreIndex));
+    book.setCopiesSold(myCopiesSold);
+    book.setRating(myRating);
+    book.setPrice(myPrice);
+
+    // Fetch and set Author and Publisher
+    Author author = authorRepository.findById(authorId).orElse(null);
+    Publisher publisher = publisherRepository.findById(publisherId).orElse(null);
+
+    if (author != null){
+      book.setAuthor(author);
+    }
+
+    if (publisher != null){
+      book.setPublisher(publisher);
+    }
+
+    // Saves book to the repo
+    bookRepository.save(book);
+    return "Book Saved";
   }
 
   @PostMapping(path="/addCard")
-  public @ResponseBody String addNewCard(@RequestParam long cardNumber,@RequestParam int expirationMonth,@RequestParam int expirationYear, @RequestParam int cvc) {
+  public @ResponseBody String addNewCard(@RequestParam String cardBrand, @RequestParam String cardHolder,
+                                         @RequestParam long cardNumber, @RequestParam int expirationMonth,
+                                         @RequestParam int expirationYear, @RequestParam int cvc,
+                                         @RequestParam Long userId) {
     CreditCard creditCard = new CreditCard();
+    creditCard.setCardBrand(cardBrand);
+    creditCard.setCardHolder(cardHolder);
     creditCard.setCardNumber(cardNumber);
     creditCard.setExpirationMonth(expirationMonth);
     creditCard.setExpirationYear(expirationYear);
     creditCard.setCVC(cvc);
+
+    // Fetch and set the User who owns the card based on userID
+
+    User user = userRepository.findById(userId).orElse(null);
+    if (user != null){
+      creditCard.setUser(user);
+    }
+    else {
+      return "User not found";
+    }
+
     creditCardRepository.save(creditCard);
     return "Card Saved";
   }
 
-  @PostMapping(path="/addPublisher")
-  public @ResponseBody String addNewPublisher(@RequestParam long id, @RequestParam String name, @RequestParam String address) {
+  @PostMapping(path="/addPublisher") // removed address as it was not needed. Publisher class does not need address
+  public @ResponseBody String addNewPublisher(@RequestParam long id, @RequestParam String name) {
     Publisher publisher = new Publisher();
     publisher.setID(id);
     publisher.setName(name);
@@ -61,12 +101,14 @@ public class Controller {
   }
 
   @PostMapping(path="/addReview")
-  public @ResponseBody String addNewReview(@RequestParam long id, @RequestParam String content, @RequestParam int rating, @RequestParam long bookId) {
+  public @ResponseBody String addNewReview(@RequestParam int id, @RequestParam String commentText, 
+                                           @RequestParam int comment, @RequestParam long bookId,
+                                           @RequestParam long userId, @RequestParam String date) {
     Review review = new Review();
     review.setID(id);
-    review.setContent(content);
-    review.setRating(rating);
-    review.setBookId(bookId);
+    review.setComment(commentText);
+    review.setComment(comment);
+
     reviewRepository.save(review);
     return "Review Saved";
   }
@@ -82,11 +124,13 @@ public class Controller {
     return "User Saved";
   }
 
-  @PostMapping(path="/addAuthor")
-  public @ResponseBody String addNewAuthor (@RequestParam long id, @RequestParam String name) {
+  @PostMapping(path="/addAuthor") // Seperated name into first and last as shown in Author class
+  public @ResponseBody String addNewAuthor (@RequestParam int id, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String biography) {
     Author author = new Author();
     author.setAuthorID(id);
-    author.setName(name);
+    author.setFirstName(firstName);
+    author.setLastName(lastName);
+    author.setBiography(biography);
     authorRepository.save(author);
     return "Author Saved";
   }
