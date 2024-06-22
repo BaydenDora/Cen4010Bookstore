@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -19,16 +18,11 @@ import jakarta.persistence.Table;
 public class Wishlist 
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int Wishlist_ID;
 	
-	@ManyToMany
-    @JoinTable(
-        name = "wishlist_books", // Changed to a more descriptive join table name
-        joinColumns = @JoinColumn(name = "Wishlist_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ISBN")
-    )
-	private List<Book> myBooksWishlisted = new ArrayList<>();
+    @ManyToMany(mappedBy = "wishlists")
+    private List<Book> myBooksWishlisted = new ArrayList<>();
 	
     @ManyToOne
     @JoinColumn(name = "User_ID", nullable = false)

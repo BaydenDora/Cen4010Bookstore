@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -18,15 +17,10 @@ import jakarta.persistence.Table;
 public class ShoppingCart 
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Cart_ID;
 	
-    @ManyToMany
-    @JoinTable(
-        name = "shoppingcart_books", // Changed to a more descriptive join table name,
-        joinColumns = @JoinColumn(name = "Cart_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ISBN")
-    )
+    @ManyToMany(mappedBy = "shoppingCarts")
     private List<Book> myBooksInCart = new ArrayList<>();
 	
     @OneToOne

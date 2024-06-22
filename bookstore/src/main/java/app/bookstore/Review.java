@@ -16,17 +16,17 @@ import jakarta.persistence.Table;
 public class Review {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int Review_ID;
-    
+
     @ManyToOne
-    @JoinColumn(name = "ISBN", nullable = false)
+    @JoinColumn(name = "ISBN", nullable = false, columnDefinition = "VARCHAR(13)")
     private Book myBook;
 
-	@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "User_ID", nullable = false)
-	private User myUserID;
-    
+    private User myUserID;
+
     @Column(name = "Text", length = 500)
     private String myComment;
 
@@ -36,27 +36,27 @@ public class Review {
     @Column(name = "Date")
     private Date myDate;
 
-   // Constructors
+    // Constructors
     public Review() {}
 
     public Review(int id, Book book, User user, int rating, String comment, Date date) {
-    	Review_ID = id;
-    	myBook = book;
+        Review_ID = id;
+        myBook = book;
         myUserID = user;
         myRating = rating;
         myComment = comment;
         myDate = date;
     }
-    
-    //Getters and Setters
+
+    // Getters and Setters
     public int getID() {
-    	return Review_ID;
+        return Review_ID;
     }
-    
+
     public void setID(int id) {
-    	this.Review_ID = id;
+        this.Review_ID = id;
     }
-    
+
     public Book getIsbn() {
         return myBook;
     }

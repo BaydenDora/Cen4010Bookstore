@@ -15,16 +15,17 @@ public class CreditCard
 {
     // Changed entire class to fit SQL data. Team project doesn't ask specifcally for brand details and we can get the Card holder's name via the connection to User through user id
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "Card_ID", nullable = false)
     private long Card_ID;
     
-    @Column(name = "CardNumber", nullable = false, unique = true, length = 16)
+    @Column(name = "CardNumber", nullable = false, unique = true, columnDefinition = "CHAR(16)")
     private String CardNumber; // Changed to String to handle digits and match SQL schema
     
     @Column(name = "ExpirationDate", nullable = false, length = 5)
     private String ExpirationDate;
     
-    @Column(name = "CVV", nullable = false, length = 3)
+    @Column(name = "CVV", nullable = false, columnDefinition = "CHAR(3)")
     private String CVV; // Changed to String to handle digits and match SQL schema
     
     @ManyToOne

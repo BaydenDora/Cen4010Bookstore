@@ -3,6 +3,9 @@ package app.bookstore;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +22,7 @@ import jakarta.persistence.Table;
 public class Author 
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int Author_ID; // 9 digit number to differentiate different authors (Some authors may share names)
 	
 	@Column(name = "FirstName", nullable = false, length = 100)
@@ -31,6 +34,7 @@ public class Author
 	@Column(name = "Biography", nullable = false, length = 1000)
 	private String Biography;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
         name = "Author_Publisher", 
@@ -39,6 +43,7 @@ public class Author
     )
 	private List<Publisher> Publisher_ID = new ArrayList<>();
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "myAuthor")
     private List<Book> BooksWritten = new ArrayList<>();
 	

@@ -1,130 +1,131 @@
-drop database if exists GeekText_Bookstore;
-create schema GeekText_Bookstore;
-use GeekText_Bookstore;
+DROP DATABASE IF EXISTS GeekText_Bookstore;
+CREATE SCHEMA GeekText_Bookstore;
+USE GeekText_Bookstore;
 
-create table Publisher (
-    Publisher_ID int primary key,
-    PublisherName varchar(50) unique not null
+-- Ensure tables are created 
+CREATE TABLE Publisher (
+    Publisher_ID INT AUTO_INCREMENT PRIMARY KEY,
+    PublisherName VARCHAR(50) UNIQUE NOT NULL
 );
 
-create table Author (
-    Author_ID int primary key,
+CREATE TABLE Author (
+    Author_ID INT AUTO_INCREMENT PRIMARY KEY,
     Publisher_ID INT,
-    FirstName varchar(100) not null,
-    LastName varchar(100) not null,
-    Biography varchar(1000) not null
+    FirstName VARCHAR(100) NOT NULL,
+    LastName VARCHAR(100) NOT NULL,
+    Biography VARCHAR(1000) NOT NULL,
+    FOREIGN KEY (Publisher_ID) REFERENCES Publisher(Publisher_ID) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-create table Author_Publisher (
-    Author_ID int,
-    Publisher_ID int,
-    primary key (Author_ID, Publisher_ID),
-    foreign key (Author_ID) references Author(Author_ID) on update cascade on delete cascade,
-    foreign key (Publisher_ID) references Publisher(Publisher_ID) on update cascade on delete cascade
+CREATE TABLE Author_Publisher (
+    Author_ID INT,
+    Publisher_ID INT,
+    PRIMARY KEY (Author_ID, Publisher_ID),
+    FOREIGN KEY (Author_ID) REFERENCES Author(Author_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (Publisher_ID) REFERENCES Publisher(Publisher_ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-create table Book (
-    ISBN varchar(13) primary key,
-    constraint isbn_num_chk check(ISBN not like '%[^0-9]%'),
-    constraint isbn_len_chk check(char_length(ISBN) = 13),
-    BookName varchar(500) not null,
-    Author_ID int,
-    Publisher_ID int,
-    BookDescription varchar(1000),
-    Genre enum('Textbook', 'Academic/Report', 'Biography', 'How-to/Manual', 'Fantasy', 'Science Fiction', 'Action/Adventure', 'Historical', 'Fiction', 'Non-Fiction', 'Other') default 'Other',
-    YearPublished year,
-    CopiesSold int unsigned not null,
-    Price float not null,
-    foreign key (Author_ID) references Author(Author_ID) on update cascade,
-    foreign key (Publisher_ID) references Publisher(Publisher_ID) on update cascade,
+CREATE TABLE Book (
+    ISBN VARCHAR(13) PRIMARY KEY,
+    CONSTRAINT isbn_num_chk CHECK(ISBN NOT LIKE '%[^0-9]%'),
+    CONSTRAINT isbn_len_chk CHECK(CHAR_LENGTH(ISBN) = 13),
+    id BIGINT AUTO_INCREMENT UNIQUE NOT NULL,
+    BookName VARCHAR(500) NOT NULL,
+    Author_ID INT,
+    Publisher_ID INT,
+    BookDescription VARCHAR(1000),
+    Genre ENUM('TEXTBOOK', 'ACADEMIC', 'REPORT', 'BIOGRAPHY', 'MANUAL', 'FANTASY', 'SCIENCE_FICTION', 'ACTION', 'ADVENTURE', 'HISTORICAL', 'FICTION', 'NON_FICTION', 'OTHER') DEFAULT 'OTHER',
+    YearPublished INT,
+    CopiesSold INT UNSIGNED NOT NULL,
+    Price FLOAT NOT NULL,
+    FOREIGN KEY (Author_ID) REFERENCES Author(Author_ID) ON UPDATE CASCADE,
+    FOREIGN KEY (Publisher_ID) REFERENCES Publisher(Publisher_ID) ON UPDATE CASCADE,
     INDEX idx_book_isbn (ISBN)
 );
 
-create table `User` (
-    User_ID int primary key,
-    Username varchar(50),
-    Email varchar(50),
-    Pass varchar(50),
-    HomeAddress varchar(100),
-    Wishlist_ID int,
-    Cart_ID int
+CREATE TABLE `User` (
+    User_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(50),
+    Email VARCHAR(50),
+    Pass VARCHAR(50),
+    HomeAddress VARCHAR(100),
+    Wishlist_ID INT,
+    Cart_ID INT
 );
 
-create table Review (
-    Review_ID int primary key,
-    ISBN varchar(13),
-    User_ID int,
-    `Text` varchar(500),
-    Rating int,
-    `Date` datetime,
-    foreign key (ISBN) references Book(ISBN),
-    foreign key (User_ID) references `User` (User_ID) on update cascade on delete cascade,
+CREATE TABLE Review (
+    Review_ID INT AUTO_INCREMENT PRIMARY KEY,
+    ISBN VARCHAR(13),
+    User_ID INT,
+    `Text` VARCHAR(500),
+    Rating INT,
+    `Date` DATETIME,
+    FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
+    FOREIGN KEY (User_ID) REFERENCES `User` (User_ID) ON UPDATE CASCADE ON DELETE CASCADE,
     INDEX idx_review_isbn (ISBN)
 );
 
-create table Wishlist (
-    Wishlist_ID int,
-    WishlistName varchar(25),
-    User_ID int,
-    ISBN varchar(13),
-    primary key (Wishlist_ID, WishlistName),
-    foreign key (User_ID) references `User`(User_ID) on update cascade,
-    foreign key (ISBN) references Book(ISBN) on update cascade,
-    INDEX idx_wishlist_isbn (ISBN)
+CREATE TABLE Wishlist (
+    Wishlist_ID INT AUTO_INCREMENT,
+    WishlistName VARCHAR(25),
+    User_ID INT,
+    PRIMARY KEY (Wishlist_ID),
+    FOREIGN KEY (User_ID) REFERENCES `User`(User_ID) ON UPDATE CASCADE
 );
 
-create table wishlist_books (
-    Wishlist_ID int,
-    ISBN varchar(13),
-    primary key (Wishlist_ID, ISBN),
-    foreign key (Wishlist_ID) references Wishlist(Wishlist_ID) on update cascade,
-    foreign key (ISBN) references Book(ISBN) on update cascade,
+CREATE TABLE wishlist_books (
+    Wishlist_ID INT,
+    ISBN VARCHAR(13),
+    PRIMARY KEY (Wishlist_ID, ISBN),
+    FOREIGN KEY (Wishlist_ID) REFERENCES Wishlist(Wishlist_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (ISBN) REFERENCES Book(ISBN) ON UPDATE CASCADE ON DELETE CASCADE,
     INDEX idx_wishlist_books_isbn (ISBN)
 );
 
-create table ShoppingCart (
-    Cart_ID int primary key,
-    User_ID int,
-    foreign key (User_ID) references `User`(User_ID) on update cascade
+CREATE TABLE ShoppingCart (
+    Cart_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT,
+    FOREIGN KEY (User_ID) REFERENCES `User`(User_ID) ON UPDATE CASCADE
 );
 
-create table shoppingcart_books (
-    Cart_ID int,
-    ISBN varchar(13),
-    Quantity int,
-    primary key (Cart_ID, ISBN),
-    foreign key (Cart_ID) references ShoppingCart(Cart_ID) on update cascade on delete cascade,
-    foreign key (ISBN) references Book(ISBN) on update cascade on delete cascade,
+CREATE TABLE shoppingcart_books (
+    Cart_ID INT,
+    ISBN VARCHAR(13),
+    Quantity INT,
+    PRIMARY KEY (Cart_ID, ISBN),
+    FOREIGN KEY (Cart_ID) REFERENCES ShoppingCart(Cart_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (ISBN) REFERENCES Book(ISBN) ON UPDATE CASCADE ON DELETE CASCADE,
     INDEX idx_shoppingcart_books_isbn (ISBN)
 );
 
-alter table `User` add constraint Wishlist foreign key (Wishlist_ID) 
-references Wishlist(Wishlist_ID) on update cascade;
+ALTER TABLE `User` ADD CONSTRAINT Wishlist FOREIGN KEY (Wishlist_ID) 
+REFERENCES Wishlist(Wishlist_ID) ON UPDATE CASCADE;
 
-alter table `User` add constraint ShoppingCart foreign key (Cart_ID) 
-references ShoppingCart(Cart_ID) on update cascade;
+ALTER TABLE `User` ADD CONSTRAINT ShoppingCart FOREIGN KEY (Cart_ID) 
+REFERENCES ShoppingCart(Cart_ID) ON UPDATE CASCADE;
 
-create table CreditCard (
-    Card_ID int primary key,
-    User_ID int,
-    CardNumber char(16) unique not null,
-    constraint card_num_check check(CardNumber not like '%[^0-9]%'), 
-    constraint card_len_chk check(char_length(CardNumber) = 16),
-    ExpirationDate varchar(5),
-    constraint date_chk check(ExpirationDate rlike '^[0-9]{2}/[0-9]{2}$'),
-    CVV char(3) not null,
-    constraint cvv_num_chk check(CVV not like '%[^0-9]%'),
-    constraint cvv_len_chk check(char_length(CVV) = 3),
-    foreign key (User_ID) references `User`(User_ID) on update cascade on delete cascade
+CREATE TABLE CreditCard (
+    Card_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT,
+    CardNumber CHAR(16) UNIQUE NOT NULL,
+    CONSTRAINT card_num_check CHECK(CardNumber NOT LIKE '%[^0-9]%'), 
+    CONSTRAINT card_len_chk CHECK(CHAR_LENGTH(CardNumber) = 16),
+    ExpirationDate VARCHAR(5),
+    CONSTRAINT date_chk CHECK(ExpirationDate RLIKE '^[0-9]{2}/[0-9]{2}$'),
+    CVV CHAR(3) NOT NULL,
+    CONSTRAINT cvv_num_chk CHECK(CVV NOT LIKE '%[^0-9]%'),
+    CONSTRAINT cvv_len_chk CHECK(CHAR_LENGTH(CVV) = 3),
+    FOREIGN KEY (User_ID) REFERENCES `User`(User_ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+-- Load data into tables
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Publisher.txt' INTO TABLE Publisher FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Publisher_ID, PublisherName);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Author.txt' INTO TABLE Author FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Author_ID, Publisher_ID, FirstName, LastName, Biography);
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Book.txt' INTO TABLE Book FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (ISBN, BookName, Author_ID, Publisher_ID, BookDescription, Genre, YearPublished, CopiesSold, Price);
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Book.txt' INTO TABLE Book FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (ISBN, BookName, Author_ID, Publisher_ID, BookDescription, Genre, YearPublished, CopiesSold, Price, id);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/User.txt' INTO TABLE `User` FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (User_ID, Username, Email, Pass);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Review.txt' INTO TABLE Review FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Review_ID, ISBN, User_ID, `Text`, Rating, `Date`);
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Wishlist.txt' INTO TABLE Wishlist FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Wishlist_ID, WishlistName, User_ID, ISBN);
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Wishlist.txt' INTO TABLE Wishlist FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Wishlist_ID, WishlistName, User_ID);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/WishlistBook.txt' INTO TABLE wishlist_books FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Wishlist_ID, ISBN);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/ShoppingCart.txt' INTO TABLE ShoppingCart FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Cart_ID, User_ID);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/CartBook.txt' INTO TABLE shoppingcart_books FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Cart_ID, ISBN, Quantity);
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/CreditCard.txt' INTO TABLE CreditCard FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Card_ID,  User_ID, CardNumber, ExpirationDate, CVV);
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/CreditCard.txt' INTO TABLE CreditCard FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Card_ID, User_ID, CardNumber, ExpirationDate, CVV);

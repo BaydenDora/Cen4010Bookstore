@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class User 
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int User_ID;
 	
 	@Column(name = "Username", nullable = false, length = 50)
@@ -30,7 +30,7 @@ public class User
 	@Column(name = "Email", nullable = false, length = 50)
     private String myEmailAddress;
     
-	@Column(name = "Home Address", nullable = false, length = 100)
+	@Column(name = "HomeAddress", nullable = false, length = 100)
     private String myHomeAddress;
 
 	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one

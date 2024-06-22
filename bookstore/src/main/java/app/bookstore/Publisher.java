@@ -3,6 +3,8 @@ package app.bookstore;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,15 +19,17 @@ import jakarta.persistence.Table;
 public class Publisher 
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int Publisher_ID;
 	
 	@Column(name = "PublisherName", nullable = false, length = 50)
 	private String PublisherName;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "Publisher_ID")
     private List<Author> AuthorsPublished = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "myPublisher")
     private List<Book> BooksPublished = new ArrayList<>();
 	
