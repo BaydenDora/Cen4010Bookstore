@@ -24,7 +24,10 @@ public class Book
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String ISBN; // ISBNs are 13-digit numbers
+    private Long id; // Internal ID
+
+	@Column(name = "ISBN", nullable = false, unique = true, length = 13)
+    private String ISBN; // ISBNs are 13-digit numbers
 
 	@Column(name = "BookName", nullable = false, length = 500)
 	private String myTitle;
@@ -43,7 +46,7 @@ public class Book
 	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private Publisher myPublisher;
 	
-	@OneToMany(mappedBy = "ISBN")
+	@OneToMany(mappedBy = "myBook")
     private List<Review> reviews = new ArrayList<>();
 	
 	@ManyToMany
@@ -124,6 +127,10 @@ public class Book
 	
 	
 	// Getters
+	public Long getID(){
+		return id;
+	}
+
 	public String getISBN()
 	{
 		return ISBN;
@@ -191,6 +198,10 @@ public class Book
 	
 	
 	// Setters
+	protected void setID(Long id){
+		this.id = id;
+	}
+
 	protected void setISBN(String ISBN)
 	{
 		this.ISBN = ISBN;

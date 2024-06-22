@@ -23,7 +23,7 @@ public class ShoppingCart
 	
     @ManyToMany
     @JoinTable(
-        name = "ISBN",
+        name = "shoppingcart_books", // Changed to a more descriptive join table name,
         joinColumns = @JoinColumn(name = "Cart_ID"),
         inverseJoinColumns = @JoinColumn(name = "ISBN")
     )

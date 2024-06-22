@@ -27,13 +27,13 @@ public class Review {
     @JoinColumn(name = "User_ID", nullable = false)
 	private User myUserID;
     
-    @Column(name = "'Text'", length = 300)
+    @Column(name = "Text", length = 500)
     private String myComment;
 
     @Column(name = "Rating")
     private int myRating;
 
-    @Column(name = "'Date'", length = 30)
+    @Column(name = "Date")
     private Date myDate;
 
    // Constructors
@@ -73,27 +73,27 @@ public class Review {
         myUserID = user;
     }
 
-    public void setCommentText(String commentText) {
-    	myComment = commentText;
-    }
-
-    public void setDatePosted(Date datePosted) {
-    	myDate = datePosted;
-    }
-
-    public void setUserID(User userID) {
-    	myUserID = userID;
+    public String getComment() {
+        return myComment;
     }
 
     public void setComment(String comment) {
         myComment = comment;
     }
 
+    public int getRating() {
+        return myRating;
+    }
+
+    public void setRating(int rating) {
+        myRating = rating;
+    }
+
     public Date getDate() {
         return myDate;
     }
 
-    public void setTime(Date date) {
+    public void setDate(Date date) {
         myDate = date;
     }
 }

@@ -13,125 +13,94 @@ import jakarta.persistence.Table;
 @Table(name = "creditcard")
 public class CreditCard 
 {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long Card_ID;
-	
-	@Column(name = "Brand", nullable = false, length = 100)
-	private String myCardBrand; //Visa, Discover, MasterCard, etc
-	
-	@Column(name = "Holder", nullable = false, length = 100)
-	private String myCardHolder; //Name of the card holder
-	
-	@Column(name = "CardNumber", nullable = false, length = 16)
-	private long myCardNumber; //The digits in groups of 4
-	
-	@Column(name = "ExpirationDate", nullable = false, length = 5)
-	private String myExpirationDate; 
-	
-	@Column(name = "CVC", nullable = false, length = 3)
-	private int myCVC; // The three funny numbers on the back
-	
-	@ManyToOne
-	@JoinColumn(name ="User_ID", nullable = false)
-	private User myUserID;
-	
-	// No-Arg constructor
+    // Changed entire class to fit SQL data. Team project doesn't ask specifcally for brand details and we can get the Card holder's name via the connection to User through user id
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long Card_ID;
+    
+    @Column(name = "CardNumber", nullable = false, unique = true, length = 16)
+    private String CardNumber; // Changed to String to handle digits and match SQL schema
+    
+    @Column(name = "ExpirationDate", nullable = false, length = 5)
+    private String ExpirationDate;
+    
+    @Column(name = "CVV", nullable = false, length = 3)
+    private String CVV; // Changed to String to handle digits and match SQL schema
+    
+    @ManyToOne
+    @JoinColumn(name ="User_ID", nullable = false)
+    private User myUserID;
+    
+    // No-Arg constructor
     public CreditCard() 
     {
         setCardID(0);
-        setCardBrand("Brand");
-        setCardHolder("John Doe");
-        setCardNumber(0);
+        setCardNumber("0000000000000000");
         setExpirationDate("00/00");
-        setCVC(000);
+        setCVV("000");
     }
     
-    // constructor
-    public CreditCard(long cardID, String cardBrand, String cardHolder, long cardNumber, 
-                      String expirationDate, int cvc, User user) {
+    // Constructor
+    public CreditCard(long cardID, String cardNumber, String expirationDate, String cvv, User user) {
         setCardID(cardID);
-        setCardBrand(cardBrand);
-        setCardHolder(cardHolder);
         setCardNumber(cardNumber);
         setExpirationDate(expirationDate);
-        setCVC(cvc);
-		setUser(user);
+        setCVV(cvv);
+        setUser(user);
     }
     
     // Copy constructor
     public CreditCard(CreditCard cloneCard) {
         setCardID(cloneCard.getCardID());
-        setCardBrand(cloneCard.getCardBrand());
-        setCardHolder(cloneCard.getCardHolder());
         setCardNumber(cloneCard.getCardNumber());
         setExpirationDate(cloneCard.getExpirationDate());
-        setCVC(cloneCard.getCVC());
-		setUser(cloneCard.getUser());
+        setCVV(cloneCard.getCVV());
+        setUser(cloneCard.getUser());
     }
-	
-	// Getters
-	public long getCardID() {
+    
+    // Getters
+    public long getCardID() {
         return Card_ID;
     }
 
-    public String getCardBrand() {
-        return myCardBrand;
-    }
-
-    public String getCardHolder() {
-        return myCardHolder;
-    }
-
-    public long getCardNumber() {
-        return myCardNumber;
+    public String getCardNumber() {
+        return CardNumber;
     }
 
     public String getExpirationDate() {
-        return myExpirationDate;
+        return ExpirationDate;
     }
     
-    public int getCVC() {
-        return myCVC;
+    public String getCVV() {
+        return CVV;
     }
 
     public User getUser() {
         return myUserID;
     }
-    	
-	// Setters
-	protected void setCardID(long cardID)
-	{
-		Card_ID = cardID;
-	}
-	
-	protected void setCardBrand(String cardBrand)
-	{
-		myCardBrand = cardBrand;
-	}
-	
-	protected void setCardHolder(String cardHolder)
-	{
-		myCardHolder = cardHolder;
-	}
-	
-	protected void setCardNumber (long cardNumber)
-	{
-		myCardNumber = cardNumber;
-	}
-	
-	protected void setExpirationDate (String expirationDate)
-	{
-		myExpirationDate = expirationDate;
-	}
-	
-	protected void setCVC (int cvc)
-	{
-		myCVC = cvc;
-	}
-	
+        
+    // Setters
+    protected void setCardID(long cardID)
+    {
+        Card_ID = cardID;
+    }
+    
+    protected void setCardNumber(String cardNumber)
+    {
+        CardNumber = cardNumber;
+    }
+    
+    protected void setExpirationDate (String expirationDate)
+    {
+        ExpirationDate = expirationDate;
+    }
+    
+    protected void setCVV (String cvv)
+    {
+        CVV = cvv;
+    }
+    
     protected void setUser(User user) {
         myUserID = user;
     }
 }
-

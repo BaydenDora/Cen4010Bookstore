@@ -32,17 +32,17 @@ public class User
     
 	@Column(name = "Home Address", nullable = false, length = 100)
     private String myHomeAddress;
-    
-	@OneToMany(mappedBy = "User_ID", cascade = CascadeType.ALL) //check this one
+
+	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
     private List<Wishlist> myWishlists;
     
-	@OneToOne(mappedBy = "User_ID", cascade = CascadeType.ALL) //check this one
+	@OneToOne(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
     private ShoppingCart myShoppingCart;
 	
-	@OneToMany(mappedBy = "User_ID", cascade = CascadeType.ALL) //check this one
+	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
     private List<CreditCard> myCreditCards = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "User_ID", cascade = CascadeType.ALL) //check this one
+	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
     private List<Review> myReview = new ArrayList<>();
     
     

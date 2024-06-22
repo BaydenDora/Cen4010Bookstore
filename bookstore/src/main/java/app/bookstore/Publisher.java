@@ -20,10 +20,10 @@ public class Publisher
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int Publisher_ID;
 	
-	@Column(nullable = false, length = 50)
+	@Column(name = "PublisherName", nullable = false, length = 50)
 	private String PublisherName;
 	
-	@ManyToMany(mappedBy = "myPublishers")
+	@ManyToMany(mappedBy = "Publisher_ID")
     private List<Author> AuthorsPublished = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "myPublisher")

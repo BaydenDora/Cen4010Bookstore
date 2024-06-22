@@ -22,10 +22,10 @@ public class Author
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int Author_ID; // 9 digit number to differentiate different authors (Some authors may share names)
 	
-	@Column(name = "First Name", nullable = false, length = 100)
+	@Column(name = "FirstName", nullable = false, length = 100)
 	private String FirstName;
 	
-	@Column(name = "Last Name", nullable = false, length = 100)
+	@Column(name = "LastName", nullable = false, length = 100)
 	private String LastName;
 	
 	@Column(name = "Biography", nullable = false, length = 1000)
@@ -34,8 +34,8 @@ public class Author
 	@ManyToMany
 	@JoinTable(
         name = "Author_Publisher", 
-        joinColumns = @JoinColumn(name = "Author_id"), 
-        inverseJoinColumns = @JoinColumn(name = "Publisher_id")
+        joinColumns = @JoinColumn(name = "Author_ID"), 
+        inverseJoinColumns = @JoinColumn(name = "Publisher_ID")
     )
 	private List<Publisher> Publisher_ID = new ArrayList<>();
 	

@@ -24,7 +24,7 @@ public class Wishlist
 	
 	@ManyToMany
     @JoinTable(
-        name = "ISBN",
+        name = "wishlist_books", // Changed to a more descriptive join table name
         joinColumns = @JoinColumn(name = "Wishlist_ID"),
         inverseJoinColumns = @JoinColumn(name = "ISBN")
     )
