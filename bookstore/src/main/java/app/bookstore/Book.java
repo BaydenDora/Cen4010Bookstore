@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.time.Year;
+// Removed import Year  for int to corospond with data.sql
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "book")
@@ -33,7 +33,7 @@ public class Book
 	private String myDescription;
 	
 	@Column(name = "YearPublished", nullable = false, length = 4)
-	private Year myYearPublished;
+	private int myYearPublished;
 	
 	@ManyToOne
 	@JoinColumn(name ="Author_ID", nullable = false)
@@ -80,7 +80,7 @@ public class Book
 		setISBN ("0000000000000"); // ISBNs are 13-digit numbers
 		setTitle ("The Book");
 		setDescription ("Book Description");
-		setYearPublished (Year.of(0000));
+		setYearPublished (0);
 		setAuthor (new Author());
 		setGenre (Genre.TEXTBOOK);
 		setPublisher (new Publisher());
@@ -92,7 +92,7 @@ public class Book
 	
 	
 	// Constructor
-	public Book (String ISBN, String title, String description, Year yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, int rating, float price)
+	public Book (String ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, int rating, float price)
 	{
 		setISBN (ISBN);
 		setTitle (title);
@@ -139,7 +139,7 @@ public class Book
 		return myDescription;
 	}
 	
-	public Year getYearPublished()
+	public int getYearPublished()
 	{
 		return myYearPublished;
 	}
@@ -208,7 +208,7 @@ public class Book
 		if (myDescription.trim() == "" || myDescription == null) myDescription = "Description";
 	}
 	
-	protected void setYearPublished(Year yearPublished)
+	protected void setYearPublished(int yearPublished)
 	{
 		myYearPublished = yearPublished;
 	}

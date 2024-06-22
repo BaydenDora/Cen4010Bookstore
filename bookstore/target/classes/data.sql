@@ -3,94 +3,101 @@ create schema GeekText_Bookstore;
 use GeekText_Bookstore;
 
 create table Publisher (
-	Publisher_ID int primary key,
+    Publisher_ID int primary key,
     PublisherName varchar(50) unique not null
 );
 
 create table Author (
-	Author_ID int primary key,
+    Author_ID int primary key,
+    FirstName varchar(100) not null,
+    LastName varchar(100) not null,
+    Biography varchar(1000) not null
+);
+
+create table Author_Publisher (
+    Author_ID int,
     Publisher_ID int,
-    FirstName varchar(25) not null,
-    LastName varchar(25) not null,
-    Biography varchar(300),
-    foreign key (Publisher_ID) references Publisher(Publisher_ID) 
-		on update cascade on delete cascade
+    primary key (Author_ID, Publisher_ID),
+    foreign key (Author_ID) references Author(Author_ID) on update cascade on delete cascade,
+    foreign key (Publisher_ID) references Publisher(Publisher_ID) on update cascade on delete cascade
 );
 
 create table Book (
-	ISBN char(13) primary key,
-		constraint isbn_num_chk check(ISBN not like '%[^0-9]%'),
-		constraint isbn_len_chk check(char_length(ISBN) = 13),
-	BookName varchar(100) not null,
+    ISBN varchar(13) primary key,
+    constraint isbn_num_chk check(ISBN not like '%[^0-9]%'),
+    constraint isbn_len_chk check(char_length(ISBN) = 13),
+    BookName varchar(500) not null,
     Author_ID int,
     Publisher_ID int,
-    BookDescription varchar(500),
-	Genre enum('Textbook', 'Academic/Report', 'Biography', 'How-to/Manual', 'Fantasy', 'Science Fiction', 'Action/Adventure', 'Historical', 'Fiction', 'Non-Fiction', 'Other') default 'Other',
-	YearPublished year,
-	CopiesSold int unsigned not null,
-	Price float not null,
+    BookDescription varchar(1000),
+    Genre enum('Textbook', 'Academic/Report', 'Biography', 'How-to/Manual', 'Fantasy', 'Science Fiction', 'Action/Adventure', 'Historical', 'Fiction', 'Non-Fiction', 'Other') default 'Other',
+    YearPublished year,
+    CopiesSold int(1000) unsigned not null,
+    Price float(100) not null,
     foreign key (Author_ID) references Author(Author_ID) on update cascade,
     foreign key (Publisher_ID) references Publisher(Publisher_ID) on update cascade
 );
 
 create table `User` (
-	User_ID int primary key,
-	User_Name varchar(50),
+    User_ID int primary key,
+    Username varchar(50),
     Email varchar(50),
-	Pass varchar(50),
-	foreign key (Wishlist_ID) references Wishlist(Wishlist_ID) on update cascade,
-    foreign key (Cart_ID) references ShoppingCart(Cart_ID) on update cascade
+    Pass varchar(50),
+    HomeAddress varchar(100),
+    Wishlist_ID int,
+    Cart_ID int
 );
 
 create table Review (
+    Review_ID int primary key,
     ISBN char(13),
     User_ID int,
     `Text` varchar(500),
     Rating int,
     `Date` datetime,
-    primary key (ISBN, User_ID),
-    foreign key (ISBN) references Book(ISBN)
+    foreign key (ISBN) references Book(ISBN),
+    foreign key (User_ID) references `User` (User_ID) 
+        on update cascade on delete cascade
 );
 
 create table Wishlist (
-	Wishlist_ID int,
+    Wishlist_ID int,
     WishlistName varchar (25),
     User_ID int,
     ISBN char(13),
     primary key (Wishlist_ID, WishlistName),
-	foreign key (User_ID) references `User`(User_ID) on update cascade,
+    foreign key (User_ID) references `User`(User_ID) on update cascade,
     foreign key (ISBN) references Book(ISBN) on update cascade
 );
 
 create table ShoppingCart (
-	Cart_ID int primary key,
+    Cart_ID int primary key,
     User_ID int,
     ISBN char(13),
     foreign key (User_ID) references `User`(User_ID) on update cascade,
     foreign key (ISBN) references Book(ISBN) on update cascade
 );
 
-alter table `User` add constraint Wishlist foreign key (Wishlist) 
+alter table `User` add constraint Wishlist foreign key (Wishlist_ID) 
 references Wishlist(Wishlist_ID) on update cascade;
 
-alter table `User` add constraint ShoppingCart foreign key (ShoppingCart) 
+alter table `User` add constraint ShoppingCart foreign key (Cart_ID) 
 references ShoppingCart(Cart_ID) on update cascade;
 
 create table CreditCard (
-	Card_ID int primary key,
+    Card_ID int primary key,
     User_ID int,
-    CardNumber char(16) unique,
-		constraint card_num_check check(CardNumber not like '%[^0-9]%'), 
-		constraint card_len_chk check(char_length(CardNumber) = 16),
+    CardNumber char(16) unique not null,
+    constraint card_num_check check(CardNumber not like '%[^0-9]%'), 
+    constraint card_len_chk check(char_length(CardNumber) = 16),
     ExpirationDate varchar(5),
-		constraint date_chk check(ExpirationDate rlike '^[0-9]{2}/[0-9]{2}$'),
+    constraint date_chk check(ExpirationDate rlike '^[0-9]{2}/[0-9]{2}$'),
     CVV char(3) not null,
-		constraint cvv_num_chk check(CVV not like '%[^0-9]%'),
-		constraint cvv_len_chk check(char_length(CVV) = 3),
+    constraint cvv_num_chk check(CVV not like '%[^0-9]%'),
+    constraint cvv_len_chk check(char_length(CVV) = 3),
     foreign key (User_ID) references `User`(User_ID) 
-		on update cascade on delete cascade
+        on update cascade on delete cascade
 );
-
 
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Publisher.txt' INTO TABLE Publisher FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Publisher_ID, PublisherName);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Author.txt' INTO TABLE Author FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Author_ID, Publisher_ID, FirstName, LastName, Biography);
@@ -102,5 +109,3 @@ LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Wishlist
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/ShoppingCart.txt' INTO TABLE ShoppingCart FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Cart_ID, User_ID, ISBN);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/CartBook.txt' INTO TABLE CartBook FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Cart_ID, ISBN, Quantity);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/CreditCard.txt' INTO TABLE CreditCard FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Card_ID,  User_ID, CardNumber, ExpirationDate, CVV);
-
-

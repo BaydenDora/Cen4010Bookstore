@@ -20,7 +20,7 @@ public class Publisher
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int Publisher_ID;
 	
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 50)
 	private String PublisherName;
 	
 	@ManyToMany(mappedBy = "myPublishers")

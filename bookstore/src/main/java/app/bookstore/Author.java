@@ -33,7 +33,7 @@ public class Author
 	
 	@ManyToMany
 	@JoinTable(
-        name = "Publisher_ID", 
+        name = "Author_Publisher", 
         joinColumns = @JoinColumn(name = "Author_id"), 
         inverseJoinColumns = @JoinColumn(name = "Publisher_id")
     )
