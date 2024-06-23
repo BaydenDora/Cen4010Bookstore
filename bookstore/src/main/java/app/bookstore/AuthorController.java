@@ -16,16 +16,26 @@ public class AuthorController {
     @Autowired
     private AuthorRepo authorRepo;
 
+    @Autowired
+    private PublisherRepo publisherRepo;
+
     @PostMapping
     public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO) {
+        System.out.println("Received AuthorDTO: " + authorDTO); // Add logging to debug
+
         if (authorDTO.getBiography() == null || authorDTO.getBiography().trim().isEmpty()) {
+            System.out.println("Invalid biography: " + authorDTO.getBiography()); // Add logging to debug
             return ResponseEntity.badRequest().body(null);
         }
-        
+
         Author author = new Author();
         author.setFirstName(authorDTO.getFirstName());
         author.setLastName(authorDTO.getLastName());
         author.setBiography(authorDTO.getBiography());
+
+        // Fetch and set publishers
+        List<Publisher> publishers = (List<Publisher>) publisherRepo.findAllById(authorDTO.getPublisherIds());
+        author.setPublishers(publishers);
 
         Author savedAuthor = authorRepo.save(author);
 
@@ -44,7 +54,12 @@ public class AuthorController {
         authorDTO.setFirstName(author.get().getFirstName());
         authorDTO.setLastName(author.get().getLastName());
         authorDTO.setBiography(author.get().getBiography());
-        // Set publisherIds if necessary
+
+        List<Integer> publisherIds = author.get().getPublishers().stream()
+                .map(Publisher::getID)
+                .collect(Collectors.toList());
+        authorDTO.setPublisherIds(publisherIds);
+
         return ResponseEntity.ok(authorDTO);
     }
 
@@ -58,7 +73,12 @@ public class AuthorController {
             authorDTO.setFirstName(author.getFirstName());
             authorDTO.setLastName(author.getLastName());
             authorDTO.setBiography(author.getBiography());
-            // Set publisherIds if necessary
+
+            List<Integer> publisherIds = author.getPublishers().stream()
+                    .map(Publisher::getID)
+                    .collect(Collectors.toList());
+            authorDTO.setPublisherIds(publisherIds);
+
             return authorDTO;
         }).collect(Collectors.toList());
 
