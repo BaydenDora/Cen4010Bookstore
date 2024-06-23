@@ -1,7 +1,8 @@
 package app.bookstore;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface WishlistRepo extends CrudRepository<Wishlist, Long> {
-
+@Repository
+public interface WishlistRepo extends JpaRepository<Wishlist, Integer> {
 }

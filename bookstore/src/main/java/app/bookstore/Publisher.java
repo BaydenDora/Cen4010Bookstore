@@ -3,7 +3,9 @@ package app.bookstore;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,16 +22,17 @@ public class Publisher
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "Publisher_ID")
 	private int Publisher_ID;
 	
 	@Column(name = "PublisherName", nullable = false, length = 50)
 	private String PublisherName;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "Publisher_ID")
+	@ManyToMany(mappedBy = "publishers")
     private List<Author> AuthorsPublished = new ArrayList<>();
 	
-	@JsonIgnore
+	@JsonManagedReference(value = "publisher-books")
 	@OneToMany(mappedBy = "myPublisher")
     private List<Book> BooksPublished = new ArrayList<>();
 	

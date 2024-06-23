@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,6 +24,7 @@ public class Author
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "Author_ID")
 	private int Author_ID; // 9 digit number to differentiate different authors (Some authors may share names)
 	
 	@Column(name = "FirstName", nullable = false, length = 100)
@@ -41,9 +43,9 @@ public class Author
         joinColumns = @JoinColumn(name = "Author_ID"), 
         inverseJoinColumns = @JoinColumn(name = "Publisher_ID")
     )
-	private List<Publisher> Publisher_ID = new ArrayList<>();
+	private List<Publisher> publishers = new ArrayList<>();
 	
-	@JsonBackReference
+	@JsonManagedReference(value = "author-books")
 	@OneToMany(mappedBy = "myAuthor")
     private List<Book> BooksWritten = new ArrayList<>();
 	
@@ -106,7 +108,7 @@ public class Author
 	
 	public List<Publisher> getPublishers()
 	{
-		return Publisher_ID;
+		return publishers;
 	}
 	
 	
@@ -140,6 +142,6 @@ public class Author
 	
 	protected void setPublishers (List<Publisher> publishers)
 	{
-		Publisher_ID = publishers;
+		this.publishers = publishers;
 	}
 }

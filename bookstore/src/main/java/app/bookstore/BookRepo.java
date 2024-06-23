@@ -1,28 +1,11 @@
 package app.bookstore;
 
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface BookRepo extends CrudRepository<Book, Long>
-{
-	Book findByISBN(long ISBN);
-	
-	void listBookDetails (long ISBN);
-	
-	List<Book> findByPublisher(Publisher publisher);
-	
-	List<Book> findByAuthor(Author author);
-	
-	List<Book> findByGenre(String genre);
-	
-	List<Book> findByRating(int rating);
-	
-	List<Book> findTopTenSellers();
-	
-	void discountByPublisher(Publisher publisher);
+import java.util.Optional;
+
+@Repository
+public interface BookRepo extends JpaRepository<Book, Long> {
+    Optional<Book> findByISBN(String isbn);
 }
-
-
-
-
-

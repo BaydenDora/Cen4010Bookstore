@@ -3,6 +3,7 @@ package app.bookstore;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -42,11 +43,12 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name ="Author_ID", nullable = false)
-	@JsonManagedReference
+	@JsonBackReference(value = "author-books")
     private Author myAuthor;
 
     @ManyToOne
     @JoinColumn(name ="Publisher_ID", nullable = false)
+    @JsonBackReference(value = "publisher-books")
     private Publisher myPublisher;
 
 	@JsonIgnore
