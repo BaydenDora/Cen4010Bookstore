@@ -1,11 +1,6 @@
 package app.bookstore;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.Optional;
-
-@Repository
-public interface BookRepo extends JpaRepository<Book, Long> {
-    Optional<Book> findByISBN(String isbn);
+public interface BookRepo extends CrudRepository<Book, Long> {
 }

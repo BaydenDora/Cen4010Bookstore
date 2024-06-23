@@ -18,130 +18,107 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity
 @Table(name = "author")
-public class Author 
-{
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "Author_ID")
-	private int Author_ID; // 9 digit number to differentiate different authors (Some authors may share names)
-	
-	@Column(name = "FirstName", nullable = false, length = 100)
-	private String FirstName;
-	
-	@Column(name = "LastName", nullable = false, length = 100)
-	private String LastName;
-	
-	@Column(name = "Biography", nullable = false, length = 1000)
-	private String Biography;
-	
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(
+public class Author {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Author_ID")
+    private int Author_ID;
+
+    @Column(name = "FirstName", nullable = false, length = 100)
+    private String FirstName;
+
+    @Column(name = "LastName", nullable = false, length = 100)
+    private String LastName;
+
+    @Column(name = "Biography", nullable = false, length = 1000)
+    private String Biography;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
         name = "Author_Publisher", 
         joinColumns = @JoinColumn(name = "Author_ID"), 
         inverseJoinColumns = @JoinColumn(name = "Publisher_ID")
     )
-	private List<Publisher> publishers = new ArrayList<>();
-	
-	@JsonManagedReference(value = "author-books")
-	@OneToMany(mappedBy = "myAuthor")
-    private List<Book> BooksWritten = new ArrayList<>();
-	
+    private List<Publisher> publishers = new ArrayList<>();
 
-	// No-Arg Constructor
-	public Author ()
-	{
-		setAuthorID (000000000);
-		setFirstName ("Jo");
-		setLastName ("Doe");
-		setBiography ("Biography");
-		setPublishers (new ArrayList<>());
-	}
-	
-	// Constructor
-	public Author (int ID, String firstName, String lastName, String bio, List<Publisher> publishers)
-	{
-		setAuthorID (ID);
-		setFirstName (firstName);
-		setLastName (lastName);
-		setBiography (bio);
-		setPublishers (publishers);
-	}
-	
-	//Copy constructor
-	public Author(Author cloneAuthor)
-	{
-		setAuthorID (cloneAuthor.getAuthorID());
-		setFirstName (cloneAuthor.getFirstName());
-		setLastName (cloneAuthor.getLastName());
-		setBiography (cloneAuthor.getBiography());
-		setPublishers (cloneAuthor.getPublishers());
-	}
-	
-	// Getters
-	public int getAuthorID ()
-	{
-		return Author_ID;
-	}
-	
-	public String getFirstName ()
-	{
-		return FirstName;
-	}
-	
-	public String getLastName ()
-	{
-		return LastName;
-	}
-	
-	public String getName ()
-	{
-		return FirstName + " " + LastName;
-	}
-	
-	public String getBiography ()
-	{
-		return Biography;
-	}
-	
-	public List<Publisher> getPublishers()
-	{
-		return publishers;
-	}
-	
-	
-	// Setters
-	protected void setAuthorID (int ID)
-	{
-		Author_ID = ID;
-		if (Author_ID < 0) Author_ID = 0; 
-	}
-	
-	protected void setFirstName (String firstName)
-	{
-		FirstName = firstName;
-	}
-	
-	protected void setLastName (String lastName)
-	{
-		LastName = lastName;
-	}
-	
-	protected void setName (String firstName, String lastName)
-	{
-		FirstName = firstName;
-		LastName = lastName;
-	}
-	
-	protected void setBiography (String bio)
-	{
-		Biography = bio;
-	}
-	
-	protected void setPublishers (List<Publisher> publishers)
-	{
-		this.publishers = publishers;
-	}
+    @JsonManagedReference(value = "author-books")
+    @OneToMany(mappedBy = "myAuthor")
+    private List<Book> BooksWritten = new ArrayList<>();
+
+    public Author() {
+        setAuthorID(000000000);
+        setFirstName("Jo");
+        setLastName("Doe");
+        setBiography("Biography");
+        setPublishers(new ArrayList<>());
+    }
+
+    public Author(int ID, String firstName, String lastName, String bio, List<Publisher> publishers) {
+        setAuthorID(ID);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setBiography(bio);
+        setPublishers(publishers);
+    }
+
+    public Author(Author cloneAuthor) {
+        setAuthorID(cloneAuthor.getAuthorID());
+        setFirstName(cloneAuthor.getFirstName());
+        setLastName(cloneAuthor.getLastName());
+        setBiography(cloneAuthor.getBiography());
+        setPublishers(cloneAuthor.getPublishers());
+    }
+
+    public int getAuthorID() {
+        return Author_ID;
+    }
+
+    public String getFirstName() {
+        return FirstName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public String getName() {
+        return FirstName + " " + LastName;
+    }
+
+    public String getBiography() {
+        return Biography;
+    }
+
+    public List<Publisher> getPublishers() {
+        return publishers;
+    }
+
+    protected void setAuthorID(int ID) {
+        Author_ID = ID;
+        if (Author_ID < 0) Author_ID = 0;
+    }
+
+    protected void setFirstName(String firstName) {
+        FirstName = firstName;
+    }
+
+    protected void setLastName(String lastName) {
+        LastName = lastName;
+    }
+
+    protected void setName(String firstName, String lastName) {
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    protected void setBiography(String bio) {
+        Biography = bio;
+    }
+
+    protected void setPublishers(List<Publisher> publishers) {
+        this.publishers = publishers;
+    }
 }

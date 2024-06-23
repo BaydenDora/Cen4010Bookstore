@@ -1,8 +1,6 @@
 package app.bookstore;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public interface PublisherRepo extends JpaRepository<Publisher, Integer> {
+public interface PublisherRepo extends CrudRepository<Publisher, Integer> {
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,16 +20,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity
 @Table(name = "book")
 public class Book {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long id; // Internal ID
+    private Long id;
 
     @Column(name = "ISBN", nullable = false, unique = true, length = 13)
-    private String ISBN; // ISBNs are 13-digit numbers
+    private String ISBN;
 
     @Column(name = "BookName", nullable = false, length = 500)
     private String myTitle;
@@ -42,20 +41,20 @@ public class Book {
     private int myYearPublished;
 
     @ManyToOne
-    @JoinColumn(name ="Author_ID", nullable = false)
-	@JsonBackReference(value = "author-books")
+    @JoinColumn(name = "Author_ID", nullable = false)
+    @JsonBackReference(value = "author-books")
     private Author myAuthor;
 
     @ManyToOne
-    @JoinColumn(name ="Publisher_ID", nullable = false)
+    @JoinColumn(name = "Publisher_ID", nullable = false)
     @JsonBackReference(value = "publisher-books")
     private Publisher myPublisher;
 
-	@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "myBook")
     private List<Review> reviews = new ArrayList<>();
 
-	@JsonIgnore
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "shoppingcart_books",
@@ -64,7 +63,7 @@ public class Book {
     )
     private List<ShoppingCart> shoppingCarts = new ArrayList<>();
 
-	@JsonIgnore
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "wishlist_books",
@@ -83,47 +82,29 @@ public class Book {
     @Column(name = "Price", nullable = false)
     private float myPrice;
 
-    // No-Arg Constructor
     public Book() {
-        setISBN ("0000000000000"); // ISBNs are 13-digit numbers
-        setTitle ("The Book");
-        setDescription ("Book Description");
-        setYearPublished (0);
-        setAuthor (new Author());
-        setGenre (Genre.TEXTBOOK);
-        setPublisher (new Publisher());
-        setCopiesSold (0);
-        setPrice (0);
+        setISBN("0000000000000");
+        setTitle("The Book");
+        setDescription("Book Description");
+        setYearPublished(0);
+        setGenre(Genre.TEXTBOOK);
+        setCopiesSold(0);
+        setPrice(0);
     }
 
-    // Constructor
-    public Book (String ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, float price) {
-        setISBN (ISBN);
-        setTitle (title);
-        setDescription (description);
-        setYearPublished (yearPublished);
-        setAuthor (author);
-        setPublisher (publisher);
-        setGenre (genre);
-        setCopiesSold (copiesSold);
-        setPrice (price);
+    public Book(String ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, float price) {
+        setISBN(ISBN);
+        setTitle(title);
+        setDescription(description);
+        setYearPublished(yearPublished);
+        setAuthor(author);
+        setPublisher(publisher);
+        setGenre(genre);
+        setCopiesSold(copiesSold);
+        setPrice(price);
     }
 
-    // Copy Constructor
-    public Book (Book cloneBook) {
-        setISBN (cloneBook.getISBN());
-        setTitle (cloneBook.getTitle());
-        setDescription (cloneBook.getDescription());
-        setYearPublished (cloneBook.getYearPublished());
-        setAuthor (cloneBook.getAuthor());
-        setPublisher (cloneBook.getPublisher());
-        setGenre (cloneBook.getGenre());
-        setCopiesSold (cloneBook.getCopiesSold());
-        setPrice (cloneBook.getPrice());
-    }
-
-    // Getters
-    public Long getID(){
+    public Long getId() {
         return id;
     }
 
@@ -175,60 +156,59 @@ public class Book {
         return wishlists;
     }
 
-    // Setters
-    protected void setID(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    protected void setISBN(String ISBN) {
+    public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
 
-    protected void setTitle(String title) {
-        myTitle = title;
+    public void setTitle(String title) {
+        this.myTitle = title;
         if (myTitle.trim().isEmpty()) myTitle = "Title";
     }
 
-    protected void setDescription(String description) {
-        myDescription = description;
+    public void setDescription(String description) {
+        this.myDescription = description;
         if (myDescription.trim().isEmpty()) myDescription = "Description";
     }
 
-    protected void setYearPublished(int yearPublished) {
-        myYearPublished = yearPublished;
+    public void setYearPublished(int yearPublished) {
+        this.myYearPublished = yearPublished;
     }
 
-    protected void setAuthor (Author author) {
-        myAuthor = author;
+    public void setAuthor(Author author) {
+        this.myAuthor = author;
     }
 
-    protected void setPublisher (Publisher publisher) {
-        myPublisher = publisher;
+    public void setPublisher(Publisher publisher) {
+        this.myPublisher = publisher;
     }
 
-    protected void setGenre (Genre genre) {
-        myGenre = genre;
+    public void setGenre(Genre genre) {
+        this.myGenre = genre;
     }
 
-    protected void setCopiesSold (int copiesSold) {
-        myCopiesSold = copiesSold;
+    public void setCopiesSold(int copiesSold) {
+        this.myCopiesSold = copiesSold;
         if (myCopiesSold < 0) myCopiesSold = 0;
     }
 
-    protected void setPrice (float price) {
-        myPrice = price;
+    public void setPrice(float price) {
+        this.myPrice = price;
         if (myPrice < 0) myPrice = 0;
     }
 
-    protected void setReviews(List<Review> reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 
-    protected void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
+    public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
         this.shoppingCarts = shoppingCarts;
     }
 
-    protected void setWishlists(List<Wishlist> wishlists) {
+    public void setWishlists(List<Wishlist> wishlists) {
         this.wishlists = wishlists;
     }
 }
