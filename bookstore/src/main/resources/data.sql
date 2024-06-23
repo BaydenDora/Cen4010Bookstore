@@ -122,7 +122,7 @@ CREATE TABLE CreditCard (
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Publisher.txt' INTO TABLE Publisher FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Publisher_ID, PublisherName);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Author.txt' INTO TABLE Author FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Author_ID, Publisher_ID, FirstName, LastName, Biography);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Book.txt' INTO TABLE Book FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (ISBN, BookName, Author_ID, Publisher_ID, BookDescription, Genre, YearPublished, CopiesSold, Price, id);
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/User.txt' INTO TABLE `User` FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (User_ID, Username, Email, Pass);
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/User.txt' INTO TABLE `User` FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (User_ID, Username, Email, Pass, HomeAddress);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Review.txt' INTO TABLE Review FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Review_ID, ISBN, User_ID, `Text`, Rating, `Date`);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/Wishlist.txt' INTO TABLE Wishlist FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Wishlist_ID, WishlistName, User_ID);
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/SQLData/WishlistBook.txt' INTO TABLE wishlist_books FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' (Wishlist_ID, ISBN);
