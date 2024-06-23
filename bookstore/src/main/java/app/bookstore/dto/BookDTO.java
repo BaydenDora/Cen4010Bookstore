@@ -1,15 +1,35 @@
 package app.bookstore.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BookDTO {
     private Long id;
+
+    @JsonProperty("ISBN")
     private String ISBN;
+
+    @JsonProperty("myTitle")
     private String myTitle;
+
+    @JsonProperty("myDescription")
     private String myDescription;
+
+    @JsonProperty("myYearPublished")
     private int myYearPublished;
-    private Integer myAuthorId;  // Changed from Long to Integer
-    private Integer myPublisherId;  // Changed from Long to Integer
+
+    @JsonProperty("myAuthorId")
+    private Integer myAuthorId;
+
+    @JsonProperty("myPublisherId")
+    private Integer myPublisherId;
+
+    @JsonProperty("myGenre")
     private String myGenre;
+
+    @JsonProperty("myCopiesSold")
     private int myCopiesSold;
+
+    @JsonProperty("myPrice")
     private float myPrice;
 
     // Getters and setters

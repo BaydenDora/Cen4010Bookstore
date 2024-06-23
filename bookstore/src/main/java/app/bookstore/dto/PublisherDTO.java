@@ -1,35 +1,63 @@
 package app.bookstore.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class PublisherDTO {
-    private int Publisher_ID;
-    private String PublisherName;
-    private List<Integer> authorIds;
 
-    // Getters and setters
+    @JsonProperty("publisherID") // ensure this matches the JSON key
+    private int publisherID;
 
-    public int getPublisher_ID() {
-        return Publisher_ID;
+    @JsonProperty("publisherName") // ensure this matches the JSON key
+    private String publisherName;
+
+    @JsonProperty("authorsPublished") // ensure this matches the JSON key
+    private List<Integer> authorsPublished;
+
+    @JsonProperty("booksPublished") // ensure this matches the JSON key
+    private List<Integer> booksPublished;
+
+    // Getters and Setters
+
+    @Override
+    public String toString() {
+        return "PublisherDTO{" +
+                "publisherID=" + publisherID +
+                ", publisherName='" + publisherName + '\'' +
+                ", authorsPublished=" + authorsPublished +
+                ", booksPublished=" + booksPublished +
+                '}';
     }
 
-    public void setPublisher_ID(int publisher_ID) {
-        Publisher_ID = publisher_ID;
+    public int getPublisherID() {
+        return publisherID;
+    }
+
+    public void setPublisherID(int publisherID) {
+        this.publisherID = publisherID;
     }
 
     public String getPublisherName() {
-        return PublisherName;
+        return publisherName;
     }
 
     public void setPublisherName(String publisherName) {
-        PublisherName = publisherName;
+        this.publisherName = publisherName;
     }
 
-    public List<Integer> getAuthorIds() {
-        return authorIds;
+    public List<Integer> getAuthorsPublished() {
+        return authorsPublished;
     }
 
-    public void setAuthorIds(List<Integer> authorIds) {
-        this.authorIds = authorIds;
+    public void setAuthorsPublished(List<Integer> authorsPublished) {
+        this.authorsPublished = authorsPublished;
+    }
+
+    public List<Integer> getBooksPublished() {
+        return booksPublished;
+    }
+
+    public void setBooksPublished(List<Integer> booksPublished) {
+        this.booksPublished = booksPublished;
     }
 }

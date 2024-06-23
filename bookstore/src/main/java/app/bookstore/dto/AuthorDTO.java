@@ -1,46 +1,57 @@
 package app.bookstore.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class AuthorDTO {
-    private int Author_ID;
-    private String FirstName;
-    private String LastName;
-    private String Biography;
+    @JsonProperty("Author_ID")
+    private int authorID;
+
+    @JsonProperty("FirstName")
+    private String firstName;
+
+    @JsonProperty("LastName")
+    private String lastName;
+
+    @JsonProperty("Biography")
+    private String biography;
+
+    @JsonProperty("PublisherIds")
     private List<Integer> publisherIds;
 
     // Getters and setters
 
-    public int getAuthor_ID() {
-        return Author_ID;
+    public int getAuthorID() {
+        return authorID;
     }
 
-    public void setAuthor_ID(int author_ID) {
-        Author_ID = author_ID;
+    public void setAuthorID(int authorID) {
+        this.authorID = authorID;
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getBiography() {
-        return Biography;
+        return biography;
     }
 
     public void setBiography(String biography) {
-        Biography = biography;
+        this.biography = biography;
     }
 
     public List<Integer> getPublisherIds() {

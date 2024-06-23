@@ -16,7 +16,7 @@ public class BookController {
 
     @Autowired
     private BookRepo bookRepo;
-    
+
     @Autowired
     private AuthorRepo authorRepo;
 
@@ -73,24 +73,23 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List<BookDTO>> getAllBooks() {
-    List<Book> books = new ArrayList<>();
-    bookRepo.findAll().forEach(books::add);  // Convert Iterable to List
+        List<Book> books = new ArrayList<>();
+        bookRepo.findAll().forEach(books::add);  // Convert Iterable to List
 
-    List<BookDTO> bookDTOs = books.stream().map(book -> {
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setId(book.getId());
-        bookDTO.setISBN(book.getISBN());
-        bookDTO.setMyTitle(book.getTitle());
-        bookDTO.setMyDescription(book.getDescription());
-        bookDTO.setMyYearPublished(book.getYearPublished());
-        bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
-        bookDTO.setMyPublisherId(book.getPublisher().getID());
-        bookDTO.setMyGenre(book.getGenre().name());
-        bookDTO.setMyCopiesSold(book.getCopiesSold());
-        bookDTO.setMyPrice(book.getPrice());
-        return bookDTO;
-    }).collect(Collectors.toList());
-    return ResponseEntity.ok(bookDTOs);
-}
-
+        List<BookDTO> bookDTOs = books.stream().map(book -> {
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(book.getId());
+            bookDTO.setISBN(book.getISBN());
+            bookDTO.setMyTitle(book.getTitle());
+            bookDTO.setMyDescription(book.getDescription());
+            bookDTO.setMyYearPublished(book.getYearPublished());
+            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+            bookDTO.setMyPublisherId(book.getPublisher().getID());
+            bookDTO.setMyGenre(book.getGenre().name());
+            bookDTO.setMyCopiesSold(book.getCopiesSold());
+            bookDTO.setMyPrice(book.getPrice());
+            return bookDTO;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(bookDTOs);
+    }
 }

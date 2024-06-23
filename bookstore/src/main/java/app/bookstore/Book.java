@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +30,7 @@ public class Book {
     private Long id;
 
     @Column(name = "ISBN", nullable = false, unique = true, length = 13)
+    @JsonProperty("ISBN")
     private String ISBN;
 
     @Column(name = "BookName", nullable = false, length = 500)
@@ -108,6 +110,7 @@ public class Book {
         return id;
     }
 
+    @JsonProperty("ISBN")
     public String getISBN() {
         return ISBN;
     }
