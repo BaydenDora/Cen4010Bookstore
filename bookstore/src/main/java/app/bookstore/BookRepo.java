@@ -3,7 +3,7 @@ package app.bookstore;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
-public interface BookRepo extends CrudRepository<Book, Integer>
+public interface BookRepo extends CrudRepository<Book, Long>
 {
 	Book findByISBN(long ISBN);
 	

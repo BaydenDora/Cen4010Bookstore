@@ -3,6 +3,8 @@ package app.bookstore;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,17 +19,19 @@ import jakarta.persistence.Table;
 public class Publisher 
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long myPublisherID;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int Publisher_ID;
 	
-	@Column(nullable = false, length = 100)
-	private String myName;
+	@Column(name = "PublisherName", nullable = false, length = 50)
+	private String PublisherName;
 	
-	@ManyToMany(mappedBy = "myPublishers")
-    private List<Author> authorsPublished = new ArrayList<>();
+	@JsonIgnore
+	@ManyToMany(mappedBy = "Publisher_ID")
+    private List<Author> AuthorsPublished = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "myPublisher")
-    private List<Book> booksPublished = new ArrayList<>();
+    private List<Book> BooksPublished = new ArrayList<>();
 	
 	// No-Arg constructor
 	public Publisher()
@@ -37,7 +41,7 @@ public class Publisher
 	}
 	
 	// Constructor
-	public Publisher(long ID, String name)
+	public Publisher(int ID, String name)
 	{
 		setID(ID);
 		setName(name);
@@ -51,24 +55,44 @@ public class Publisher
 	}
 	
 	// Getters
-	public long getID ()
+	public int getID ()
 	{
-		return myPublisherID;
+		return Publisher_ID;
 	}
 	
 	public String getName ()
 	{
-		return myName;
+		return PublisherName;
+	}
+	
+	public List<Author> getAuthors ()
+	{
+		return AuthorsPublished;
+	}
+	
+	public List<Book> getBooks ()
+	{
+		return BooksPublished;
 	}
 	
 	// Setters
-	protected void setID (long ID)
+	protected void setID (int ID)
 	{
-		myPublisherID = ID;
+		Publisher_ID = ID;
 	}
 	
 	protected void setName (String name)
 	{
-		myName = name;
+		PublisherName = name;
+	}
+	
+	protected void setAuthors (List<Author> authors)
+	{
+		AuthorsPublished = authors;
+	}
+	
+	protected void setBooks (List<Book> books)
+	{
+		BooksPublished = books;
 	}
 }
