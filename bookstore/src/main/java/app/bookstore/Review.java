@@ -4,6 +4,7 @@ import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,8 +20,8 @@ public class Review {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int Review_ID;
 
-    @ManyToOne
-    @JoinColumn(name = "ISBN", nullable = false, columnDefinition = "VARCHAR(13)")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ISBN", referencedColumnName = "ISBN", nullable = false, columnDefinition = "VARCHAR(13)")
     private Book myBook;
 
     @ManyToOne

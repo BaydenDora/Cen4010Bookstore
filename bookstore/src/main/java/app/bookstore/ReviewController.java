@@ -1,10 +1,14 @@
 package app.bookstore;
 
+import app.bookstore.dto.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/reviews")
@@ -13,22 +17,70 @@ public class ReviewController {
     @Autowired
     private ReviewRepo reviewRepo;
 
-    @GetMapping
-    public List<Review> getAllReviews() {
-        return reviewRepo.findAll();
+    @Autowired
+    private BookRepo bookRepo;
+
+    @Autowired
+    private UserRepo userRepo;
+
+    @PostMapping
+    public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO reviewDTO) {
+        Optional<Book> book = bookRepo.findByISBN(reviewDTO.getISBN());
+        if (!book.isPresent()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Optional<User> user = userRepo.findById(reviewDTO.getUserID());
+        if (!user.isPresent()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Review review = new Review();
+        review.setIsbn(book.get());
+        review.setUsername(user.get());
+        review.setComment(reviewDTO.getComment());
+        review.setRating(reviewDTO.getRating());
+        review.setDate(reviewDTO.getDate() != null ? reviewDTO.getDate() : new Date());
+
+        Review savedReview = reviewRepo.save(review);
+
+        reviewDTO.setReviewID(savedReview.getID());
+        return ResponseEntity.ok(reviewDTO);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Review> getReviewById(@PathVariable Integer id) {
-        return reviewRepo.findById(id)
-                .map(review -> ResponseEntity.ok().body(review))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ReviewDTO> getReviewById(@PathVariable int id) {
+        Optional<Review> review = reviewRepo.findById(id);
+        if (!review.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ReviewDTO reviewDTO = new ReviewDTO();
+        reviewDTO.setReviewID(review.get().getID());
+        reviewDTO.setISBN(review.get().getIsbn().getISBN());
+        reviewDTO.setUserID(review.get().getUsername().getUserID());
+        reviewDTO.setComment(review.get().getComment());
+        reviewDTO.setRating(review.get().getRating());
+        reviewDTO.setDate(review.get().getDate());
+
+        return ResponseEntity.ok(reviewDTO);
     }
 
-    @PostMapping
-    public Review createReview(@RequestBody Review review) {
-        return reviewRepo.save(review);
-    }
+    @GetMapping
+    public ResponseEntity<List<ReviewDTO>> getAllReviews() {
+        List<Review> reviews = reviewRepo.findAll();
 
-    // Additional methods for update and delete can be added here
+        List<ReviewDTO> reviewDTOs = reviews.stream().map(review -> {
+            ReviewDTO reviewDTO = new ReviewDTO();
+            reviewDTO.setReviewID(review.getID());
+            reviewDTO.setISBN(review.getIsbn().getISBN());
+            reviewDTO.setUserID(review.getUsername().getUserID());
+            reviewDTO.setComment(review.getComment());
+            reviewDTO.setRating(review.getRating());
+            reviewDTO.setDate(review.getDate());
+            return reviewDTO;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(reviewDTOs);
+    }
 }
