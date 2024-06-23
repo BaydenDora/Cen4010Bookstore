@@ -3,66 +3,59 @@ package app.bookstore;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "wishlist")
 public class Wishlist 
 {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int Wishlist_ID;
-	
-    @ManyToMany(mappedBy = "wishlists")
-    private List<Book> myBooksWishlisted = new ArrayList<>();
-	
-    @ManyToOne
-    @JoinColumn(name = "User_ID", nullable = false)
-	private User myUserID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Wishlist_ID;
     
-    @Column(name = "WishlistName", length = 25)
-    private String myWishlistName;
-	
-	// Getters
+    @ManyToMany
+    @JoinTable(
+        name = "wishlist_books",
+        joinColumns = @JoinColumn(name = "Wishlist_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ISBN", referencedColumnName = "ISBN")
+    )
+    private List<Book> myBooksInWishlist = new ArrayList<>();
+    
+    @OneToOne
+    @JoinColumn(name = "User_ID", nullable = false)
+    private User myUserID;
+    
+    // Getters
     public int getWishlistID() {
         return Wishlist_ID;
     }
 
-    public List<Book> getBooksWishlisted() {
-        return myBooksWishlisted;
+    public List<Book> getBooksInWishlist() {
+        return myBooksInWishlist;
     }
 
     public User getUser() {
         return myUserID;
     }
-    
-    public String getName() {
-    	return myWishlistName;
-    }
 
     // Setters
     public void setWishlistID(int wishlistID) {
-    	Wishlist_ID = wishlistID;
+        Wishlist_ID = wishlistID;
     }
 
-    public void setBooksWishlisted(List<Book> booksWishlisted) {
-    	myBooksWishlisted = booksWishlisted;
+    public void setBooksInWishlist(List<Book> booksInWishlist) {
+        myBooksInWishlist = booksInWishlist;
     }
 
     public void setUser(User user) {
-    	myUserID = user;
+        myUserID = user;
     }
-    
-    public void setName(String name) {
-    	myWishlistName = name;
-    }
-	
 }
