@@ -1,4 +1,4 @@
-package com.GeekText.bookstore;
+package com.GeekText.bookstore.entities;
 
 import java.util.Date;
 
@@ -21,31 +21,31 @@ public class Review {
     
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
-    private Book myBook;
+    private Book book;
 
 	@ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-	private User myUserID;
+	private User user;
     
     @Column(name = "comment", length = 300)
-    private String myComment;
+    private String comment;
 
     @Column(name = "rating")
-    private int myRating;
+    private int rating;
 
     @Column(name = "date", length = 30)
-    private Date myDate;
+    private Date date;
 
    // Constructors
     public Review() {}
 
     public Review(int id, Book book, User user, int rating, String comment, Date date) {
-    	reviewID = id;
-    	myBook = book;
-        myUserID = user;
-        myRating = rating;
-        myComment = comment;
-        myDate = date;
+    	this.reviewID = id;
+    	this.book = book;
+        this.user = user;
+        this.rating = rating;
+        this.comment = comment;
+        this.date = date;
     }
     
     //Getters and Setters
@@ -58,42 +58,42 @@ public class Review {
     }
     
     public Book getIsbn() {
-        return myBook;
+        return book;
     }
 
     public void setIsbn(Book book) {
-        myBook = book;
+        this.book = book;
     }
 
     public User getUsername() {
-        return myUserID;
+        return user;
     }
 
     public void setUsername(User user) {
-        myUserID = user;
+        this.user = user;
     }
 
-    public void setCommentText(String commentText) {
-    	myComment = commentText;
+    public int getRating() {
+        return rating;
     }
 
-    public void setDatePosted(Date datePosted) {
-    	myDate = datePosted;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
-    public void setUserID(User userID) {
-    	myUserID = userID;
+    public String getComment() {
+        return comment;
     }
 
     public void setComment(String comment) {
-        myComment = comment;
+        this.comment = comment;
     }
 
     public Date getDate() {
-        return myDate;
+        return date;
     }
 
     public void setTime(Date date) {
-        myDate = date;
+        this.date = date;
     }
 }

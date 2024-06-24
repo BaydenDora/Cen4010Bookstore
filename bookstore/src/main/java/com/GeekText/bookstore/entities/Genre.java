@@ -1,4 +1,4 @@
-package com.GeekText.bookstore;
+package com.GeekText.bookstore.entities;
 
 public enum Genre {
     TEXTBOOK, ACADEMIC, REPORT, BIOGRAPHY, MANUAL, FANTASY, SCIENCE_FICTION, ACTION, ADVENTURE, HISTORICAL, FICTION, NON_FICTION, OTHER

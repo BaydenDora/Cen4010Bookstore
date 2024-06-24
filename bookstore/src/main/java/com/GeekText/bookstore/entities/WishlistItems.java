@@ -1,3 +1,4 @@
+package com.GeekText.bookstore.entities;
 // package com.GeekText.bookstore;
 
 // import jakarta.persistence.Entity;

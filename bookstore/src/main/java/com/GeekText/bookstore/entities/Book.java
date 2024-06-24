@@ -1,4 +1,4 @@
-package com.GeekText.bookstore;
+package com.GeekText.bookstore.entities;
 
 
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "book")
@@ -34,6 +33,7 @@ public class Book
 	@Column(name = "BookDescription", nullable = false, length = 1000)
 	private String myDescription;
 	
+
 	@Column(name = "YearPublished", nullable = false, length = 4)
 	private int myYearPublished;
 	
@@ -45,7 +45,7 @@ public class Book
 	@JoinColumn(name ="Publisher_ID", nullable = false)
 	private Publisher myPublisher;
 	
-	@OneToMany(mappedBy = "myBook")
+	@OneToMany(mappedBy = "book")
     private List<Review> reviews = new ArrayList<>();
 	
 	@ManyToMany
@@ -65,12 +65,12 @@ public class Book
     private List<Wishlist> wishlists = new ArrayList<>();
 	
 	@Column(name = "Genre", nullable = false, length = 100)
-	private Genre myGenre; //enum take examples from MySQL
+	private String myGenre; //enum take examples from MySQL
 
 	@Column(name = "CopiesSold", nullable = false, length = 1000)
 	private int myCopiesSold;
 	
-	@Column(name = "Review", nullable = false, length = 100)
+	@Column(name = "Rating", nullable = false, length = 100)
 	private int myRating; // Ratings are item based need class for reviews
 	
 	@Column(name = "Price", nullable = false, length = 100)
@@ -84,7 +84,7 @@ public class Book
 		setDescription ("Book Description");
 		setYearPublished (0000);
 		setAuthor (new Author());
-		setGenre (Genre.TEXTBOOK);
+		setGenre ("Novel");
 		setPublisher (new Publisher());
 		setCopiesSold (0);
 		setRating (0);
@@ -94,7 +94,7 @@ public class Book
 	
 	
 	// Constructor
-	public Book (long ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, int rating, double price)
+	public Book (long ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, String genre, int copiesSold, int rating, double price)
 	{
 		setISBN (ISBN);
 		setTitle (title);
@@ -156,7 +156,7 @@ public class Book
 		return myPublisher;
 	}
 	
-	public Genre getGenre()
+	public String getGenre()
 	{
 		return myGenre;
 	}
@@ -228,9 +228,10 @@ public class Book
 		myPublisher = publisher;
 	}
 	
-	protected void setGenre (Genre genre)
+	protected void setGenre (String genre)
 	{
 		myGenre = genre;
+		if (myGenre.trim() == "" || myGenre == null) myGenre = "Genre";
 	}
 	
 	protected void setCopiesSold (int copiesSold)

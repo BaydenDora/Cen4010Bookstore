@@ -1,6 +1,6 @@
 drop database if exists GeekText_bookstore;
 create schema GeekText_bookstore;
-use GGeekText_bookstore;
+use GeekText_bookstore;
 
 create table Publisher (
 	Publisher_ID int primary key,
@@ -53,7 +53,7 @@ create table Review (
     `Date` datetime,
     primary key (ISBN, User_ID),
     foreign key (ISBN) references Book(ISBN),
-    foreign key (User_ID) references `User`(User_ID) on update cascade
+    foreign key (User_ID) references `User`(User_ID)
 );
 
 create table Wishlist (

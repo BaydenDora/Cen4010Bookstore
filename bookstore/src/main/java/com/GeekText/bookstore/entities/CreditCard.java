@@ -1,4 +1,4 @@
-package com.GeekText.bookstore;
+package com.GeekText.bookstore.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,7 +37,7 @@ public class CreditCard
 	
 	@ManyToOne
 	@JoinColumn(name ="User_ID", nullable = false)
-	private User myUserID;
+	private User user;
 	
 	// No-Arg constructor
     public CreditCard() 
@@ -106,7 +106,7 @@ public class CreditCard
     }
 
     public User getUser() {
-        return myUserID;
+        return user;
     }
     	
 	// Setters
@@ -146,7 +146,7 @@ public class CreditCard
 	}
 	
     protected void setUser(User user) {
-        myUserID = user;
+        this.user = user;
     }
 }
 

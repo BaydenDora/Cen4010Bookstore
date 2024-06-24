@@ -1,37 +1,38 @@
-package com.GeekText.bookstore;
-import com.GeekText.repo.UserRepository;
-import java.util.NoSuchElementException;
+package com.GeekText.bookstore.controllers;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.GeekText.bookstore.entities.User;
+import com.GeekText.bookstore.repo.UserRepo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.apache.coyote.BadRequestException;
 
 
 
-
-
-@RestController 
-@RequestMapping(path="/bookstore") // URL's start with /demo (after Application path)
+// @org.springframework.stereotype.Controller
+@RestController
+@RequestMapping(path="/demo") // URL's start with /demo (after Application path)
 public class UserController {
     @Autowired // Gets the bean called userRepository
-    private UserRepository userRepository;
+    private UserRepo userRepository;
 
-    public UserController(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
+    // public UserController(UserRepo userRepository){
+    //     this.userRepository = userRepository;
+    // }
 
     @PostMapping(path="/add") // POST request
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,9 +47,9 @@ public class UserController {
     }
 
     @GetMapping(path="/all") // GET request
-    public @ResponseBody List<User> getAllUsers() {
+    public @ResponseBody Iterable<User> getAllUsers() {
         // Returns a JSON or XML with the users
-        return this.userRepository.findAll();
+        return userRepository.findAll();
     }
 
     // @PutMapping(path="/all")

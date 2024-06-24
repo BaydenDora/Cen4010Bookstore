@@ -1,4 +1,4 @@
-package com.GeekText.repo;
+package com.GeekText.bookstore.repo;
 
 public interface BookRepoCustom 
 {

@@ -1,4 +1,4 @@
-package com.GeekText.bookstore;
+package com.GeekText.bookstore.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ShoppingCart
 	
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User myUserID;
+    private User user;
 	
     // Getters
     public int getCartID() {
@@ -43,7 +43,7 @@ public class ShoppingCart
     }
 
     public User getUser() {
-        return myUserID;
+        return user;
     }
 
     // Setters
@@ -56,6 +56,6 @@ public class ShoppingCart
     }
 
     public void setUser(User user) {
-        myUserID = user;
+        this.user = user;
     }
 }

@@ -1,5 +1,6 @@
-package com.GeekText.bookstore;
+package com.GeekText.bookstore.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
