@@ -1,7 +1,9 @@
 Project Members:
 Bayden Dora
-
+Marlon Delrosario
 Bryan Diaz
+Lucas Dos Santos
+Christian (Calderon? please correct me if I'm wrong) 
 
 Dependencies(things to download):
 MySql
