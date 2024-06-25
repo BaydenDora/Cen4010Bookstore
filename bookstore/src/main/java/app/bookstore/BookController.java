@@ -2,6 +2,7 @@ package app.bookstore;
 
 import app.bookstore.dto.BookDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +11,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
+	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+	
     @Autowired
     private BookRepo bookRepo;
 
@@ -93,23 +99,18 @@ public class BookController {
         return ResponseEntity.ok(bookDTOs);
     }
     
-    @GetMapping("/{genre}")
+    @GetMapping("/getByGenre/{genre}")
     public ResponseEntity<BookDTO> getBookByGenre(@PathVariable Genre genre) {
-        Optional<Book> book = bookRepo.findByGenre(genre);
-        if (!book.isPresent()) {
-            return ResponseEntity.notFound().build();
+        logger.info("Finding books with genre: " + genre);
+        List<Book> books = bookRepo.findByGenre(genre);
+
+        if(!books.isEmpty()){
+            logger.info("Here is a list of our " + genre + " books.");
+            return new ResponseEntity<BookDTO>(HttpStatus.OK);
         }
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setId(book.get().getId());
-        bookDTO.setISBN(book.get().getISBN());
-        bookDTO.setMyTitle(book.get().getTitle());
-        bookDTO.setMyDescription(book.get().getDescription());
-        bookDTO.setMyYearPublished(book.get().getYearPublished());
-        bookDTO.setMyAuthorId(book.get().getAuthor().getAuthorID());
-        bookDTO.setMyPublisherId(book.get().getPublisher().getID());
-        bookDTO.setMyGenre(book.get().getGenre().name());
-        bookDTO.setMyCopiesSold(book.get().getCopiesSold());
-        bookDTO.setMyPrice(book.get().getPrice());
-        return ResponseEntity.ok(bookDTO);
+        else{
+            logger.error("\"" + genre + "\" books not found. Please retry with a different genre");
+            return new ResponseEntity<BookDTO>(HttpStatus.NO_CONTENT);
+        }
     }
 }
