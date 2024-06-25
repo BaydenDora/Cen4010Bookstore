@@ -226,6 +226,7 @@ public class Book {
     	
         if (discountPercent < 0) discountPercent = 0;
         this.myDiscount = discountPercent;
+        
         setSellingPrice(myPrice * (1 - discountPercent));
     }
 
