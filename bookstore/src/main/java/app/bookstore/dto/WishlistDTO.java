@@ -8,6 +8,9 @@ public class WishlistDTO {
     @JsonProperty("wishlistID")
     private int wishlistID;
 
+    @JsonProperty("wishlistName")
+    private String wishlistName;
+
     @JsonProperty("userID")
     private int userID;
 
@@ -21,6 +24,14 @@ public class WishlistDTO {
 
     public void setWishlistID(int wishlistID) {
         this.wishlistID = wishlistID;
+    }
+
+    public String getWishlistName() {
+        return wishlistName;
+    }
+
+    public void setWishlistName(String wishlistName) {
+        this.wishlistName = wishlistName;
     }
 
     public int getUserID() {
