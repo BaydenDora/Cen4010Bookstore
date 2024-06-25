@@ -92,4 +92,24 @@ public class BookController {
         }).collect(Collectors.toList());
         return ResponseEntity.ok(bookDTOs);
     }
+    
+    @GetMapping("/{genre}")
+    public ResponseEntity<BookDTO> getBookByGenre(@PathVariable Genre genre) {
+        Optional<Book> book = bookRepo.findByGenre(genre);
+        if (!book.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.setId(book.get().getId());
+        bookDTO.setISBN(book.get().getISBN());
+        bookDTO.setMyTitle(book.get().getTitle());
+        bookDTO.setMyDescription(book.get().getDescription());
+        bookDTO.setMyYearPublished(book.get().getYearPublished());
+        bookDTO.setMyAuthorId(book.get().getAuthor().getAuthorID());
+        bookDTO.setMyPublisherId(book.get().getPublisher().getID());
+        bookDTO.setMyGenre(book.get().getGenre().name());
+        bookDTO.setMyCopiesSold(book.get().getCopiesSold());
+        bookDTO.setMyPrice(book.get().getPrice());
+        return ResponseEntity.ok(bookDTO);
+    }
 }
