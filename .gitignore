@@ -99,4 +99,5 @@ bookstore/target/classes/app/bookstore/BookstoreApplication.class
 bookstore/target/classes/app/bookstore/BookRepo.class
 bookstore/target/classes/app/bookstore/Book.class
 
+.properties
 *.class
