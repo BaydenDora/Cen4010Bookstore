@@ -1,5 +1,6 @@
 package app.bookstore;
 
+import app.bookstore.dto.BookDTO;
 import app.bookstore.dto.WishlistDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -76,5 +77,30 @@ public class WishlistController {
         }).collect(Collectors.toList());
 
         return ResponseEntity.ok(wishlistDTOs);
+    }
+
+    @GetMapping("/{id}/books")
+    public ResponseEntity<List<BookDTO>> getBooksInWishlist(@PathVariable int id) {
+        Optional<Wishlist> wishlist = wishlistRepo.findById(id);
+        if (!wishlist.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<BookDTO> booksInWishlist = wishlist.get().getBooksInWishlist().stream().map(book -> {
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(book.getId());
+            bookDTO.setISBN(book.getISBN());
+            bookDTO.setMyTitle(book.getTitle());
+            bookDTO.setMyDescription(book.getDescription());
+            bookDTO.setMyYearPublished(book.getYearPublished());
+            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+            bookDTO.setMyPublisherId(book.getPublisher().getID());
+            bookDTO.setMyGenre(book.getGenre().name());
+            bookDTO.setMyCopiesSold(book.getCopiesSold());
+            bookDTO.setMyPrice(book.getPrice());
+            return bookDTO;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(booksInWishlist);
     }
 }
