@@ -102,3 +102,6 @@ bookstore/target/classes/app/bookstore/Book.class
 .properties
 *.class
 bookstore/src/main/resources/application.properties
+/bookstore/target/classes
+*.class
+bookstore/target/classes/app/bookstore/Book.class
