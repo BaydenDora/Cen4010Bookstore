@@ -13,5 +13,12 @@ public interface BookRepo extends JpaRepository<Book, Long> {
     
     @Query (value = "SELECT b FROM Book b WHERE b.rating >= ?1")
     List<Book> findByRating(int rating); 
-    List<Book> findByGenre(Genre genre); 
+    
+    @Query(value = "SELECT b FROM Book b WHERE b.genre = ?1")
+    List<Book> findByGenre(Genre genre);
+    
+    @Query(value = "SELECT * FROM books ORDER BY copies_sold DESC LIMIT 10", nativeQuery = true)
+    List<Book> find10BestSellers(); 
+    
+    void discountByPublisher(String publisherName, double discountPercent);
 }

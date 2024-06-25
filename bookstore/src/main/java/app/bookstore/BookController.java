@@ -113,4 +113,13 @@ public class BookController {
             return new ResponseEntity<BookDTO>(HttpStatus.NO_CONTENT);
         }
     }
+    
+    @PatchMapping("/{publisherName}/discount/{discountPercent}")
+    public ResponseEntity<String> updateDiscountPercentByPublisherName(
+            @PathVariable String publisherName,
+            @PathVariable Double discountPercent) {
+
+    	bookRepo.discountByPublisher(publisherName, discountPercent);
+        return ResponseEntity.ok("Discount percent for publisher '" + publisherName + "' updated to " + discountPercent);
+    }
 }

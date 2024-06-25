@@ -83,6 +83,12 @@ public class Book {
 
     @Column(name = "Price", nullable = false)
     private float myPrice;
+    
+    @Column(name = "SellingPrice", nullable = false)
+    private float mySellingPrice;
+    
+    @Column(name = "DiscountPercent", nullable = false)
+    private float myDiscount;
 
     public Book() {
         setISBN("0000000000000");
@@ -146,6 +152,14 @@ public class Book {
     public float getPrice() {
         return myPrice;
     }
+    
+    public float getSellingPrice() {
+        return mySellingPrice;
+    }
+    
+    public float getDiscount() {
+        return myDiscount;
+    }
 
     public List<Review> getReviews() {
         return reviews;
@@ -201,6 +215,18 @@ public class Book {
     public void setPrice(float price) {
         this.myPrice = price;
         if (myPrice < 0) myPrice = 0;
+    }
+    
+    private void setSellingPrice(float price) {
+        this.mySellingPrice = price;
+        if (myPrice < 0) myPrice = 0;
+    }
+    
+    public void setDiscount(float discountPercent) {
+    	
+        if (discountPercent < 0) discountPercent = 0;
+        this.myDiscount = discountPercent;
+        setSellingPrice(myPrice * (1 - discountPercent));
     }
 
     public void setReviews(List<Review> reviews) {
