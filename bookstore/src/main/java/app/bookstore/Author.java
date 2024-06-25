@@ -96,6 +96,10 @@ public class Author {
         return publishers;
     }
 
+    public List<Book> getBooksWritten() {
+        return BooksWritten;
+    }
+
     protected void setAuthorID(int ID) {
         Author_ID = ID;
         if (Author_ID < 0) Author_ID = 0;
@@ -120,5 +124,9 @@ public class Author {
 
     protected void setPublishers(List<Publisher> publishers) {
         this.publishers = publishers;
+    }
+
+    protected void setBooksWritten(List<Book> books) {
+        this.BooksWritten = books;
     }
 }
