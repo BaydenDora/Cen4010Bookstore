@@ -1,3 +1,5 @@
+//ReviewController.java
+
 package app.bookstore;
 
 import app.bookstore.dto.ReviewDTO;
@@ -82,5 +84,26 @@ public class ReviewController {
         }).collect(Collectors.toList());
 
         return ResponseEntity.ok(reviewDTOs);
+    }
+    @GetMapping("/{isbn}/averageRating")
+    public ResponseEntity<Double> getBookAverageRating (@PathVariable String isbn)
+    {
+        Optional<Book> book = bookRepo.findByISBN(isbn);
+        if (!book.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<Review> reviews = reviewRepo.findByIsbn(book.get());
+
+        if(reviews.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        double averageRating = reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+
+        return ResponseEntity.ok(averageRating);
     }
 }
