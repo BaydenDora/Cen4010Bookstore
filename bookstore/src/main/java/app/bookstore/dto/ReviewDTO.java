@@ -14,7 +14,7 @@ public class ReviewDTO {
     @JsonProperty("userID")
     private int userID;
 
-    @JsonProperty("comment")
+    @JsonProperty("text")
     private String comment;
 
     @JsonProperty("rating")

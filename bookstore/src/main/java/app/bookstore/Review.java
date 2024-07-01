@@ -30,13 +30,13 @@ public class Review {
     @JoinColumn(name = "User_ID", nullable = false)
     private User myUserID;
 
-    @Column(name = "'Text'", length = 500)
+    @Column(name = "Text", length = 500)
     private String myComment;
 
     @Column(name = "Rating")
     private int myRating;
 
-    @Column(name = "'Date'")
+    @Column(name = "Date")
     private Date myDate;
 
     // Constructors
