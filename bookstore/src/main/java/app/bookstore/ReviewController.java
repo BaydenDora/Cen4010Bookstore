@@ -93,7 +93,7 @@ public class ReviewController {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Review> reviews = reviewRepo.findByIsbn(book.get());
+        List<Review> reviews = reviewRepo.findByMyBook_ISBN(book.get().getISBN());
 
         if(reviews.isEmpty()){
             return ResponseEntity.notFound().build();
