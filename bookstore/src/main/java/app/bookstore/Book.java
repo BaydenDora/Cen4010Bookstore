@@ -89,6 +89,9 @@ public class Book {
     
     @Column(name = "DiscountPercent", nullable = false)
     private float myDiscount;
+    
+    @Column(name = "Rating", nullable = false)
+    private float myRating;
 
     public Book() {
         setISBN("0000000000000");

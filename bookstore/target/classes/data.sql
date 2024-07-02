@@ -38,6 +38,9 @@ CREATE TABLE Book (
     YearPublished INT,
     CopiesSold INT UNSIGNED NOT NULL,
     Price FLOAT NOT NULL,
+    SellingPrice FLOAT NOT NULL,
+    DiscountPercent FLOAT,
+    Rating INT NOT NULL,
     FOREIGN KEY (Author_ID) REFERENCES Author(Author_ID) ON UPDATE CASCADE,
     FOREIGN KEY (Publisher_ID) REFERENCES Publisher(Publisher_ID) ON UPDATE CASCADE
 );

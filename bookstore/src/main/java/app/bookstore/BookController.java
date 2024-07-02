@@ -119,7 +119,7 @@ public class BookController {
             @PathVariable String publisherName,
             @PathVariable Double discountPercent) {
 
-    	bookRepo.discountByPublisher(publisherName, discountPercent);
+    	//bookRepo.discountByPublisher(publisherName, discountPercent);
         return ResponseEntity.ok("Discount percent for publisher '" + publisherName + "' updated to " + discountPercent);
     }
 }
