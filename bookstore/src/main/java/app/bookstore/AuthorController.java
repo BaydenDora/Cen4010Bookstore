@@ -1,6 +1,8 @@
 package app.bookstore;
 
 import app.bookstore.dto.AuthorDTO;
+import app.bookstore.dto.BookDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -84,4 +86,30 @@ public class AuthorController {
 
         return ResponseEntity.ok(authorDTOs);
     }
+
+    @GetMapping("/{id}/books")
+    public ResponseEntity<List<BookDTO>> getBooksByAuthor(@PathVariable int id) {
+        Optional<Author> author = authorRepo.findById(id);
+        if (!author.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+    
+        List<BookDTO> booksByAuthor = author.get().getBooksWritten().stream().map(book -> {
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(book.getId());
+            bookDTO.setISBN(book.getISBN());
+            bookDTO.setMyTitle(book.getTitle());
+            bookDTO.setMyDescription(book.getDescription());
+            bookDTO.setMyYearPublished(book.getYearPublished());
+            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+            bookDTO.setMyPublisherId(book.getPublisher().getID());
+            bookDTO.setMyGenre(book.getGenre().name());
+            bookDTO.setMyCopiesSold(book.getCopiesSold());
+            bookDTO.setMyPrice(book.getPrice());
+            return bookDTO;
+        }).collect(Collectors.toList());
+    
+        return ResponseEntity.ok(booksByAuthor);
+    }
+    
 }

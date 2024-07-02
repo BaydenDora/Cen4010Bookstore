@@ -24,14 +24,14 @@ public class BookController {
     private BookRepo bookRepo;
 
     @Autowired
-    private AuthorRepo authorRepo;
+    private AuthorRepo AuthorRepo;
 
     @Autowired
     private PublisherRepo publisherRepo;
 
     @PostMapping
     public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
-        Optional<Author> author = authorRepo.findById(bookDTO.getMyAuthorId());
+        Optional<Author> author = AuthorRepo.findById(bookDTO.getMyAuthorId());
         if (!author.isPresent()) {
             throw new RuntimeException("Author not found");
         }

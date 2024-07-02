@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="fastRequestCurrentParamGroup">
+    <option name="className" value="app.bookstore.ReviewController" />
+    <option name="filePath" value="" />
+    <option name="method" value="getBookAverageRating" />
+    <option name="module" value="bookstore" />
+    <option name="originUrl" value="/reviews/{isbn}/averageRating" />
+    <option name="pathParamMap">
+      <map>
+        <entry key="isbn">
+          <value>
+            <Object />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="responseParamMap">
+      <map>
+        <entry key="return">
+          <value>
+            <Object />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="returnDocument" value="{&quot;status&quot;:{},&quot;body&quot;:{}}" />
+    <option name="url" value="/reviews/isbn_qq1jl/averageRating" />
+  </component>
+</project>

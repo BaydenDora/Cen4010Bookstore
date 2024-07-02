@@ -3,9 +3,12 @@ app\bookstore\Book.class
 app\bookstore\ReviewRepo.class
 app\bookstore\BookController.class
 app\bookstore\PublisherController.class
+app\bookstore\dto\ReviewDTO.class
+app\bookstore\dto\CreditCardDTO.class
 app\bookstore\PublisherRepo.class
 app\bookstore\ShoppingCartRepo.class
 app\bookstore\AuthorController.class
+app\bookstore\dto\ShoppingCartDTO.class
 app\bookstore\ShoppingCart.class
 app\bookstore\AuthorRepo.class
 app\bookstore\UserController.class
@@ -15,6 +18,8 @@ app\bookstore\dto\PublisherDTO.class
 app\bookstore\Review.class
 app\bookstore\Wishlist.class
 app\bookstore\dto\AuthorDTO.class
+app\bookstore\dto\WishlistDTO.class
+app\bookstore\dto\UserDTO.class
 app\bookstore\WishlistController.class
 app\bookstore\Author.class
 app\bookstore\UserRepo.class

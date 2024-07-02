@@ -12,6 +12,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "wishlist")
@@ -20,7 +21,10 @@ public class Wishlist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Wishlist_ID;
-    
+
+    @Column(name = "WishlistName", nullable = false)
+    private String WishlistName;
+
     @ManyToMany
     @JoinTable(
         name = "wishlist_books",
@@ -28,14 +32,18 @@ public class Wishlist
         inverseJoinColumns = @JoinColumn(name = "ISBN", referencedColumnName = "ISBN")
     )
     private List<Book> myBooksInWishlist = new ArrayList<>();
-    
+
     @OneToOne
     @JoinColumn(name = "User_ID", nullable = false)
     private User myUserID;
-    
+
     // Getters
     public int getWishlistID() {
         return Wishlist_ID;
+    }
+
+    public String getWishlistName() {
+        return WishlistName;
     }
 
     public List<Book> getBooksInWishlist() {
@@ -49,6 +57,10 @@ public class Wishlist
     // Setters
     public void setWishlistID(int wishlistID) {
         Wishlist_ID = wishlistID;
+    }
+
+    public void setWishlistName(String wishlistName) {
+        WishlistName = wishlistName;
     }
 
     public void setBooksInWishlist(List<Book> booksInWishlist) {
