@@ -7,19 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "book")
@@ -87,13 +75,9 @@ public class Book {
     @Column(name = "SellingPrice", nullable = false)
     private float mySellingPrice;
     
-    @Column(name = "DiscountPercent", nullable = false)
-    private float myDiscount;
+    @Column(name = "DiscountPercent")
+    private Float myDiscount; 
     
-//    @OneToMany
-//    @JoinTable(name = "Rating"
-//    )
-//    private float myRating;
 
     public Book() {
         setISBN("0000000000000");
@@ -162,7 +146,7 @@ public class Book {
         return mySellingPrice;
     }
     
-    public float getDiscount() {
+    public Float getDiscount() { 
         return myDiscount;
     }
 
@@ -227,12 +211,10 @@ public class Book {
         if (myPrice < 0) myPrice = 0;
     }
     
-    public void setDiscount(float discountPercent) {
-    	
-        if (discountPercent < 0) discountPercent = 0;
+    public void setDiscount(Float discountPercent) { 
+        if (discountPercent < 0) discountPercent = (float) 0;
         this.myDiscount = discountPercent;
-        
-        setSellingPrice(myPrice * (1 - discountPercent));
+        setSellingPrice(myPrice * (1 - discountPercent / 100));
     }
 
     public void setReviews(List<Review> reviews) {

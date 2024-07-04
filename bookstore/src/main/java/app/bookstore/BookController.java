@@ -115,19 +115,32 @@ public class BookController {
     }
     
     @GetMapping("/getByRating/{rating}")
-    public ResponseEntity<BookDTO> getBookByRating(@PathVariable int myRating) {
-        logger.info("Finding books with genre: " + myRating);
-        List<Book> books = bookRepo.findByRating(myRating);
+public ResponseEntity<List<BookDTO>> getBooksByRating(@PathVariable int rating) {
+    logger.info("Finding books with rating: " + rating);
+    List<Book> books = bookRepo.findByRating(rating);
 
-        if(!books.isEmpty()){
-            logger.info("Here is a list of our " + myRating + " books.");
-            return new ResponseEntity<BookDTO>(HttpStatus.OK);
-        }
-        else{
-            logger.error("\"" + myRating + "\" books not found. Please retry with a different genre");
-            return new ResponseEntity<BookDTO>(HttpStatus.NO_CONTENT);
-        }
+    if (!books.isEmpty()) {
+        logger.info("Here is a list of our books with rating " + rating + ".");
+        List<BookDTO> bookDTOs = books.stream().map(book -> {
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(book.getId());
+            bookDTO.setISBN(book.getISBN());
+            bookDTO.setMyTitle(book.getTitle());
+            bookDTO.setMyDescription(book.getDescription());
+            bookDTO.setMyYearPublished(book.getYearPublished());
+            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+            bookDTO.setMyPublisherId(book.getPublisher().getID());
+            bookDTO.setMyGenre(book.getGenre().name());
+            bookDTO.setMyCopiesSold(book.getCopiesSold());
+            bookDTO.setMyPrice(book.getPrice());
+            return bookDTO;
+        }).collect(Collectors.toList());
+        return new ResponseEntity<>(bookDTOs, HttpStatus.OK);
+    } else {
+        logger.error("\"" + rating + "\" books not found. Please retry with a different rating");
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+}
     
     @GetMapping("/getByCopiesSold")
     public ResponseEntity<BookDTO> getBookByCopiesSold(@PathVariable float copiesSold) {
