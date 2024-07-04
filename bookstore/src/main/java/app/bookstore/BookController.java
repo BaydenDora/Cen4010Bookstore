@@ -99,20 +99,72 @@ public class BookController {
         return ResponseEntity.ok(bookDTOs);
     }
     
-    @GetMapping("/getByGenre/{genre}")
-    public ResponseEntity<BookDTO> getBookByGenre(@PathVariable Genre genre) {
-        logger.info("Finding books with genre: " + genre);
-        List<Book> books = bookRepo.findByGenre(genre);
+    @GetMapping("/getByGenre/{Genre}")
+    public ResponseEntity<BookDTO> getBookByGenre(@PathVariable Genre myGenre) {
+        logger.info("Finding books with genre: " + myGenre);
+        List<Book> books = bookRepo.findByGenre(myGenre);
 
         if(!books.isEmpty()){
-            logger.info("Here is a list of our " + genre + " books.");
+            logger.info("Here is a list of our " + myGenre + " books.");
             return new ResponseEntity<BookDTO>(HttpStatus.OK);
         }
         else{
-            logger.error("\"" + genre + "\" books not found. Please retry with a different genre");
+            logger.error("\"" + myGenre + "\" books not found. Please retry with a different genre");
             return new ResponseEntity<BookDTO>(HttpStatus.NO_CONTENT);
         }
     }
+    
+    @GetMapping("/getByRating/{rating}")
+    public ResponseEntity<BookDTO> getBookByRating(@PathVariable int myRating) {
+        logger.info("Finding books with genre: " + myRating);
+        List<Book> books = bookRepo.findByRating(myRating);
+
+        if(!books.isEmpty()){
+            logger.info("Here is a list of our " + myRating + " books.");
+            return new ResponseEntity<BookDTO>(HttpStatus.OK);
+        }
+        else{
+            logger.error("\"" + myRating + "\" books not found. Please retry with a different genre");
+            return new ResponseEntity<BookDTO>(HttpStatus.NO_CONTENT);
+        }
+    }
+    
+    @GetMapping("/getByCopiesSold")
+    public ResponseEntity<BookDTO> getBookByCopiesSold(@PathVariable float copiesSold) {
+        logger.info("Finding books with genre: " + copiesSold);
+        List<Book> books = bookRepo.find10BestSellers();
+
+        if(!books.isEmpty()){
+            logger.info("Here is a list of our " + copiesSold + " books.");
+            return new ResponseEntity<BookDTO>(HttpStatus.OK);
+        }
+        else{
+            logger.error("\"" + copiesSold + "\" books not found. Please retry with a different genre");
+            return new ResponseEntity<BookDTO>(HttpStatus.NO_CONTENT);
+        }
+    }
+    
+//    @GetMapping("/{isbn}/averageRating")
+//    public ResponseEntity<Double> getBookAverageRating (@PathVariable String isbn)
+//    {
+//        Optional<Book> book = bookRepo.findByISBN(isbn);
+//        if (!book.isPresent()) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//        List<Review> reviews = reviewRepo.findByMyBook_ISBN(book.get().getISBN());
+//
+//        if(reviews.isEmpty()){
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        double averageRating = reviews.stream()
+//                .mapToInt(Review::getRating)
+//                .average()
+//                .orElse(0.0);
+//
+//        return ResponseEntity.ok(averageRating);
+//    }
     
     @PatchMapping("/{publisherName}/discount/{discountPercent}")
     public ResponseEntity<String> updateDiscountPercentByPublisherName(
