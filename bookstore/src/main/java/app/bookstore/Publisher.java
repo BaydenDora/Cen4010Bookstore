@@ -25,7 +25,7 @@ public class Publisher {
     private int Publisher_ID;
 
     @Column(name = "PublisherName", nullable = false, length = 50)
-    private String PublisherName;
+    private String publisherName;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "publishers")
@@ -55,7 +55,7 @@ public class Publisher {
     }
 
     public String getName() {
-        return PublisherName;
+        return publisherName;
     }
 
     public List<Author> getAuthors() {
@@ -71,7 +71,7 @@ public class Publisher {
     }
 
     protected void setName(String name) {
-        PublisherName = name;
+    	publisherName = name;
     }
 
     protected void setAuthors(List<Author> authors) {

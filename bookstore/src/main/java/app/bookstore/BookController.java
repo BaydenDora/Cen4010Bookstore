@@ -99,18 +99,31 @@ public class BookController {
         return ResponseEntity.ok(bookDTOs);
     }
     
-    @GetMapping("/getByGenre/{Genre}")
-    public ResponseEntity<BookDTO> getBookByGenre(@PathVariable Genre myGenre) {
-        logger.info("Finding books with genre: " + myGenre);
-        List<Book> books = bookRepo.findByGenre(myGenre);
+    @GetMapping("/getByGenre/{genre}")
+    public ResponseEntity<List<BookDTO>> getBookByGenre(@PathVariable Genre genre) {
+        logger.info("Finding books with genre: " + genre);
+        List<Book> books = bookRepo.findByGenre(genre);
 
-        if(!books.isEmpty()){
-            logger.info("Here is a list of our " + myGenre + " books.");
-            return new ResponseEntity<BookDTO>(HttpStatus.OK);
-        }
-        else{
-            logger.error("\"" + myGenre + "\" books not found. Please retry with a different genre");
-            return new ResponseEntity<BookDTO>(HttpStatus.NO_CONTENT);
+        if (!books.isEmpty()) {
+            logger.info("Here is a list of our books with genre " + genre + ".");
+            List<BookDTO> bookDTOs = books.stream().map(book -> {
+                BookDTO bookDTO = new BookDTO();
+                bookDTO.setId(book.getId());
+                bookDTO.setISBN(book.getISBN());
+                bookDTO.setMyTitle(book.getTitle());
+                bookDTO.setMyDescription(book.getDescription());
+                bookDTO.setMyYearPublished(book.getYearPublished());
+                bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+                bookDTO.setMyPublisherId(book.getPublisher().getID());
+                bookDTO.setMyGenre(book.getGenre().name());
+                bookDTO.setMyCopiesSold(book.getCopiesSold());
+                bookDTO.setMyPrice(book.getPrice());
+                return bookDTO;
+            }).collect(Collectors.toList());
+            return new ResponseEntity<>(bookDTOs, HttpStatus.OK);
+        } else {
+            logger.error("\"" + genre + "\" books not found. Please retry with a different genre");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
     
@@ -143,48 +156,63 @@ public ResponseEntity<List<BookDTO>> getBooksByRating(@PathVariable int rating) 
 }
     
     @GetMapping("/getByCopiesSold")
-    public ResponseEntity<BookDTO> getBookByCopiesSold(@PathVariable float copiesSold) {
-        logger.info("Finding books with genre: " + copiesSold);
+    public ResponseEntity<List<BookDTO>> getBookByCopiesSold() {
+        logger.info("Finding 10 best sellers: ");
         List<Book> books = bookRepo.find10BestSellers();
 
-        if(!books.isEmpty()){
-            logger.info("Here is a list of our " + copiesSold + " books.");
-            return new ResponseEntity<BookDTO>(HttpStatus.OK);
-        }
-        else{
-            logger.error("\"" + copiesSold + "\" books not found. Please retry with a different genre");
-            return new ResponseEntity<BookDTO>(HttpStatus.NO_CONTENT);
+        if (!books.isEmpty()) {
+            logger.info("Here is a list of our 10 best sellers.");
+            List<BookDTO> bookDTOs = books.stream().map(book -> {
+                BookDTO bookDTO = new BookDTO();
+                bookDTO.setId(book.getId());
+                bookDTO.setISBN(book.getISBN());
+                bookDTO.setMyTitle(book.getTitle());
+                bookDTO.setMyDescription(book.getDescription());
+                bookDTO.setMyYearPublished(book.getYearPublished());
+                bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+                bookDTO.setMyPublisherId(book.getPublisher().getID());
+                bookDTO.setMyGenre(book.getGenre().name());
+                bookDTO.setMyCopiesSold(book.getCopiesSold());
+                bookDTO.setMyPrice(book.getPrice());
+                return bookDTO;
+            }).collect(Collectors.toList());
+            return new ResponseEntity<>(bookDTOs, HttpStatus.OK);
+        } else {
+            logger.error("Books not found. Please retry");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
     
-//    @GetMapping("/{isbn}/averageRating")
-//    public ResponseEntity<Double> getBookAverageRating (@PathVariable String isbn)
-//    {
-//        Optional<Book> book = bookRepo.findByISBN(isbn);
-//        if (!book.isPresent()) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        List<Review> reviews = reviewRepo.findByMyBook_ISBN(book.get().getISBN());
-//
-//        if(reviews.isEmpty()){
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        double averageRating = reviews.stream()
-//                .mapToInt(Review::getRating)
-//                .average()
-//                .orElse(0.0);
-//
-//        return ResponseEntity.ok(averageRating);
-//    }
-    
-    @PatchMapping("/{publisherName}/discount/{discountPercent}")
-    public ResponseEntity<String> updateDiscountPercentByPublisherName(
-            @PathVariable String publisherName,
-            @PathVariable Double discountPercent) {
-
-    	//bookRepo.discountByPublisher(publisherName, discountPercent);
-        return ResponseEntity.ok("Discount percent for publisher '" + publisherName + "' updated to " + discountPercent);
+    @PatchMapping("/discount/{publisherName}/{discountPercent}")
+    public ResponseEntity<List<BookDTO>> updateDiscountByPublisher(@PathVariable String publisherName, @RequestParam float discountPercent) {
+        bookRepo.updateDiscountByPublisher(publisherName, discountPercent);
+        List<Book> books = bookRepo.findByPublisher(publisherName);
+        		
+        if (!books.isEmpty()) {
+            // Mapping Book to BookDTO
+            List<BookDTO> bookDTOs = books.stream().map(book -> {
+                BookDTO bookDTO = new BookDTO();
+                bookDTO.setId(book.getId());
+                bookDTO.setISBN(book.getISBN());
+                bookDTO.setMyTitle(book.getTitle());
+                bookDTO.setMyDescription(book.getDescription());
+                bookDTO.setMyYearPublished(book.getYearPublished());
+                bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+                bookDTO.setMyPublisherId(book.getPublisher().getID());
+                bookDTO.setMyGenre(book.getGenre().name());
+                bookDTO.setMyCopiesSold(book.getCopiesSold());
+                bookDTO.setMyPrice(book.getPrice());
+                bookDTO.setMyCurrentPrice(book.getPrice() * (discountPercent / 100)); // Applying discount
+                return bookDTO;
+            }).collect(Collectors.toList());
+            
+            // Logging and returning ResponseEntity with OK status
+            logger.info("Here is a list of the discounted books.");
+            return ResponseEntity.ok(bookDTOs);
+        } else {
+            // Handling case where no books are found
+            logger.error("Books not found for publisher: {}", publisherName);
+            return ResponseEntity.noContent().build();
+        }
     }
 }

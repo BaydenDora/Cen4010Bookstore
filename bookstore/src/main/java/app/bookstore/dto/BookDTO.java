@@ -31,6 +31,9 @@ public class BookDTO {
 
     @JsonProperty("myPrice")
     private float myPrice;
+    
+    @JsonProperty("myCurrentPrice")
+    private float myCurrentPrice;
 
     // Getters and setters
 
@@ -112,5 +115,13 @@ public class BookDTO {
 
     public void setMyPrice(float myPrice) {
         this.myPrice = myPrice;
+    }
+    
+    public float getMyCurrentPrice() {
+        return myPrice;
+    }
+
+    public void setMyCurrentPrice(float myCurrentPrice) {
+        this.myCurrentPrice = myCurrentPrice;
     }
 }
