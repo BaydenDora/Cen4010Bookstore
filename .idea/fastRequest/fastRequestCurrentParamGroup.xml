@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="fastRequestCurrentParamGroup">
+    <option name="className" value="app.bookstore.BookController" />
+    <option name="filePath" value="" />
+    <option name="method" value="getAllBooks" />
+    <option name="module" value="bookstore" />
+    <option name="originUrl" value="/books" />
+    <option name="responseParamMap">
+      <map>
+        <entry key="return">
+          <value>
+            <Object />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="returnDocument" value="{&quot;status&quot;:{},&quot;body&quot;:{}}" />
+    <option name="tempId" value="" />
+    <option name="url" value="/books" />
+  </component>
+</project>
