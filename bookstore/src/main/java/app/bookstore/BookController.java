@@ -78,21 +78,23 @@ public class BookController {
         Must be able retrieve a book’s details by the ISBN  */
     @GetMapping("/ISBN/{ISBN}")
     public ResponseEntity<BookDTO> getBookByISBN(@PathVariable String ISBN) {
-        Optional<Book> book = bookRepo.findByISBN(ISBN);
-        if (!book.isPresent()) {
+        Optional<Book> bk = bookRepo.findByISBN(ISBN);
+        if (!bk.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setId(book.get().getId());
-        bookDTO.setISBN(book.get().getISBN());
-        bookDTO.setMyTitle(book.get().getTitle());
-        bookDTO.setMyDescription(book.get().getDescription());
-        bookDTO.setMyYearPublished(book.get().getYearPublished());
-        bookDTO.setMyAuthorId(book.get().getAuthor().getAuthorID());
-        bookDTO.setMyPublisherId(book.get().getPublisher().getID());
-        bookDTO.setMyGenre(book.get().getGenre().name());
-        bookDTO.setMyCopiesSold(book.get().getCopiesSold());
-        bookDTO.setMyPrice(book.get().getPrice());
+        Book book = bk.get();
+        BookDTO bookDTO = new BookDTO(
+            book.getId(),
+            book.getISBN(),
+            book.getTitle(),
+            book.getDescription(),
+            book.getYearPublished(),
+            book.getAuthor().getAuthorID(),
+            book.getPublisher().getID(),
+            book.getGenre().name(),
+            book.getCopiesSold(),
+            book.getPrice()
+        );
         return ResponseEntity.ok(bookDTO);
     }
 
@@ -102,32 +104,6 @@ public class BookController {
         bookRepo.findAll().forEach(books::add);  // Convert Iterable to List
 
         List<BookDTO> bookDTOs = books.stream().map(book -> {
-            BookDTO bookDTO = new BookDTO();
-            bookDTO.setId(book.getId());
-            bookDTO.setISBN(book.getISBN());
-            bookDTO.setMyTitle(book.getTitle());
-            bookDTO.setMyDescription(book.getDescription());
-            bookDTO.setMyYearPublished(book.getYearPublished());
-            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
-            bookDTO.setMyPublisherId(book.getPublisher().getID());
-            bookDTO.setMyGenre(book.getGenre().name());
-            bookDTO.setMyCopiesSold(book.getCopiesSold());
-            bookDTO.setMyPrice(book.getPrice());
-            return bookDTO;
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(bookDTOs);
-    }
-
-    /*  Book Details Feature Task #4:
-        Must be able to retrieve a list of books associated with an author  */
-    @GetMapping("/author/{author_id}")
-    public ResponseEntity<List<BookDTO>> getBooksByAuthorID(@PathVariable int author_id) {
-        List<Book> books = new ArrayList<>();
-        bookRepo.findAll().forEach(books::add);  // Convert Iterable to List
-
-        List<BookDTO> bookDTOs = books.stream()
-                .filter(b -> (b.getAuthor()).getAuthorID() == author_id)
-                .map(book -> {
             BookDTO bookDTO = new BookDTO();
             bookDTO.setId(book.getId());
             bookDTO.setISBN(book.getISBN());

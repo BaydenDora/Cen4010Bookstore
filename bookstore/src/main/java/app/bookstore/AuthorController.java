@@ -16,9 +16,6 @@ public class AuthorController {
 
     @Autowired
     private AuthorRepo authorRepo;
-
-    // @Autowired
-    // private BookRepo bookRepo;
     
     @Autowired
     private PublisherRepo publisherRepo;
@@ -92,26 +89,30 @@ public class AuthorController {
         return ResponseEntity.ok(authorDTOs);
     }
 
-    // @GetMapping("/{id}/books")
-    // public ResponseEntity<BookDTO> getBooksById(@PathVariable int id) {
-    //     Optional<Author> author = authorRepo.findById(id);
-    //     if (!author.isPresent()) {
-    //         return ResponseEntity.notFound().build();
-    //     }
+    /*  Book Details Feature Task #4:
+        Must be able to retrieve a list of books associated with an author  */
+    @GetMapping("/{id}/books")
+    public ResponseEntity<List<BookDTO>> getBooksById(@PathVariable int id) {
+        Optional<Author> author = authorRepo.findById(id);
+        if (!author.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        List<Book> books = author.get().getBooksWritten();
 
-        
-
-    //     AuthorDTO authorDTO = new AuthorDTO();
-    //     authorDTO.setAuthorID(author.get().getAuthorID());
-    //     authorDTO.setFirstName(author.get().getFirstName());
-    //     authorDTO.setLastName(author.get().getLastName());
-    //     authorDTO.setBiography(author.get().getBiography());
-
-    //     List<Integer> publisherIds = author.get().getPublishers().stream()
-    //             .map(Publisher::getID)
-    //             .collect(Collectors.toList());
-    //     authorDTO.setPublisherIds(publisherIds);
-
-    //     return ResponseEntity.ok(authorDTO);
-    // }
+        List<BookDTO> bookDTOs = books.stream().map(book -> {
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(book.getId());
+            bookDTO.setISBN(book.getISBN());
+            bookDTO.setMyTitle(book.getTitle());
+            bookDTO.setMyDescription(book.getDescription());
+            bookDTO.setMyYearPublished(book.getYearPublished());
+            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+            bookDTO.setMyPublisherId(book.getPublisher().getID());
+            bookDTO.setMyGenre(book.getGenre().name());
+            bookDTO.setMyCopiesSold(book.getCopiesSold());
+            bookDTO.setMyPrice(book.getPrice());
+            return bookDTO;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(bookDTOs);
+    }
 }

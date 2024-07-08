@@ -92,7 +92,9 @@ public class Book {
         setPrice(0);
     }
 
-    public Book(String ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, float price) {
+    public Book(String ISBN, String title, String description, 
+            int yearPublished, Author author, Publisher publisher, Genre genre, 
+                int copiesSold, float price) {
         setISBN(ISBN);
         setTitle(title);
         setDescription(description);
