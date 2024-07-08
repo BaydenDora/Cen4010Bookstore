@@ -23,6 +23,9 @@ public class BookController {
     @Autowired
     private PublisherRepo publisherRepo;
 
+    /*  Book Details Feature Task #1:
+        An administrator must be able to create a book with the book ISBN, book name, 
+        book description, price, author, genre, publisher, year published and copies sold  */
     @PostMapping
     public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
         Optional<Author> author = authorRepo.findById(bookDTO.getMyAuthorId());
@@ -71,6 +74,28 @@ public class BookController {
         return ResponseEntity.ok(bookDTO);
     }
 
+    /*  Book Details Feature Task #2:
+        Must be able retrieve a book’s details by the ISBN  */
+    @GetMapping("/ISBN/{ISBN}")
+    public ResponseEntity<BookDTO> getBookByISBN(@PathVariable String ISBN) {
+        Optional<Book> book = bookRepo.findByISBN(ISBN);
+        if (!book.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.setId(book.get().getId());
+        bookDTO.setISBN(book.get().getISBN());
+        bookDTO.setMyTitle(book.get().getTitle());
+        bookDTO.setMyDescription(book.get().getDescription());
+        bookDTO.setMyYearPublished(book.get().getYearPublished());
+        bookDTO.setMyAuthorId(book.get().getAuthor().getAuthorID());
+        bookDTO.setMyPublisherId(book.get().getPublisher().getID());
+        bookDTO.setMyGenre(book.get().getGenre().name());
+        bookDTO.setMyCopiesSold(book.get().getCopiesSold());
+        bookDTO.setMyPrice(book.get().getPrice());
+        return ResponseEntity.ok(bookDTO);
+    }
+
     @GetMapping
     public ResponseEntity<List<BookDTO>> getAllBooks() {
         List<Book> books = new ArrayList<>();
@@ -92,4 +117,31 @@ public class BookController {
         }).collect(Collectors.toList());
         return ResponseEntity.ok(bookDTOs);
     }
+
+    /*  Book Details Feature Task #4:
+        Must be able to retrieve a list of books associated with an author  */
+    @GetMapping("/author/{author_id}")
+    public ResponseEntity<List<BookDTO>> getBooksByAuthorID(@PathVariable int author_id) {
+        List<Book> books = new ArrayList<>();
+        bookRepo.findAll().forEach(books::add);  // Convert Iterable to List
+
+        List<BookDTO> bookDTOs = books.stream()
+                .filter(b -> (b.getAuthor()).getAuthorID() == author_id)
+                .map(book -> {
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(book.getId());
+            bookDTO.setISBN(book.getISBN());
+            bookDTO.setMyTitle(book.getTitle());
+            bookDTO.setMyDescription(book.getDescription());
+            bookDTO.setMyYearPublished(book.getYearPublished());
+            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+            bookDTO.setMyPublisherId(book.getPublisher().getID());
+            bookDTO.setMyGenre(book.getGenre().name());
+            bookDTO.setMyCopiesSold(book.getCopiesSold());
+            bookDTO.setMyPrice(book.getPrice());
+            return bookDTO;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(bookDTOs);
+    }
+
 }

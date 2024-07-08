@@ -19,10 +19,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-// import jakarta.persistence.Table;
 
 @Entity
-// @Table(name = "Book")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +42,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "Author_ID", nullable = false)
-    @JsonBackReference(value = "author-books")
+    @JsonBackReference(value = "author_books")
     private Author myAuthor;
 
     @ManyToOne

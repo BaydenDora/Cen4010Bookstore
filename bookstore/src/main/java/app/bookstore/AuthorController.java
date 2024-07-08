@@ -1,6 +1,7 @@
 package app.bookstore;
 
 import app.bookstore.dto.AuthorDTO;
+import app.bookstore.dto.BookDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,15 @@ public class AuthorController {
     @Autowired
     private AuthorRepo authorRepo;
 
+    // @Autowired
+    // private BookRepo bookRepo;
+    
     @Autowired
     private PublisherRepo publisherRepo;
 
+    /*  Book Details Feature Task #3:
+        An administrator must be able to create an author with 
+        first name, last name, biography and publisher      */
     @PostMapping
     public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO) {
         System.out.println("Received AuthorDTO: " + authorDTO); // Add logging to debug
@@ -84,4 +91,27 @@ public class AuthorController {
 
         return ResponseEntity.ok(authorDTOs);
     }
+
+    // @GetMapping("/{id}/books")
+    // public ResponseEntity<BookDTO> getBooksById(@PathVariable int id) {
+    //     Optional<Author> author = authorRepo.findById(id);
+    //     if (!author.isPresent()) {
+    //         return ResponseEntity.notFound().build();
+    //     }
+
+        
+
+    //     AuthorDTO authorDTO = new AuthorDTO();
+    //     authorDTO.setAuthorID(author.get().getAuthorID());
+    //     authorDTO.setFirstName(author.get().getFirstName());
+    //     authorDTO.setLastName(author.get().getLastName());
+    //     authorDTO.setBiography(author.get().getBiography());
+
+    //     List<Integer> publisherIds = author.get().getPublishers().stream()
+    //             .map(Publisher::getID)
+    //             .collect(Collectors.toList());
+    //     authorDTO.setPublisherIds(publisherIds);
+
+    //     return ResponseEntity.ok(authorDTO);
+    // }
 }
