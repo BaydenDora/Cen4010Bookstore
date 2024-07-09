@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS GeekText_Bookstore;
-CREATE SCHEMA GeekText_Bookstore;
-USE GeekText_Bookstore;
+DROP DATABASE IF EXISTS geektext_bookstore;
+CREATE SCHEMA geektext_bookstore;
+USE geektext_bookstore;
 
 -- Ensure tables are created 
 CREATE TABLE Publisher (

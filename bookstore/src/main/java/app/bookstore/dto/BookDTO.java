@@ -32,8 +32,24 @@ public class BookDTO {
     @JsonProperty("myPrice")
     private float myPrice;
 
-    // Getters and setters
+    public BookDTO(){};
 
+    public BookDTO(Long id, String ISBN, String myTitle, String myDescription, int myYearPublished, 
+            Integer myAuthorId, Integer myPublisherId, String myGenre, int myCopiesSold, float myPrice) {
+        this.id = id;
+        this.ISBN = ISBN;
+        this.myTitle = myTitle;
+        this.myDescription = myDescription;
+        this.myYearPublished = myYearPublished;
+        this.myAuthorId = myAuthorId;
+        this.myPublisherId = myPublisherId;
+        this.myGenre = myGenre;
+        this.myCopiesSold = myCopiesSold;
+        this.myPrice = myPrice;
+    }
+
+    // Getters and setters
+    
     public Long getId() {
         return id;
     }

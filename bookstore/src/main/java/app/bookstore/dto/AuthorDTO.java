@@ -24,6 +24,15 @@ public class AuthorDTO {
     public AuthorDTO() {
     }
 
+    public AuthorDTO(int authorID, String firstName, String lastName, String biography, List<Integer> publisherIds) {
+        this.authorID = authorID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.biography = biography;
+        this.publisherIds = publisherIds;
+    }
+
+
     // Getters and setters
 
     public int getAuthorID() {

@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS GeekText_Bookstore;
-CREATE SCHEMA GeekText_Bookstore;
-USE GeekText_Bookstore;
+DROP DATABASE IF EXISTS geektext_bookstore;
+CREATE SCHEMA geektext_bookstore;
+USE geektext_bookstore;
 
 -- Ensure tables are created 
 CREATE TABLE Publisher (
@@ -34,7 +34,7 @@ CREATE TABLE Book (
     Author_ID INT,
     Publisher_ID INT,
     BookDescription VARCHAR(1000),
-    Genre ENUM('TEXTBOOK', 'ACADEMIC', 'REPORT', 'BIOGRAPHY', 'MANUAL', 'FANTASY', 'SCIENCE_FICTION', 'ACTION', 'ADVENTURE', 'HISTORICAL', 'FICTION', 'NON_FICTION', 'OTHER') DEFAULT 'OTHER',
+    Genre ENUM('TEXTBOOK', 'ACADEMIC', 'REPORT', 'BIOGRAPHY', 'MANUAL', 'FANTASY', 'SCIENCEFICTION', 'ACTION', 'ADVENTURE', 'HISTORICAL', 'FICTION', 'NONFICTION', 'OTHER') DEFAULT 'OTHER',
     YearPublished INT,
     CopiesSold INT UNSIGNED NOT NULL,
     Price FLOAT NOT NULL,
@@ -135,13 +135,13 @@ INSERT INTO Author (Author_ID, Publisher_ID, FirstName, LastName, Biography) VAL
 -- Books
 INSERT INTO Book(ISBN, BookName, Author_ID, Publisher_ID, BookDescription, Genre, YearPublished, CopiesSold, Price, id) VALUES
     (9783161484100, 'Example Book Title', 1, 1, 'A thrilling adventure tale.', 'FICTION', 2023, 500000, 29.99, 1),
-    (9781234567897, 'Another Book Title', 2, 2, 'An insightful historical narrative.', 'NON_FICTION', 2021, 250000, 19.99, 2),
-    (9780140449136, 'Third Book Example', 3, 1, 'A captivating fantasy story.', 'SCIENCE_FICTION', 2019, 750000, 24.99, 3),
+    (9781234567897, 'Another Book Title', 2, 2, 'An insightful historical narrative.', 'NONFICTION', 2021, 250000, 19.99, 2),
+    (9780140449136, 'Third Book Example', 3, 1, 'A captivating fantasy story.', 'SCIENCEFICTION', 2019, 750000, 24.99, 3),
     (9780345391803, 'Fourth Book Here', 4, 3, 'A comprehensive how-to guide.', 'FANTASY', 2020, 100000, 34.99, 4),
     (9780307593699, 'Fifth Book Example', 1, 2, 'An inspiring biography.', 'BIOGRAPHY', 2022, 125000, 22.99, 5),
     (9780307593705, 'Sixth Book Sample', 2, 1, 'A gripping sci-fi novel.', 'FICTION', 2022, 300000, 27.99, 6),
-    (9781566199094, 'Seventh Book', 3, 2, 'A detailed academic report.', 'NON_FICTION', 2018, 450000, 18.99, 7),
-    (9780743273565, 'Eighth Book Title', 4, 3, 'A charming children\'s story.', 'SCIENCE_FICTION', 2021, 550000, 26.99, 8),
+    (9781566199094, 'Seventh Book', 3, 2, 'A detailed academic report.', 'NONFICTION', 2018, 450000, 18.99, 7),
+    (9780743273565, 'Eighth Book Title', 4, 3, 'A charming children\'s story.', 'SCIENCEFICTION', 2021, 550000, 26.99, 8),
     (9780452284234, 'Ninth Book Here', 1, 2, 'An action-packed adventure.', 'FANTASY', 2020, 600000, 33.99, 9),
     (9780743273568, 'Tenth Book Example', 2, 1, 'A heartwarming autobiography.', 'BIOGRAPHY', 2023, 200000, 23.99, 10);
 

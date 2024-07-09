@@ -1,5 +1,0 @@
-1	1	John	Smith	John Smith is an acclaimed author known for his thrilling novels.
-2	2	Jane	Doe	Jane Doe is a renowned writer of non-fiction works.
-3	1	Alice	Johnson	Alice Johnson writes compelling science fiction stories.
-4	3	Bob	Brown	Bob Brown is a famous fantasy novelist.
-5	2	Carol	Davis	Carol Davis is a well-known biographer.
