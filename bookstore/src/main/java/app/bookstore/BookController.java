@@ -23,6 +23,9 @@ public class BookController {
     @Autowired
     private PublisherRepo publisherRepo;
 
+    /*  Book Details Feature Task #1:
+        An administrator must be able to create a book with the book ISBN, book name, 
+        book description, price, author, genre, publisher, year published and copies sold  */
     @PostMapping
     public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
         Optional<Author> author = AuthorRepo.findById(bookDTO.getMyAuthorId());
@@ -71,6 +74,30 @@ public class BookController {
         return ResponseEntity.ok(bookDTO);
     }
 
+    /*  Book Details Feature Task #2:
+        Must be able retrieve a book’s details by the ISBN  */
+    @GetMapping("/ISBN/{ISBN}")
+    public ResponseEntity<BookDTO> getBookByISBN(@PathVariable String ISBN) {
+        Optional<Book> bk = bookRepo.findByISBN(ISBN);
+        if (!bk.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        Book book = bk.get();
+        BookDTO bookDTO = new BookDTO(
+            book.getId(),
+            book.getISBN(),
+            book.getTitle(),
+            book.getDescription(),
+            book.getYearPublished(),
+            book.getAuthor().getAuthorID(),
+            book.getPublisher().getID(),
+            book.getGenre().name(),
+            book.getCopiesSold(),
+            book.getPrice()
+        );
+        return ResponseEntity.ok(bookDTO);
+    }
+
     @GetMapping
     public ResponseEntity<List<BookDTO>> getAllBooks() {
         List<Book> books = new ArrayList<>();
@@ -92,4 +119,5 @@ public class BookController {
         }).collect(Collectors.toList());
         return ResponseEntity.ok(bookDTOs);
     }
+
 }
