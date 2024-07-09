@@ -23,6 +23,9 @@ public class WishlistController {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private ShoppingCartRepo shoppingCartRepo;
+
     // Method to create a new wishlist
     @PostMapping
     public ResponseEntity<WishlistDTO> createWishlist(@RequestBody WishlistDTO wishlistDTO) {
@@ -132,6 +135,43 @@ public class WishlistController {
             books.add(book);
             wishlist.setBooksInWishlist(books);
             wishlistRepo.save(wishlist);
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    // Method to remove a book from a wishlist and add it to the shopping cart
+    @DeleteMapping("/{wishlistId}/books/{isbn}")
+    public ResponseEntity<Void> removeBookFromWishlist(@PathVariable int wishlistId, @PathVariable String isbn) {
+        Optional<Wishlist> wishlistOptional = wishlistRepo.findById(wishlistId);
+        if (!wishlistOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Optional<Book> bookOptional = bookRepo.findByISBN(isbn);
+        if (!bookOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Wishlist wishlist = wishlistOptional.get();
+        Book book = bookOptional.get();
+
+        List<Book> books = wishlist.getBooksInWishlist();
+        if (books.contains(book)) {
+            books.remove(book);
+            wishlist.setBooksInWishlist(books);
+            wishlistRepo.save(wishlist);
+
+            // Add book to the user's shopping cart
+            ShoppingCart shoppingCart = shoppingCartRepo.findById(wishlist.getUser().getUserID())
+                    .orElse(new ShoppingCart());
+            shoppingCart.setUser(wishlist.getUser());
+
+            // Check if the book is already in the shopping cart
+            if (!shoppingCart.getBooksInCart().contains(book)) {
+                shoppingCart.getBooksInCart().add(book);
+                shoppingCartRepo.save(shoppingCart);
+            }
         }
 
         return ResponseEntity.ok().build();

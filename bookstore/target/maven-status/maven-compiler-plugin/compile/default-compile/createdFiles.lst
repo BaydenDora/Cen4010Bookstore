@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 app\bookstore\CreditCardController.class
 app\bookstore\Book.class
 app\bookstore\ReviewRepo.class
@@ -32,3 +33,5 @@ app\bookstore\BookstoreApplication.class
 app\bookstore\BookRepo.class
 app\bookstore\Publisher.class
 app\bookstore\CreditCardRepo.class
+=======
+>>>>>>> main

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\Lucas\IdeaProjects\Cen4010Bookstore\bookstore\src\main\java\app\bookstore\Author.java
 C:\Users\Lucas\IdeaProjects\Cen4010Bookstore\bookstore\src\main\java\app\bookstore\AuthorController.java
 C:\Users\Lucas\IdeaProjects\Cen4010Bookstore\bookstore\src\main\java\app\bookstore\AuthorRepo.java
@@ -32,3 +33,39 @@ C:\Users\Lucas\IdeaProjects\Cen4010Bookstore\bookstore\src\main\java\app\booksto
 C:\Users\Lucas\IdeaProjects\Cen4010Bookstore\bookstore\src\main\java\app\bookstore\Wishlist.java
 C:\Users\Lucas\IdeaProjects\Cen4010Bookstore\bookstore\src\main\java\app\bookstore\WishlistController.java
 C:\Users\Lucas\IdeaProjects\Cen4010Bookstore\bookstore\src\main\java\app\bookstore\WishlistRepo.java
+=======
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/Author.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/AuthorController.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/AuthorRepo.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/Book.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/BookController.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/BookRepo.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/BookstoreApplication.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/CreditCard.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/CreditCardController.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/CreditCardRepo.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/Genre.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/Publisher.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/PublisherController.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/PublisherRepo.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/Review.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/ReviewController.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/ReviewRepo.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/ShoppingCart.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/ShoppingCartController.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/ShoppingCartRepo.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/User.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/UserController.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/UserRepo.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/Wishlist.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/WishlistController.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/WishlistRepo.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/dto/AuthorDTO.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/dto/BookDTO.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/dto/CreditCardDTO.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/dto/PublisherDTO.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/dto/ReviewDTO.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/dto/ShoppingCartDTO.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/dto/UserDTO.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/dto/WishlistDTO.java
+>>>>>>> main
