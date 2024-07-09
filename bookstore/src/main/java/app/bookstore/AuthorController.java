@@ -26,7 +26,6 @@ public class AuthorController {
     @PostMapping
     public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO) {
         System.out.println("Received AuthorDTO: " + authorDTO); // Add logging to debug
-
         if (authorDTO.getBiography() == null || authorDTO.getBiography().trim().isEmpty()) {
             System.out.println("Invalid biography: " + authorDTO.getBiography()); // Add logging to debug
             return ResponseEntity.badRequest().body(null);
@@ -49,21 +48,20 @@ public class AuthorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable int id) {
-        Optional<Author> author = authorRepo.findById(id);
-        if (!author.isPresent()) {
+        Optional<Author> aut = authorRepo.findById(id);
+        if (!aut.isPresent()) 
             return ResponseEntity.notFound().build();
-        }
-        AuthorDTO authorDTO = new AuthorDTO();
-        authorDTO.setAuthorID(author.get().getAuthorID());
-        authorDTO.setFirstName(author.get().getFirstName());
-        authorDTO.setLastName(author.get().getLastName());
-        authorDTO.setBiography(author.get().getBiography());
-
-        List<Integer> publisherIds = author.get().getPublishers().stream()
-                .map(Publisher::getID)
-                .collect(Collectors.toList());
-        authorDTO.setPublisherIds(publisherIds);
-
+        
+        var author = aut.get();
+        AuthorDTO authorDTO = new AuthorDTO(
+            author.getAuthorID(),
+            author.getFirstName(),
+            author.getLastName(),
+            author.getBiography(),
+            author.getPublishers().stream()
+                        .map(Publisher::getID)
+                        .collect(Collectors.toList())
+        );
         return ResponseEntity.ok(authorDTO);
     }
 
@@ -72,17 +70,15 @@ public class AuthorController {
         List<Author> authors = (List<Author>) authorRepo.findAll();
 
         List<AuthorDTO> authorDTOs = authors.stream().map(author -> {
-            AuthorDTO authorDTO = new AuthorDTO();
-            authorDTO.setAuthorID(author.getAuthorID());
-            authorDTO.setFirstName(author.getFirstName());
-            authorDTO.setLastName(author.getLastName());
-            authorDTO.setBiography(author.getBiography());
-
-            List<Integer> publisherIds = author.getPublishers().stream()
-                    .map(Publisher::getID)
-                    .collect(Collectors.toList());
-            authorDTO.setPublisherIds(publisherIds);
-
+            AuthorDTO authorDTO = new AuthorDTO(
+                author.getAuthorID(),
+                author.getFirstName(),
+                author.getLastName(),
+                author.getBiography(),
+                author.getPublishers().stream()
+                            .map(Publisher::getID)
+                            .collect(Collectors.toList())
+            );
             return authorDTO;
         }).collect(Collectors.toList());
 
@@ -94,25 +90,25 @@ public class AuthorController {
     @GetMapping("/{id}/books")
     public ResponseEntity<List<BookDTO>> getBooksById(@PathVariable int id) {
         Optional<Author> author = authorRepo.findById(id);
-        if (!author.isPresent()) {
+        if (!author.isPresent()) 
             return ResponseEntity.notFound().build();
-        }
-        List<Book> books = author.get().getBooksWritten();
-
-        List<BookDTO> bookDTOs = books.stream().map(book -> {
-            BookDTO bookDTO = new BookDTO();
-            bookDTO.setId(book.getId());
-            bookDTO.setISBN(book.getISBN());
-            bookDTO.setMyTitle(book.getTitle());
-            bookDTO.setMyDescription(book.getDescription());
-            bookDTO.setMyYearPublished(book.getYearPublished());
-            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
-            bookDTO.setMyPublisherId(book.getPublisher().getID());
-            bookDTO.setMyGenre(book.getGenre().name());
-            bookDTO.setMyCopiesSold(book.getCopiesSold());
-            bookDTO.setMyPrice(book.getPrice());
-            return bookDTO;
-        }).collect(Collectors.toList());
+        
+        List<BookDTO> bookDTOs = author.get().getBooksWritten().stream()
+                .map(book -> {
+                    BookDTO bookDTO = new BookDTO(
+                        book.getId(),
+                        book.getISBN(),
+                        book.getTitle(),
+                        book.getDescription(),
+                        book.getYearPublished(),
+                        book.getAuthor().getAuthorID(),
+                        book.getPublisher().getID(),
+                        book.getGenre().name(),
+                        book.getCopiesSold(),
+                        book.getPrice()
+                    );
+                    return bookDTO;
+                }).collect(Collectors.toList());
         return ResponseEntity.ok(bookDTOs);
     }
 }

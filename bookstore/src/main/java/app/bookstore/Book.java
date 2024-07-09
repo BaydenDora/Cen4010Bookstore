@@ -34,10 +34,10 @@ public class Book {
     @Column(name = "BookName", nullable = false, length = 500)
     private String myTitle;
 
-    @Column(name = "BookDescription", nullable = false, length = 1000)
+    @Column(name = "BookDescription", length = 1000)
     private String myDescription;
 
-    @Column(name = "YearPublished", nullable = false, length = 4)
+    @Column(name = "YearPublished", length = 4)
     private int myYearPublished;
 
     @ManyToOne
@@ -73,7 +73,7 @@ public class Book {
     private List<Wishlist> wishlists = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Genre", nullable = false)
+    @Column(name = "Genre")
     private Genre myGenre;
 
     @Column(name = "CopiesSold", nullable = false)

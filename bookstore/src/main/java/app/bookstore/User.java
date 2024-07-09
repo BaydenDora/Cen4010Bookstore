@@ -11,10 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-// import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
-// @Table(name = "User")
 public class User 
 {
 	@Id

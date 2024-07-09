@@ -29,25 +29,23 @@ public class BookController {
     @PostMapping
     public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
         Optional<Author> author = AuthorRepo.findById(bookDTO.getMyAuthorId());
-        if (!author.isPresent()) {
+        if (!author.isPresent())
             throw new RuntimeException("Author not found");
-        }
         Optional<Publisher> publisher = publisherRepo.findById(bookDTO.getMyPublisherId());
-        if (!publisher.isPresent()) {
+        if (!publisher.isPresent()) 
             throw new RuntimeException("Publisher not found");
-        }
 
-        Book book = new Book();
-        book.setISBN(bookDTO.getISBN());
-        book.setTitle(bookDTO.getMyTitle());
-        book.setDescription(bookDTO.getMyDescription());
-        book.setYearPublished(bookDTO.getMyYearPublished());
-        book.setAuthor(author.get());
-        book.setPublisher(publisher.get());
-        book.setGenre(Genre.valueOf(bookDTO.getMyGenre()));
-        book.setCopiesSold(bookDTO.getMyCopiesSold());
-        book.setPrice(bookDTO.getMyPrice());
-
+        Book book = new Book(
+            bookDTO.getISBN(),
+            bookDTO.getMyTitle(),
+            bookDTO.getMyDescription(),
+            bookDTO.getMyYearPublished(),
+            author.get(),
+            publisher.get(),
+            Genre.valueOf(bookDTO.getMyGenre()),
+            bookDTO.getMyCopiesSold(),
+            bookDTO.getMyPrice()
+        );
         Book savedBook = bookRepo.save(book);
 
         bookDTO.setId(savedBook.getId());
@@ -56,21 +54,22 @@ public class BookController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> getBookById(@PathVariable Long id) {
-        Optional<Book> book = bookRepo.findById(id);
-        if (!book.isPresent()) {
+        Optional<Book> bk = bookRepo.findById(id);
+        if (!bk.isPresent()) 
             return ResponseEntity.notFound().build();
-        }
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setId(book.get().getId());
-        bookDTO.setISBN(book.get().getISBN());
-        bookDTO.setMyTitle(book.get().getTitle());
-        bookDTO.setMyDescription(book.get().getDescription());
-        bookDTO.setMyYearPublished(book.get().getYearPublished());
-        bookDTO.setMyAuthorId(book.get().getAuthor().getAuthorID());
-        bookDTO.setMyPublisherId(book.get().getPublisher().getID());
-        bookDTO.setMyGenre(book.get().getGenre().name());
-        bookDTO.setMyCopiesSold(book.get().getCopiesSold());
-        bookDTO.setMyPrice(book.get().getPrice());
+        var book = bk.get();
+        BookDTO bookDTO = new BookDTO(
+            book.getId(),
+            book.getISBN(),
+            book.getTitle(),
+            book.getDescription(),
+            book.getYearPublished(),
+            book.getAuthor().getAuthorID(),
+            book.getPublisher().getID(),
+            book.getGenre().name(),
+            book.getCopiesSold(),
+            book.getPrice()
+        );
         return ResponseEntity.ok(bookDTO);
     }
 
@@ -79,9 +78,9 @@ public class BookController {
     @GetMapping("/ISBN/{ISBN}")
     public ResponseEntity<BookDTO> getBookByISBN(@PathVariable String ISBN) {
         Optional<Book> bk = bookRepo.findByISBN(ISBN);
-        if (!bk.isPresent()) {
+        if (!bk.isPresent())
             return ResponseEntity.notFound().build();
-        }
+
         Book book = bk.get();
         BookDTO bookDTO = new BookDTO(
             book.getId(),
@@ -104,17 +103,18 @@ public class BookController {
         bookRepo.findAll().forEach(books::add);  // Convert Iterable to List
 
         List<BookDTO> bookDTOs = books.stream().map(book -> {
-            BookDTO bookDTO = new BookDTO();
-            bookDTO.setId(book.getId());
-            bookDTO.setISBN(book.getISBN());
-            bookDTO.setMyTitle(book.getTitle());
-            bookDTO.setMyDescription(book.getDescription());
-            bookDTO.setMyYearPublished(book.getYearPublished());
-            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
-            bookDTO.setMyPublisherId(book.getPublisher().getID());
-            bookDTO.setMyGenre(book.getGenre().name());
-            bookDTO.setMyCopiesSold(book.getCopiesSold());
-            bookDTO.setMyPrice(book.getPrice());
+            BookDTO bookDTO = new BookDTO(
+                book.getId(),
+                book.getISBN(),
+                book.getTitle(),
+                book.getDescription(),
+                book.getYearPublished(),
+                book.getAuthor().getAuthorID(),
+                book.getPublisher().getID(),
+                book.getGenre().name(),
+                book.getCopiesSold(),
+                book.getPrice() 
+            );
             return bookDTO;
         }).collect(Collectors.toList());
         return ResponseEntity.ok(bookDTOs);

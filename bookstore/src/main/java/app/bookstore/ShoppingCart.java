@@ -11,10 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
-// import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
-// @Table(name = "ShoppingCart")
 public class ShoppingCart 
 {
 	@Id

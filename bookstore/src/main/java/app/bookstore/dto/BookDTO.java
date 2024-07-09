@@ -48,6 +48,13 @@ public class BookDTO {
         this.myPrice = myPrice;
     }
 
+    //  Not Null Constructor
+    public BookDTO(Long id, String ISBN, String myTitle, Integer myAuthorId, Integer myPublisherId, 
+        int myCopiesSold, float myPrice) {
+                this(id, ISBN, myTitle, null, 0000, myAuthorId, 
+                    myPublisherId, null, myCopiesSold, myPrice);
+    }
+
     // Getters and setters
     
     public Long getId() {
