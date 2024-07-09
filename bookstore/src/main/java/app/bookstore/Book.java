@@ -75,7 +75,6 @@ public class Book {
     @Column(name = "SellingPrice", nullable = false)
     private float mySellingPrice;
     
-//    @Column(name = "DiscountPercent")
     private Float myDiscountPercent; 
     
 
@@ -86,7 +85,8 @@ public class Book {
         setYearPublished(0);
         setGenre(Genre.TEXTBOOK);
         setCopiesSold(0);
-        setPrice(0);
+        setPrice(0); 
+        this.mySellingPrice = 0; 
     }
 
     public Book(String ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, float price) {
@@ -98,7 +98,8 @@ public class Book {
         setPublisher(publisher);
         setGenre(genre);
         setCopiesSold(copiesSold);
-        setPrice(price);
+        setPrice(price); 
+        this.mySellingPrice = price; 
     }
 
     public Long getId() {
@@ -143,6 +144,9 @@ public class Book {
     }
     
     public float getSellingPrice() {
+        if (this.mySellingPrice == 0) {
+            return this.myPrice; // Return myPrice if mySellingPrice is not set
+        }
         return mySellingPrice;
     }
     
@@ -204,11 +208,14 @@ public class Book {
     public void setPrice(float price) {
         this.myPrice = price;
         if (myPrice < 0) myPrice = 0;
+        if (this.mySellingPrice == 0) {
+            this.mySellingPrice = price; // Set mySellingPrice when myPrice is set
+        }
     }
     
-    private void setSellingPrice(float price) {
+    public void setSellingPrice(float price) {
         this.mySellingPrice = price;
-        if (myPrice < 0) myPrice = 0;
+        if (mySellingPrice < 0) mySellingPrice = 0; 
     }
     
     public void setDiscount(Float discountPercent) { 

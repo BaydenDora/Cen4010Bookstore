@@ -1,6 +1,8 @@
 package app.bookstore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class BookDTO {
     private Long id;
@@ -118,10 +120,21 @@ public class BookDTO {
     }
     
     public float getMyCurrentPrice() {
-        return myPrice;
+        return myCurrentPrice;
     }
 
     public void setMyCurrentPrice(float myCurrentPrice) {
         this.myCurrentPrice = myCurrentPrice;
+    }
+    
+    public void roundPrices() {
+        this.myPrice = roundToTwoDecimalPlaces(this.myPrice);
+        this.myCurrentPrice = roundToTwoDecimalPlaces(this.myCurrentPrice);
+    }
+
+    private float roundToTwoDecimalPlaces(float value) {
+        BigDecimal bd = new BigDecimal(Float.toString(value));
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.floatValue();
     }
 }

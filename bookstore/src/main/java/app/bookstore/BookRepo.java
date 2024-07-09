@@ -3,6 +3,7 @@ package app.bookstore;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +29,8 @@ public interface BookRepo extends JpaRepository<Book, Long> {
     @Query("SELECT b FROM Book b WHERE b.myPublisher.publisherName = :publisherName")
     List<Book> findByPublisher(String publisherName);
     
-    @Modifying
     @Transactional
-    @Query("UPDATE Book b SET b.myDiscountPercent = :discountPercent WHERE b.myPublisher.publisherName = :publisherName")
-    void updateDiscountByPublisher(String publisherName, double discountPercent);
-
+    @Modifying
+    @Query("UPDATE Book b SET b.mySellingPrice = b.myPrice * (1 - :discountPercent / 100) WHERE b.myPublisher.publisherName = :publisherName")
+    void applyDiscountByPublisher(@Param("publisherName") String publisherName, @Param("discountPercent") float discountPercent);    
 }
