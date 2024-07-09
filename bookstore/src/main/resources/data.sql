@@ -19,17 +19,17 @@ INSERT INTO Author (Author_ID, Publisher_ID, FirstName, LastName, Biography) VAL
     (5, 2, 'Carol', 'Davis', 'Carol Davis is a well-known biographer.');
 
 -- Books
-INSERT INTO Book(ISBN, BookName, Author_ID, Publisher_ID, BookDescription, Genre, YearPublished, CopiesSold, Price, id) VALUES
-    (9783161484100, 'Example Book Title', 1, 1, 'A thrilling adventure tale.', 'FICTION', 2023, 500000, 29.99, 1),
-    (9781234567897, 'Another Book Title', 2, 2, 'An insightful historical narrative.', 'NONFICTION', 2021, 250000, 19.99, 2),
-    (9780140449136, 'Third Book Example', 3, 1, 'A captivating fantasy story.', 'SCIENCEFICTION', 2019, 750000, 24.99, 3),
-    (9780345391803, 'Fourth Book Here', 4, 3, 'A comprehensive how-to guide.', 'FANTASY', 2020, 100000, 34.99, 4),
-    (9780307593699, 'Fifth Book Example', 1, 2, 'An inspiring biography.', 'BIOGRAPHY', 2022, 125000, 22.99, 5),
-    (9780307593705, 'Sixth Book Sample', 2, 1, 'A gripping sci-fi novel.', 'FICTION', 2022, 300000, 27.99, 6),
-    (9781566199094, 'Seventh Book', 3, 2, 'A detailed academic report.', 'NONFICTION', 2018, 450000, 18.99, 7),
-    (9780743273565, 'Eighth Book Title', 4, 3, 'A charming children\'s story.', 'SCIENCEFICTION', 2021, 550000, 26.99, 8),
-    (9780452284234, 'Ninth Book Here', 1, 2, 'An action-packed adventure.', 'FANTASY', 2020, 600000, 33.99, 9),
-    (9780743273568, 'Tenth Book Example', 2, 1, 'A heartwarming autobiography.', 'BIOGRAPHY', 2023, 200000, 23.99, 10);
+INSERT INTO Book(ISBN, BookName, Author_ID, Publisher_ID, BookDescription, Genre, YearPublished, CopiesSold, Price, SellingPrice, id) VALUES
+    ('9783161484100', 'Example Book Title', 1, 1, 'A thrilling adventure tale.', 'FICTION', 2023, 500000, 29.99, 29.99, 1),
+    ('9781234567897', 'Another Book Title', 2, 2, 'An insightful historical narrative.', 'NONFICTION', 2021, 250000, 19.99, 19.99, 2),
+    ('9780140449136', 'Third Book Example', 3, 1, 'A captivating fantasy story.', 'SCIENCEFICTION', 2019, 750000, 24.99, 24.99, 3),
+    ('9780345391803', 'Fourth Book Here', 4, 3, 'A comprehensive how-to guide.', 'FANTASY', 2020, 100000, 34.99, 34.99, 4),
+    ('9780307593699', 'Fifth Book Example', 1, 2, 'An inspiring biography.', 'BIOGRAPHY', 2022, 125000, 22.99, 22.99, 5),
+    ('9780307593705', 'Sixth Book Sample', 2, 1, 'A gripping sci-fi novel.', 'FICTION', 2022, 300000, 27.99, 27.99, 6),
+    ('9781566199094', 'Seventh Book', 3, 2, 'A detailed academic report.', 'NONFICTION', 2018, 450000, 18.99, 18.99, 7),
+    ('9780743273565', 'Eighth Book Title', 4, 3, 'A charming children\'s story.', 'SCIENCEFICTION', 2021, 550000, 26.99, 26.99, 8),
+    ('9780452284234', 'Ninth Book Here', 1, 2, 'An action-packed adventure.', 'FANTASY', 2020, 600000, 33.99, 33.99, 9),
+    ('9780743273568', 'Tenth Book Example', 2, 1, 'A heartwarming autobiography.', 'BIOGRAPHY', 2023, 200000, 23.99, 23.99, 10);
 
 -- Users
 INSERT INTO `User` (User_ID, Username, Email, Pass, HomeAddress, Wishlist_ID, Cart_ID) VALUES
