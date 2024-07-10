@@ -32,17 +32,17 @@ INSERT INTO Book(ISBN, BookName, Author_ID, Publisher_ID, BookDescription, Genre
     ('9780743273568', 'Tenth Book Example', 2, 1, 'A heartwarming autobiography.', 'BIOGRAPHY', 2023, 200000, 23.99, 23.99, 10);
 
 -- Users
-INSERT INTO `User` (User_ID, Username, Email, Pass, HomeAddress, Wishlist_ID, Cart_ID) VALUES
-    (1, 'user1', 'user1@example.com', 'password1', '123 Main St', NULL, NULL),
-    (2, 'user2', 'user2@example.com', 'password2', '456 Oak St', NULL, NULL),
-    (3, 'user3', 'user3@example.com', 'password3', '789 Pine St', NULL, NULL),
-    (4, 'user4', 'user4@example.com', 'password4', '101 Maple St', NULL, NULL),
-    (5, 'user5', 'user5@example.com', 'password5', '202 Birch St', NULL, NULL),
-    (6, 'user6', 'user6@example.com', 'password6', '303 Cedar St', NULL, NULL),
-    (7, 'user7', 'user7@example.com', 'password7', '404 Elm St', NULL, NULL),
-    (8, 'user8', 'user8@example.com', 'password8', '505 Walnut St', NULL, NULL),
-    (9, 'user9', 'user9@example.com', 'password9', '606 Cherry St', NULL, NULL),
-    (10, 'user10', 'user10@example.com', 'password10', '707 Willow St', NULL, NULL);
+INSERT INTO `User` (User_ID, Username, FullName, Email, Pass, HomeAddress, Wishlist_ID, Cart_ID) VALUES
+    (1, 'user1', 'name1', 'user1@example.com', 'password1', '123 Main St', NULL, NULL),
+    (2, 'user2', 'name2', 'user2@example.com', 'password2', '456 Oak St', NULL, NULL),
+    (3, 'user3', 'name3', 'user3@example.com', 'password3', '789 Pine St', NULL, NULL),
+    (4, 'user4', 'name4', 'user4@example.com', 'password4', '101 Maple St', NULL, NULL),
+    (5, 'user5', 'name5', 'user5@example.com', 'password5', '202 Birch St', NULL, NULL),
+    (6, 'user6', 'name6', 'user6@example.com', 'password6', '303 Cedar St', NULL, NULL),
+    (7, 'user7', 'name7', 'user7@example.com', 'password7', '404 Elm St', NULL, NULL),
+    (8, 'user8', 'name8', 'user8@example.com', 'password8', '505 Walnut St', NULL, NULL),
+    (9, 'user9', 'name9', 'user9@example.com', 'password9', '606 Cherry St', NULL, NULL),
+    (10, 'user10', 'name10', 'user10@example.com', 'password10', '707 Willow St', NULL, NULL);
 
 -- Reviews
 INSERT INTO Review (Review_ID, ISBN, User_ID, `Text`, Rating, `Date`) VALUES

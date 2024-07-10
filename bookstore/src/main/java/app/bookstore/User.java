@@ -21,6 +21,9 @@ public class User
 	
 	@Column(name = "Username", nullable = false, length = 50)
     private String myUsername;
+
+    @Column(name = "Name", nullable = true, length = 100)
+    private String myName;
     
 	@Column(name = "Pass", nullable = false, length = 50)
     private String myPassword;
@@ -30,6 +33,7 @@ public class User
     
 	@Column(name = "HomeAddress", nullable = true, length = 100)
     private String myHomeAddress;
+
 
 	@OneToMany(mappedBy = "myUserID", cascade = CascadeType.ALL) //check this one
     private List<Wishlist> myWishlists;
@@ -48,15 +52,17 @@ public class User
     public User() {
         setUserID(0);
         setUsername("user1");
+        setName("name1");
         setPassword("password");
         setEmailAddress("None");
         setHomeAddress("None");
     }
 
     // Constructor
-    public User(int userID, String username, String password, String emailAddress, String homeAddress) {
+    public User(int userID, String username, String name, String password, String emailAddress, String homeAddress) {
         setUserID(userID);
         setUsername(username);
+        setName(name);
         setPassword(password);
         setEmailAddress(emailAddress);
         setHomeAddress(homeAddress);
@@ -83,6 +89,11 @@ public class User
     public String getUsername() 
     {
         return myUsername;
+    }
+
+    public String getName() 
+    {
+        return myName;
     }
 
     public String getPassword() 
@@ -132,6 +143,11 @@ public class User
     protected void setUsername(String username) 
     {
         myUsername = username;
+    }
+
+    protected void setName(String name) 
+    {
+        myName = name;
     }
 
     protected void setPassword(String password) 

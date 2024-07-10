@@ -49,6 +49,7 @@ CREATE TABLE Book (
 CREATE TABLE `User` (
     User_ID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(50),
+    FullName VARCHAR(50),
     Email VARCHAR(50),
     Pass VARCHAR(50),
     HomeAddress VARCHAR(100),

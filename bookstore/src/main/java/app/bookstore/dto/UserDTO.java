@@ -9,6 +9,9 @@ public class UserDTO {
     @JsonProperty("username")
     private String username;
 
+    @JsonProperty("name")
+    private String name;
+
     @JsonProperty("password")
     private String password;
 
@@ -34,6 +37,14 @@ public class UserDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
