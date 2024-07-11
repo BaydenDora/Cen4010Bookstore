@@ -74,9 +74,7 @@ public class Book {
     
     @Column(name = "SellingPrice", nullable = false)
     private float mySellingPrice;
-    
-    private Float myDiscountPercent; 
-    
+      
 
     public Book() {
         setISBN("0000000000000");
@@ -149,10 +147,6 @@ public class Book {
         }
         return mySellingPrice;
     }
-    
-    public Float getDiscount() { 
-        return myDiscountPercent;
-    }
 
     public List<Review> getReviews() {
         return reviews;
@@ -216,12 +210,6 @@ public class Book {
     public void setSellingPrice(float price) {
         this.mySellingPrice = price;
         if (mySellingPrice < 0) mySellingPrice = 0; 
-    }
-    
-    public void setDiscount(Float discountPercent) { 
-        if (discountPercent < 0) discountPercent = (float) 0;
-        this.myDiscountPercent = discountPercent;
-        setSellingPrice(myPrice * (1 - discountPercent / 100));
     }
 
     public void setReviews(List<Review> reviews) {
