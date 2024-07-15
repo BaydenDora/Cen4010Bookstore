@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -73,16 +72,6 @@ public class BookController {
     public ResponseEntity<BookDTO> getBookById(@PathVariable Long id) {
         Book book = verifyBook(id);
         BookDTO bookDTO = new BookDTO(book);
-        // bookDTO.setId(book.get().getId());
-        // bookDTO.setISBN(book.get().getISBN());
-        // bookDTO.setMyTitle(book.get().getTitle());
-        // bookDTO.setMyDescription(book.get().getDescription());
-        // bookDTO.setMyYearPublished(book.get().getYearPublished());
-        // bookDTO.setMyAuthorId(book.get().getAuthor().getAuthorID());
-        // bookDTO.setMyPublisherId(book.get().getPublisher().getID());
-        // bookDTO.setMyGenre(book.get().getGenre().name());
-        // bookDTO.setMyCopiesSold(book.get().getCopiesSold());
-        // bookDTO.setMyPrice(book.get().getPrice());
         bookDTO.setMyCurrentPrice(book.getSellingPrice());
         bookDTO.roundPrices(); // Round the prices
 
@@ -96,16 +85,6 @@ public class BookController {
 
         List<BookDTO> bookDTOs = books.stream().map(book -> {
             BookDTO bookDTO = new BookDTO(book);
-            // bookDTO.setId(book.getId());
-            // bookDTO.setISBN(book.getISBN());
-            // bookDTO.setMyTitle(book.getTitle());
-            // bookDTO.setMyDescription(book.getDescription());
-            // bookDTO.setMyYearPublished(book.getYearPublished());
-            // bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
-            // bookDTO.setMyPublisherId(book.getPublisher().getID());
-            // bookDTO.setMyGenre(book.getGenre().name());
-            // bookDTO.setMyCopiesSold(book.getCopiesSold());
-            // bookDTO.setMyPrice(book.getPrice());
             bookDTO.setMyCurrentPrice(book.getSellingPrice());
             bookDTO.roundPrices(); // Round the prices
             return bookDTO;
