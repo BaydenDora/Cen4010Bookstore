@@ -80,11 +80,8 @@ public class AuthorController {
     public ResponseEntity<List<BookDTO>> getBooksById(@PathVariable int id) {
         var author = verifyAuthor(id);
         List<BookDTO> bookDTOs = author.getBooksWritten().stream()
-                        .map(book -> {
-                            BookDTO bookDTO = new BookDTO(book);
-                            return bookDTO;
-                        }).collect(Collectors.toList());
-                
+                            .map(BookDTO::new)
+                            .collect(Collectors.toList());
         return ResponseEntity.ok(bookDTOs);
     }
 
@@ -122,6 +119,5 @@ public class AuthorController {
         author.setBiography(authorDTO.getBiography());
         return author;
     }
-
 
 }
