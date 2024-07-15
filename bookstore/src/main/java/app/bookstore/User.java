@@ -22,7 +22,7 @@ public class User
 	@Column(name = "Username", nullable = false, length = 50)
     private String myUsername;
 
-    @Column(name = "Name", nullable = true, length = 100)
+    @Column(name = "FullName", nullable = true, length = 50)
     private String myName;
     
 	@Column(name = "Pass", nullable = false, length = 50)

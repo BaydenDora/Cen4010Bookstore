@@ -1,16 +1,22 @@
 package app.bookstore;
 
-import app.bookstore.dto.CreditCardDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import app.bookstore.dto.CreditCardDTO;
+
 @RestController
-@RequestMapping("/creditcards")
+@RequestMapping("/users/{username}/creditcards")
 public class CreditCardController {
 
     @Autowired
@@ -40,7 +46,7 @@ public class CreditCardController {
         return ResponseEntity.ok(creditCardDTO);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/cardid/{id}")
     public ResponseEntity<CreditCardDTO> getCreditCardById(@PathVariable Long id) {
         Optional<CreditCard> creditCard = creditCardRepo.findById(id);
         if (!creditCard.isPresent()) {
@@ -56,9 +62,9 @@ public class CreditCardController {
         return ResponseEntity.ok(creditCardDTO);
     }
 
-    @GetMapping
-    public ResponseEntity<List<CreditCardDTO>> getAllCreditCards() {
-        List<CreditCard> creditCards = creditCardRepo.findAll();
+    @GetMapping()
+    public ResponseEntity<List<CreditCardDTO>> getAllCreditCardsForUser(@PathVariable String username) {
+        List<CreditCard> creditCards = creditCardRepo.findByUsername(username);
 
         List<CreditCardDTO> creditCardDTOs = creditCards.stream().map(creditCard -> {
             CreditCardDTO creditCardDTO = new CreditCardDTO();

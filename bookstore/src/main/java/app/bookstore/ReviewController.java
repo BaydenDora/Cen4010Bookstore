@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping("/reviews")
 public class ReviewController {
@@ -105,5 +106,24 @@ public class ReviewController {
                 .orElse(0.0);
 
         return ResponseEntity.ok(averageRating);
+    }
+    @GetMapping("/{isbn}/comments")
+    public ResponseEntity<List<String>> getBookComments(@PathVariable String isbn) {
+        Optional<Book> book = bookRepo.findByISBN(isbn);
+        if (!book.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<Review> reviews = reviewRepo.findByMyBook_ISBN(book.get().getISBN());
+
+        if(reviews.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        List<String> comments = reviews.stream()
+                .map(Review::getComment)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(comments);
     }
 }
