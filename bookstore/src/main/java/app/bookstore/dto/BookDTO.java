@@ -7,8 +7,8 @@ import java.math.RoundingMode;
 public class BookDTO {
     private Long id;
 
-    @JsonProperty("ISBN")
-    private String ISBN;
+    @JsonProperty("isbn")
+    private String isbn;
 
     @JsonProperty("myTitle")
     private String myTitle;
@@ -39,10 +39,10 @@ public class BookDTO {
 
     public BookDTO(){};
 
-    public BookDTO(Long id, String ISBN, String myTitle, String myDescription, int myYearPublished, 
+    public BookDTO(Long id, String isbn, String myTitle, String myDescription, int myYearPublished, 
             Integer myAuthorId, Integer myPublisherId, String myGenre, int myCopiesSold, float myPrice) {
         this.id = id;
-        this.ISBN = ISBN;
+        this.isbn = isbn;
         this.myTitle = myTitle;
         this.myDescription = myDescription;
         this.myYearPublished = myYearPublished;
@@ -54,9 +54,9 @@ public class BookDTO {
     }
 
     //  Not Null Constructor
-    public BookDTO(Long id, String ISBN, String myTitle, Integer myAuthorId, Integer myPublisherId, 
+    public BookDTO(Long id, String isbn, String myTitle, Integer myAuthorId, Integer myPublisherId, 
         int myCopiesSold, float myPrice) {
-                this(id, ISBN, myTitle, null, 0000, myAuthorId, 
+                this(id, isbn, myTitle, null, 0000, myAuthorId, 
                     myPublisherId, null, myCopiesSold, myPrice);
     }
 
@@ -71,11 +71,11 @@ public class BookDTO {
     }
 
     public String getISBN() {
-        return ISBN;
+        return isbn;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
+    public void setISBN(String isbn) {
+        this.isbn = isbn;
     }
 
     public String getMyTitle() {
