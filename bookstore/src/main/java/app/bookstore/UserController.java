@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.bookstore.dto.UserDTO;
+import app.bookstore.repo.UserRepo;
 
 @RestController
 @RequestMapping("/users")

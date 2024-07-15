@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.bookstore.dto.CreditCardDTO;
+import app.bookstore.repo.CreditCardRepo;
+import app.bookstore.repo.UserRepo;
 
 @RestController
 @RequestMapping("/users/{username}/creditcards")

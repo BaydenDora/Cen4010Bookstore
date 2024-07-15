@@ -1,45 +1,57 @@
 package app.bookstore.dto;
 
+import app.bookstore.Book;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@JsonPropertyOrder({"Book ID", "ISBN", "Book Title", "Description", "Year Published", 
+"Author ID", "Publisher ID", "Genre", "Copies Sold", "Price", "Current Price"})
 public class BookDTO {
+    
+    @JsonProperty("Book ID")
     private Long id;
 
     @JsonProperty("ISBN")
     private String ISBN;
 
-    @JsonProperty("myTitle")
+    @JsonProperty("Book Title")
     private String myTitle;
 
-    @JsonProperty("myDescription")
+    @JsonProperty("Description")
     private String myDescription;
 
-    @JsonProperty("myYearPublished")
+    @JsonProperty("Year Published")
     private int myYearPublished;
 
-    @JsonProperty("myAuthorId")
+    @JsonProperty("Author ID")
     private Integer myAuthorId;
 
-    @JsonProperty("myPublisherId")
+    @JsonProperty("Publisher ID")
     private Integer myPublisherId;
 
-    @JsonProperty("myGenre")
+    @JsonProperty("Genre")
     private String myGenre;
 
-    @JsonProperty("myCopiesSold")
+    @JsonProperty("Copies Sold")
     private int myCopiesSold;
 
-    @JsonProperty("myPrice")
+    @JsonProperty("Price")
     private float myPrice;
     
-    @JsonProperty("myCurrentPrice")
+    @JsonProperty("Current Price")
     private float myCurrentPrice;
 
     public BookDTO(){};
 
-    public BookDTO(Long id, String ISBN, String myTitle, String myDescription, int myYearPublished, 
+    public BookDTO(Book book){
+        this(book.getId(), book.getISBN(), book.getTitle(), book.getDescription(), book.getYearPublished(), 
+            book.getAuthor().getAuthorID(), book.getPublisher().getID(), book.getGenre().toString(), 
+            book.getCopiesSold(), book.getPrice());
+    }
+
+    private BookDTO(Long id, String ISBN, String myTitle, String myDescription, int myYearPublished, 
             Integer myAuthorId, Integer myPublisherId, String myGenre, int myCopiesSold, float myPrice) {
         this.id = id;
         this.ISBN = ISBN;

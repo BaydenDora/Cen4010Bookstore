@@ -24,10 +24,10 @@ public class Author {
     private int Author_ID;
 
     @Column(name = "FirstName", nullable = false, length = 100)
-    private String FirstName;
+    private String firstName;
 
     @Column(name = "LastName", nullable = false, length = 100)
-    private String LastName;
+    private String lastName;
 
     @Column(name = "Biography", nullable = false, length = 1000)
     private String Biography;
@@ -74,15 +74,15 @@ public class Author {
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public String getName() {
-        return FirstName + " " + LastName;
+        return firstName + " " + lastName;
     }
 
     public String getBiography() {
@@ -103,16 +103,16 @@ public class Author {
     }
 
     protected void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     protected void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     protected void setName(String firstName, String lastName) {
-        FirstName = firstName;
-        LastName = lastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     protected void setBiography(String bio) {

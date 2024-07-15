@@ -1,9 +1,16 @@
 package app.bookstore;
 
 import app.bookstore.dto.BookDTO;
+import app.bookstore.exception.AuthorNotFoundException;
+import app.bookstore.exception.BookNotFoundException;
+import app.bookstore.repo.AuthorRepo;
+import app.bookstore.repo.BookRepo;
+import app.bookstore.repo.PublisherRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,25 +36,28 @@ public class BookController {
     @Autowired
     private PublisherRepo publisherRepo;
 
-    /*  Book Details Feature Task #1:
-        An administrator must be able to create a book with the book ISBN, book name, 
-        book description, price, author, genre, publisher, year published and copies sold  */
+
+    /**
+     * Book Details Feature Task #1: 
+     * An administrator must be able to create a book with the book ISBN, book name, 
+     * book description, price, author, genre, publisher, year published and copies sold
+     * @param bookDTO
+     * @return ResponseEntity<BookDTO> containing HTTP status code 201 and the created BookDTO
+     */
     @PostMapping
     public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
-        Optional<Author> author = AuthorRepo.findById(bookDTO.getMyAuthorId());
-        if (!author.isPresent())
-            throw new RuntimeException("Author not found");
-        Optional<Publisher> publisher = publisherRepo.findById(bookDTO.getMyPublisherId());
-        if (!publisher.isPresent()) 
-            throw new RuntimeException("Publisher not found");
+        int auhthorId = bookDTO.getMyAuthorId();
+        var author = AuthorRepo.findById(auhthorId).orElseThrow(() -> new AuthorNotFoundException(auhthorId));
+        var publisher = publisherRepo.findById(bookDTO.getMyPublisherId())
+                            .orElseThrow(() -> new RuntimeException("Publisher not found"));
 
         Book book = new Book();
         book.setISBN(bookDTO.getISBN());
         book.setTitle(bookDTO.getMyTitle());
         book.setDescription(bookDTO.getMyDescription());
         book.setYearPublished(bookDTO.getMyYearPublished());
-        book.setAuthor(author.get());
-        book.setPublisher(publisher.get());
+        book.setAuthor(author);
+        book.setPublisher(publisher);
         book.setGenre(Genre.valueOf(bookDTO.getMyGenre()));
         book.setCopiesSold(bookDTO.getMyCopiesSold());
         book.setPrice(bookDTO.getMyPrice());
@@ -56,27 +66,24 @@ public class BookController {
         bookDTO.setId(savedBook.getId());
         bookDTO.setMyCurrentPrice(book.getSellingPrice()); // Set current price
         bookDTO.roundPrices(); // Round the prices
-        return ResponseEntity.ok(bookDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> getBookById(@PathVariable Long id) {
-        Optional<Book> book = bookRepo.findById(id);
-        if (!book.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setId(book.get().getId());
-        bookDTO.setISBN(book.get().getISBN());
-        bookDTO.setMyTitle(book.get().getTitle());
-        bookDTO.setMyDescription(book.get().getDescription());
-        bookDTO.setMyYearPublished(book.get().getYearPublished());
-        bookDTO.setMyAuthorId(book.get().getAuthor().getAuthorID());
-        bookDTO.setMyPublisherId(book.get().getPublisher().getID());
-        bookDTO.setMyGenre(book.get().getGenre().name());
-        bookDTO.setMyCopiesSold(book.get().getCopiesSold());
-        bookDTO.setMyPrice(book.get().getPrice());
-        bookDTO.setMyCurrentPrice(book.get().getSellingPrice());
+        Book book = verifyBook(id);
+        BookDTO bookDTO = new BookDTO(book);
+        // bookDTO.setId(book.get().getId());
+        // bookDTO.setISBN(book.get().getISBN());
+        // bookDTO.setMyTitle(book.get().getTitle());
+        // bookDTO.setMyDescription(book.get().getDescription());
+        // bookDTO.setMyYearPublished(book.get().getYearPublished());
+        // bookDTO.setMyAuthorId(book.get().getAuthor().getAuthorID());
+        // bookDTO.setMyPublisherId(book.get().getPublisher().getID());
+        // bookDTO.setMyGenre(book.get().getGenre().name());
+        // bookDTO.setMyCopiesSold(book.get().getCopiesSold());
+        // bookDTO.setMyPrice(book.get().getPrice());
+        bookDTO.setMyCurrentPrice(book.getSellingPrice());
         bookDTO.roundPrices(); // Round the prices
 
         return ResponseEntity.ok(bookDTO);
@@ -85,20 +92,20 @@ public class BookController {
     @GetMapping
     public ResponseEntity<List<BookDTO>> getAllBooks() {
         List<Book> books = new ArrayList<>();
-        bookRepo.findAll().forEach(books::add);  // Convert Iterable to List
+        bookRepo.findAll(Sort.by(Sort.Direction.ASC, "id")).forEach(books::add);  // Convert Iterable to List
 
         List<BookDTO> bookDTOs = books.stream().map(book -> {
-            BookDTO bookDTO = new BookDTO();
-            bookDTO.setId(book.getId());
-            bookDTO.setISBN(book.getISBN());
-            bookDTO.setMyTitle(book.getTitle());
-            bookDTO.setMyDescription(book.getDescription());
-            bookDTO.setMyYearPublished(book.getYearPublished());
-            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
-            bookDTO.setMyPublisherId(book.getPublisher().getID());
-            bookDTO.setMyGenre(book.getGenre().name());
-            bookDTO.setMyCopiesSold(book.getCopiesSold());
-            bookDTO.setMyPrice(book.getPrice());
+            BookDTO bookDTO = new BookDTO(book);
+            // bookDTO.setId(book.getId());
+            // bookDTO.setISBN(book.getISBN());
+            // bookDTO.setMyTitle(book.getTitle());
+            // bookDTO.setMyDescription(book.getDescription());
+            // bookDTO.setMyYearPublished(book.getYearPublished());
+            // bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
+            // bookDTO.setMyPublisherId(book.getPublisher().getID());
+            // bookDTO.setMyGenre(book.getGenre().name());
+            // bookDTO.setMyCopiesSold(book.getCopiesSold());
+            // bookDTO.setMyPrice(book.getPrice());
             bookDTO.setMyCurrentPrice(book.getSellingPrice());
             bookDTO.roundPrices(); // Round the prices
             return bookDTO;
@@ -106,27 +113,16 @@ public class BookController {
         return ResponseEntity.ok(bookDTOs);
     }
 
-    /*  Book Details Feature Task #2:
-        Must be able retrieve a book’s details by the ISBN  */
+    /**
+     * Book Details Feature Task #2:
+     * Must be able retrieve a book’s details by the ISBN 
+     * @param ISBN
+     * @return ResponseEntity<BookDTO> containing HTTP status code 200 and the found BookDTO
+     */
     @GetMapping("/ISBN/{ISBN}")
-        public ResponseEntity<BookDTO> getBookByISBN(@PathVariable String ISBN) {
-        Optional<Book> bk = bookRepo.findByISBN(ISBN);
-        if (!bk.isPresent()) 
-            return ResponseEntity.notFound().build();
-        
-        Book book = bk.get();
-        BookDTO bookDTO = new BookDTO(
-            book.getId(),
-            book.getISBN(),
-            book.getTitle(),
-            book.getDescription(),
-            book.getYearPublished(),
-            book.getAuthor().getAuthorID(),
-            book.getPublisher().getID(),
-            book.getGenre().name(),
-            book.getCopiesSold(),
-            book.getPrice()
-        );
+    public ResponseEntity<BookDTO> getBookByISBN(@PathVariable String ISBN) {
+        Book book = verifyBook(ISBN);
+        BookDTO bookDTO = new BookDTO(book);
         bookDTO.setMyCurrentPrice(book.getSellingPrice());
         bookDTO.roundPrices(); // Round the prices
         return ResponseEntity.ok(bookDTO);
@@ -260,4 +256,22 @@ public class BookController {
             return ResponseEntity.noContent().build();
         }
     }            
+
+
+    /**
+     * Helper method to verify and return Book given an id.
+     * @param id the Book Identifier
+     * @return the found Book
+     * @throws BookNotFoundException if no Book is found
+     */
+    private Book verifyBook(Long id) throws BookNotFoundException{
+        return bookRepo.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+    }
+
+    private Book verifyBook(String ISBN) throws BookNotFoundException{
+        return bookRepo.findByISBN(ISBN)
+                .orElseThrow(() -> new BookNotFoundException(ISBN));
+    }
+
 }

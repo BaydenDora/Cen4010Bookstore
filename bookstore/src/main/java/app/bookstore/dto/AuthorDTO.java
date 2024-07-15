@@ -1,30 +1,44 @@
 package app.bookstore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import app.bookstore.Author;
+import app.bookstore.Publisher;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@JsonPropertyOrder({"Author ID", "First Name", "Last Name", "Biography", "Publisher IDs"})
 public class AuthorDTO {
 
-    @JsonProperty("authorID")
+    @JsonProperty("Author ID")
     private int authorID;
 
-    @JsonProperty("firstName")
+    @JsonProperty("First Name")
     private String firstName;
 
-    @JsonProperty("lastName")
+    @JsonProperty("Last Name")
     private String lastName;
 
-    @JsonProperty("biography")
+    @JsonProperty("Biography")
     private String biography;
 
-    @JsonProperty("publisherIds")
+    @JsonProperty("Publisher IDs")
     private List<Integer> publisherIds;
 
     // Default constructor
-    public AuthorDTO() {
+    public AuthorDTO() {}
+
+    public AuthorDTO(Author author){
+        this(author.getAuthorID(), author.getFirstName(), 
+        author.getLastName(), author.getBiography(), 
+        author.getPublishers().stream()
+                        .map(Publisher::getID)
+                        .collect(Collectors.toList()));
     }
 
-    public AuthorDTO(int authorID, String firstName, String lastName, String biography, List<Integer> publisherIds) {
+    private AuthorDTO(int authorID, String firstName, String lastName, 
+                String biography, List<Integer> publisherIds) {
         this.authorID = authorID;
         this.firstName = firstName;
         this.lastName = lastName;

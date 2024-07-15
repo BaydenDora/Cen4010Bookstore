@@ -17,7 +17,6 @@ public class Book {
     private Long id;
 
     @Column(name = "ISBN", nullable = false, unique = true, length = 13)
-    @JsonProperty("ISBN")
     private String ISBN;
 
     @Column(name = "BookName", nullable = false, length = 500)
@@ -86,7 +85,9 @@ public class Book {
         this.mySellingPrice = 0; 
     }
 
-    public Book(String ISBN, String title, String description, int yearPublished, Author author, Publisher publisher, Genre genre, int copiesSold, float price) {
+    public Book(Long id, String ISBN, String title, String description, int yearPublished, Author author, 
+                Publisher publisher, Genre genre, int copiesSold, float price) {
+        this.id = id;
         setISBN(ISBN);
         setTitle(title);
         setDescription(description);
@@ -97,6 +98,11 @@ public class Book {
         setCopiesSold(copiesSold);
         setPrice(price); 
         this.mySellingPrice = price; 
+    }
+
+    public Book(String ISBN, String title, String description, int yearPublished, Author author, 
+                Publisher publisher, Genre genre, int copiesSold, float price) {
+        this(null, ISBN, title, description, yearPublished, author, publisher, genre, copiesSold, price);
     }
 
     public Long getId() {
