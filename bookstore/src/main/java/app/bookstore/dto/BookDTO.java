@@ -48,11 +48,11 @@ public class BookDTO {
     public BookDTO(Book book){
         this(book.getId(), book.getISBN(), book.getTitle(), book.getDescription(), book.getYearPublished(), 
             book.getAuthor().getAuthorID(), book.getPublisher().getID(), book.getGenre().toString(), 
-            book.getCopiesSold(), book.getPrice());
+            book.getCopiesSold(), book.getPrice(), book.getSellingPrice());
     }
 
     private BookDTO(Long id, String ISBN, String myTitle, String myDescription, int myYearPublished, 
-            Integer myAuthorId, Integer myPublisherId, String myGenre, int myCopiesSold, float myPrice) {
+            Integer myAuthorId, Integer myPublisherId, String myGenre, int myCopiesSold, float myPrice, float myCurrentPrice) {
         this.id = id;
         this.isbn = ISBN;
         this.myTitle = myTitle;
@@ -63,13 +63,15 @@ public class BookDTO {
         this.myGenre = myGenre;
         this.myCopiesSold = myCopiesSold;
         this.myPrice = myPrice;
+        this.myCurrentPrice = myCurrentPrice;
+        this.roundPrices();
     }
 
     //  Not Null Constructor
     public BookDTO(Long id, String ISBN, String myTitle, Integer myAuthorId, Integer myPublisherId, 
-        int myCopiesSold, float myPrice) {
+        int myCopiesSold, float myPrice, float myCurrentPrice) {
                 this(id, ISBN, myTitle, null, 0000, myAuthorId, 
-                    myPublisherId, null, myCopiesSold, myPrice);
+                    myPublisherId, null, myCopiesSold, myPrice, myCurrentPrice);
     }
 
     // Getters and setters

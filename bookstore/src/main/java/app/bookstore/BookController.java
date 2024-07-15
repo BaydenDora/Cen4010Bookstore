@@ -82,13 +82,9 @@ public class BookController {
     public ResponseEntity<List<BookDTO>> getAllBooks() {
         List<Book> books = new ArrayList<>();
         bookRepo.findAll(Sort.by(Sort.Direction.ASC, "id")).forEach(books::add);  // Convert Iterable to List
-
-        List<BookDTO> bookDTOs = books.stream().map(book -> {
-            BookDTO bookDTO = new BookDTO(book);
-            bookDTO.setMyCurrentPrice(book.getSellingPrice());
-            bookDTO.roundPrices(); // Round the prices
-            return bookDTO;
-        }).collect(Collectors.toList());
+        List<BookDTO> bookDTOs = books.stream()
+                    .map(BookDTO::new)
+                    .collect(Collectors.toList());
         return ResponseEntity.ok(bookDTOs);
     }
 
