@@ -106,3 +106,6 @@ bookstore/src/main/resources/application.properties
 *.class
 bookstore/target/classes/app/bookstore/Book.class
 /bookstore/target/classes
+bookstore/target/classes/app/bookstore/Book.class
+bookstore/target/classes/application.properties
+bookstore/target/classes/application.properties
