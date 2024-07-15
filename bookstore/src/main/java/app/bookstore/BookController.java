@@ -51,7 +51,7 @@ public class BookController {
                             .orElseThrow(() -> new RuntimeException("Publisher not found"));
 
         Book book = new Book();
-        book.setISBN(bookDTO.getISBN());
+        book.setISBN(bookDTO.getIsbn());
         book.setTitle(bookDTO.getMyTitle());
         book.setDescription(bookDTO.getMyDescription());
         book.setYearPublished(bookDTO.getMyYearPublished());
@@ -117,7 +117,7 @@ public class BookController {
             List<BookDTO> bookDTOs = books.stream().map(book -> {
                 BookDTO bookDTO = new BookDTO();
                 bookDTO.setId(book.getId());
-                bookDTO.setISBN(book.getISBN());
+                bookDTO.setIsbn(book.getISBN());
                 bookDTO.setMyTitle(book.getTitle());
                 bookDTO.setMyDescription(book.getDescription());
                 bookDTO.setMyYearPublished(book.getYearPublished());
@@ -147,7 +147,7 @@ public class BookController {
             List<BookDTO> bookDTOs = books.stream().map(book -> {
                 BookDTO bookDTO = new BookDTO();
                 bookDTO.setId(book.getId());
-                bookDTO.setISBN(book.getISBN());
+                bookDTO.setIsbn(book.getISBN());
                 bookDTO.setMyTitle(book.getTitle());
                 bookDTO.setMyDescription(book.getDescription());
                 bookDTO.setMyYearPublished(book.getYearPublished());
@@ -177,7 +177,7 @@ public class BookController {
             List<BookDTO> bookDTOs = books.stream().map(book -> {
                 BookDTO bookDTO = new BookDTO();
                 bookDTO.setId(book.getId());
-                bookDTO.setISBN(book.getISBN());
+                bookDTO.setIsbn(book.getISBN());
                 bookDTO.setMyTitle(book.getTitle());
                 bookDTO.setMyDescription(book.getDescription());
                 bookDTO.setMyYearPublished(book.getYearPublished());
@@ -213,7 +213,7 @@ public class BookController {
                 
                 BookDTO bookDTO = new BookDTO();
                 bookDTO.setId(book.getId());
-                bookDTO.setISBN(book.getISBN());
+                bookDTO.setIsbn(book.getISBN());
                 bookDTO.setMyTitle(book.getTitle());
                 bookDTO.setMyDescription(book.getDescription());
                 bookDTO.setMyYearPublished(book.getYearPublished());

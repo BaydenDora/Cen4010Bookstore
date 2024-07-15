@@ -14,7 +14,7 @@ public class BookDTO {
     private Long id;
 
     @JsonProperty("ISBN")
-    private String ISBN;
+    private String isbn;
 
     @JsonProperty("Book Title")
     private String myTitle;
@@ -54,7 +54,7 @@ public class BookDTO {
     private BookDTO(Long id, String ISBN, String myTitle, String myDescription, int myYearPublished, 
             Integer myAuthorId, Integer myPublisherId, String myGenre, int myCopiesSold, float myPrice) {
         this.id = id;
-        this.ISBN = ISBN;
+        this.isbn = ISBN;
         this.myTitle = myTitle;
         this.myDescription = myDescription;
         this.myYearPublished = myYearPublished;
@@ -82,12 +82,12 @@ public class BookDTO {
         this.id = id;
     }
 
-    public String getISBN() {
-        return ISBN;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
+    public void setIsbn(String ISBN) {
+        this.isbn = ISBN;
     }
 
     public String getMyTitle() {

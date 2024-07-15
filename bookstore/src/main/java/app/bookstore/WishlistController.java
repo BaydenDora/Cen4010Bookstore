@@ -100,7 +100,7 @@ public class WishlistController {
         List<BookDTO> booksInWishlist = wishlist.get().getBooksInWishlist().stream().map(book -> {
             BookDTO bookDTO = new BookDTO();
             bookDTO.setId(book.getId());
-            bookDTO.setISBN(book.getISBN());
+            bookDTO.setIsbn(book.getISBN());
             bookDTO.setMyTitle(book.getTitle());
             bookDTO.setMyDescription(book.getDescription());
             bookDTO.setMyYearPublished(book.getYearPublished());
