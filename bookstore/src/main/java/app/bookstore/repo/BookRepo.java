@@ -7,15 +7,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import app.bookstore.Book;
-import app.bookstore.Genre;
+import app.bookstore.domain.Book;
+import app.bookstore.domain.Genre;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface BookRepo extends JpaRepository<Book, Long> {
-    Optional<Book> findByISBN(String ISBN); // Add this method
+    Optional<Book> findByISBN(String ISBN); 
     
 //    @Query (value = "SELECT b FROM Book b WHERE b.myRating >= ?1")
 //    List<Book> findByRating(int rating); 

@@ -34,7 +34,7 @@ CREATE TABLE Book (
     Author_ID INT,
     Publisher_ID INT,
     BookDescription VARCHAR(1000),
-    Genre ENUM('Textbook', 'ACADEMIC', 'REPORT', 'BIOGRAPHY', 'MANUAL', 
+    Genre ENUM('TEXTBOOK', 'ACADEMIC', 'REPORT', 'BIOGRAPHY', 'MANUAL', 
         'FANTASY', 'SCIENCEFICTION', 'ACTION', 'ADVENTURE', 'HISTORICAL', 
         'FICTION', 'NONFICTION', 'OTHER') DEFAULT 'OTHER',
     YearPublished INT,

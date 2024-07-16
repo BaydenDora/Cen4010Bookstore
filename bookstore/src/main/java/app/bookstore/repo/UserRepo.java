@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import app.bookstore.User;
+import app.bookstore.domain.User;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {

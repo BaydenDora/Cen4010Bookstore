@@ -3,8 +3,9 @@ package app.bookstore.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import app.bookstore.Author;
-import app.bookstore.Publisher;
+import app.bookstore.domain.Author;
+import app.bookstore.domain.Publisher;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class AuthorDTO {
     private String biography;
 
     @JsonProperty("Publisher IDs")
-    private List<Integer> publisherIds;
+    private List<Integer> publisherIDs;
 
     // Default constructor
     public AuthorDTO() {}
@@ -43,7 +44,7 @@ public class AuthorDTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.biography = biography;
-        this.publisherIds = publisherIds;
+        this.publisherIDs = publisherIds;
     }
 
 
@@ -81,12 +82,12 @@ public class AuthorDTO {
         this.biography = biography;
     }
 
-    public List<Integer> getPublisherIds() {
-        return publisherIds;
+    public List<Integer> getPublisherIDs() {
+        return publisherIDs;
     }
 
-    public void setPublisherIds(List<Integer> publisherIds) {
-        this.publisherIds = publisherIds;
+    public void setPublisherIDs(List<Integer> publisherIds) {
+        this.publisherIDs = publisherIds;
     }
 
     @Override
@@ -96,7 +97,7 @@ public class AuthorDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", biography='" + biography + '\'' +
-                ", publisherIds=" + publisherIds +
+                ", publisherIds=" + publisherIDs +
                 '}';
     }
 }

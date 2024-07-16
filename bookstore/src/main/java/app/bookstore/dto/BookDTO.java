@@ -1,10 +1,13 @@
 package app.bookstore.dto;
 
-import app.bookstore.Book;
+import app.bookstore.domain.Book;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
 
 @JsonPropertyOrder({"Book ID", "ISBN", "Book Title", "Description", "Year Published", 
 "Author ID", "Publisher ID", "Genre", "Copies Sold", "Price", "Current Price"})
@@ -46,8 +49,9 @@ public class BookDTO {
     public BookDTO(){};
 
     public BookDTO(Book book){
-        this(book.getId(), book.getISBN(), book.getTitle(), book.getDescription(), book.getYearPublished(), 
-            book.getAuthor().getAuthorID(), book.getPublisher().getID(), book.getGenre().toString(), 
+        this(book.getId(), book.getIsbn(), book.getTitle(), book.getDescription(), book.getYearPublished(), 
+            book.getAuthor().getAuthorID(), book.getPublisher().getID(), 
+            (book.getGenre() != null) ? book.getGenre().getLabel() : null, 
             book.getCopiesSold(), book.getPrice(), book.getSellingPrice());
     }
 
