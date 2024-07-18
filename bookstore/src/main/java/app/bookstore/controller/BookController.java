@@ -190,7 +190,7 @@ public class BookController {
      * @throws BookNotFoundException if no Book is found
      */
     private Book verifyBook(String ISBN) throws BookNotFoundException{
-        return bookRepo.findByISBN(ISBN)
+        return bookRepo.findByIsbn(ISBN)
                 .orElseThrow(() -> new BookNotFoundException(ISBN));
     }
     
@@ -211,7 +211,7 @@ public class BookController {
                     .ifPresent(book -> { throw new BookExistsException(id); });});
         
         var isbn = bookDTO.getIsbn();
-        bookRepo.findByISBN(isbn)
+        bookRepo.findByIsbn(isbn)
                     .ifPresent(book ->  { throw new BookExistsException(isbn); });
         
         Book book = new Book();

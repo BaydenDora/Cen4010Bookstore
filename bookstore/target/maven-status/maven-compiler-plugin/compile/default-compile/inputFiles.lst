@@ -34,6 +34,7 @@
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Book/BookExistsException.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Book/BookNotFoundAdvice.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Book/BookNotFoundException.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/ErrorResponse.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Genre/NoSuchGenreAdvice.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Genre/NoSuchGenreException.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/GlobalExceptionHandler.java

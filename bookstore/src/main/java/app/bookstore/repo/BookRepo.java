@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepo extends JpaRepository<Book, Long> {
-    Optional<Book> findByISBN(String ISBN); 
+    Optional<Book> findByIsbn(String isbn); 
     
 //    @Query (value = "SELECT b FROM Book b WHERE b.myRating >= ?1")
 //    List<Book> findByRating(int rating); 

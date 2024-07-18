@@ -55,10 +55,10 @@ public class BookDTO {
             book.getCopiesSold(), book.getPrice(), book.getSellingPrice());
     }
 
-    private BookDTO(Long id, String ISBN, String myTitle, String myDescription, int myYearPublished, 
+    private BookDTO(Long id, String isbn, String myTitle, String myDescription, int myYearPublished, 
             Integer myAuthorId, Integer myPublisherId, String myGenre, int myCopiesSold, float myPrice, float myCurrentPrice) {
         this.id = id;
-        this.isbn = ISBN;
+        this.isbn = isbn;
         this.myTitle = myTitle;
         this.myDescription = myDescription;
         this.myYearPublished = myYearPublished;
@@ -72,9 +72,9 @@ public class BookDTO {
     }
 
     //  Not Null Constructor
-    public BookDTO(Long id, String ISBN, String myTitle, Integer myAuthorId, Integer myPublisherId, 
+    public BookDTO(Long id, String isbn, String myTitle, Integer myAuthorId, Integer myPublisherId, 
         int myCopiesSold, float myPrice, float myCurrentPrice) {
-                this(id, ISBN, myTitle, null, 0000, myAuthorId, 
+                this(id, isbn, myTitle, null, 0000, myAuthorId, 
                     myPublisherId, null, myCopiesSold, myPrice, myCurrentPrice);
     }
 
@@ -92,8 +92,8 @@ public class BookDTO {
         return isbn;
     }
 
-    public void setIsbn(String ISBN) {
-        this.isbn = ISBN;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public String getMyTitle() {

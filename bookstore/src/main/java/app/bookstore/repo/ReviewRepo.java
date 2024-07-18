@@ -11,5 +11,5 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepo extends JpaRepository<Review, Integer> {
-    List<Review> findByMyBook_ISBN(String isbn);
+    List<Review> findByMyBook_Isbn(String isbn);
 }

@@ -1,53 +1,60 @@
-// package app.bookstore.exception;
-// import java.io.Serializable;
-// import java.time.LocalDateTime;
-// import java.util.HashMap;
-// import java.util.Map;
+package app.bookstore.exception;
+import java.util.List;
+import java.util.ArrayList;
 
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.ExceptionHandler;
-// import org.springframework.web.bind.annotation.ResponseStatus;
-// // import org.springframework.web.bind.annotation.ResponseStatus;
-// import org.springframework.web.bind.annotation.RestControllerAdvice;
+import app.bookstore.exception.Author.AuthorExistsException;
+import app.bookstore.exception.Author.AuthorNotFoundException;
+import app.bookstore.exception.Book.BookExistsException;
+import app.bookstore.exception.Book.BookNotFoundException;
+import app.bookstore.exception.Genre.NoSuchGenreException;
 
-// import com.fasterxml.jackson.annotation.JsonFormat;
-// import com.fasterxml.jackson.databind.ObjectMapper;
-
-// import app.bookstore.exception.Book.BookExistsException;
-// import app.bookstore.exception.Book.BookNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 
-// @RestControllerAdvice
-// class GlobalExceptionHandler implements Serializable {
-
-//     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-//     // private LocalDateTime timestamp;
-//     private ObjectMapper objectMapper;
-
-//     @ExceptionHandler(BookNotFoundException.class)
-//     // @ResponseStatus(HttpStatus.NOT_FOUND)
-//     ResponseEntity<String> bookNotFoundHandler(BookNotFoundException e) {
-
-//         Map<String, String> response = new HashMap<>();
-//         // objectMapper = new ObjectMapper();
-//         response.put("Error", e.getMessage());
-//         try{
-//             String jsonResponse = objectMapper.writeValueAsString(response);
-//             return new ResponseEntity<>(jsonResponse, HttpStatus.NOT_FOUND);
-//         } catch(Exception ex) { 
-//             return new ResponseEntity<>("Error converting to JSON", HttpStatus.INTERNAL_SERVER_ERROR); 
-//         }
-//     }
+@RestControllerAdvice
+class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
-//     @ExceptionHandler(BookExistsException.class)
-//     @ResponseStatus(HttpStatus.FORBIDDEN)
-//     String bookNotFoundHandler(BookExistsException e) {
-//       return e.getMessage();
-//     }
+    @ExceptionHandler(AuthorNotFoundException.class)
+    public ResponseEntity<ErrorResponse> authorNotFoundHandler(AuthorNotFoundException ex) {
+        return globalHandler(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AuthorExistsException.class)
+    public ResponseEntity<ErrorResponse> authorExistsHandler(AuthorExistsException ex) {
+        return globalHandler(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity<ErrorResponse> bookNotFoundHandler(BookNotFoundException ex) {
+        return globalHandler(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BookExistsException.class)
+    public ResponseEntity<ErrorResponse> bookNotFoundHandler(BookExistsException ex) {
+        return globalHandler(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(NoSuchGenreException.class)
+    ResponseEntity<ErrorResponse> authorExistsHandler(NoSuchGenreException ex) {
+        return globalHandler(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
 
+    private ResponseEntity<ErrorResponse> globalHandler(String msg, HttpStatus status){
+        var error = new ErrorResponse(status.toString(), new ArrayList<>(){{add(msg);}});
+        try{
+            return new ResponseEntity<>(error, status);
+        } catch(Exception e) { 
+            return new ResponseEntity<>(
+                new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.toString(),  
+                    new ArrayList<>(){{add("Error converting to JSON");}}), 
+                HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-
-// }
+}

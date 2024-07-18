@@ -9,7 +9,7 @@ public class ReviewDTO {
     private int reviewID;
 
     @JsonProperty("ISBN")
-    private String ISBN;
+    private String isbn;
 
     @JsonProperty("userID")
     private int userID;
@@ -33,12 +33,12 @@ public class ReviewDTO {
         this.reviewID = reviewID;
     }
 
-    public String getISBN() {
-        return ISBN;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public int getUserID() {
@@ -77,7 +77,7 @@ public class ReviewDTO {
     public String toString() {
         return "ReviewDTO{" +
                 "reviewID=" + reviewID +
-                ", ISBN='" + ISBN + '\'' +
+                ", isbn='" + isbn + '\'' +
                 ", userID=" + userID +
                 ", comment='" + comment + '\'' +
                 ", rating=" + rating +

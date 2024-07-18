@@ -38,7 +38,7 @@ public class ShoppingCartController {
         shoppingCart.setUser(user.get());
 
         List<Book> books = shoppingCartDTO.getBookISBNs().stream()
-                .map(isbn -> bookRepo.findByISBN(isbn).orElse(null))
+                .map(isbn -> bookRepo.findByIsbn(isbn).orElse(null))
                 .collect(Collectors.toList());
 
         shoppingCart.setBooksInCart(books);

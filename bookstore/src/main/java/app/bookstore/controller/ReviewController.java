@@ -33,7 +33,7 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO reviewDTO) {
-        Optional<Book> book = bookRepo.findByISBN(reviewDTO.getISBN());
+        Optional<Book> book = bookRepo.findByIsbn(reviewDTO.getIsbn());
         if (!book.isPresent()) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -65,7 +65,7 @@ public class ReviewController {
 
         ReviewDTO reviewDTO = new ReviewDTO();
         reviewDTO.setReviewID(review.get().getID());
-        reviewDTO.setISBN(review.get().getIsbn().getIsbn());
+        reviewDTO.setIsbn(review.get().getIsbn().getIsbn());
         reviewDTO.setUserID(review.get().getUsername().getUserID());
         reviewDTO.setComment(review.get().getComment());
         reviewDTO.setRating(review.get().getRating());
@@ -81,7 +81,7 @@ public class ReviewController {
         List<ReviewDTO> reviewDTOs = reviews.stream().map(review -> {
             ReviewDTO reviewDTO = new ReviewDTO();
             reviewDTO.setReviewID(review.getID());
-            reviewDTO.setISBN(review.getIsbn().getIsbn());
+            reviewDTO.setIsbn(review.getIsbn().getIsbn());
             reviewDTO.setUserID(review.getUsername().getUserID());
             reviewDTO.setComment(review.getComment());
             reviewDTO.setRating(review.getRating());
@@ -94,12 +94,12 @@ public class ReviewController {
     @GetMapping("/{isbn}/averageRating")
     public ResponseEntity<Double> getBookAverageRating (@PathVariable String isbn)
     {
-        Optional<Book> book = bookRepo.findByISBN(isbn);
+        Optional<Book> book = bookRepo.findByIsbn(isbn);
         if (!book.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Review> reviews = reviewRepo.findByMyBook_ISBN(book.get().getIsbn());
+        List<Review> reviews = reviewRepo.findByMyBook_Isbn(book.get().getIsbn());
 
         if(reviews.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -114,12 +114,12 @@ public class ReviewController {
     }
     @GetMapping("/{isbn}/comments")
     public ResponseEntity<List<String>> getBookComments(@PathVariable String isbn) {
-        Optional<Book> book = bookRepo.findByISBN(isbn);
+        Optional<Book> book = bookRepo.findByIsbn(isbn);
         if (!book.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Review> reviews = reviewRepo.findByMyBook_ISBN(book.get().getIsbn());
+        List<Review> reviews = reviewRepo.findByMyBook_Isbn(book.get().getIsbn());
 
         if(reviews.isEmpty()){
             return ResponseEntity.notFound().build();

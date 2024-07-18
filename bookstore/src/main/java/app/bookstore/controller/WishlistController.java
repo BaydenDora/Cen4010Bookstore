@@ -44,7 +44,7 @@ public class WishlistController {
         wishlist.setWishlistName(wishlistDTO.getWishlistName());
 
         List<Book> books = wishlistDTO.getBookISBNs().stream()
-                .map(isbn -> bookRepo.findByISBN(isbn).orElse(null))
+                .map(isbn -> bookRepo.findByIsbn(isbn).orElse(null))
                 .collect(Collectors.toList());
 
         wishlist.setBooksInWishlist(books);
@@ -127,7 +127,7 @@ public class WishlistController {
             return ResponseEntity.notFound().build();
         }
 
-        Optional<Book> bookOptional = bookRepo.findByISBN(isbn);
+        Optional<Book> bookOptional = bookRepo.findByIsbn(isbn);
         if (!bookOptional.isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -153,7 +153,7 @@ public class WishlistController {
             return ResponseEntity.notFound().build();
         }
 
-        Optional<Book> bookOptional = bookRepo.findByISBN(isbn);
+        Optional<Book> bookOptional = bookRepo.findByIsbn(isbn);
         if (!bookOptional.isPresent()) {
             return ResponseEntity.notFound().build();
         }
