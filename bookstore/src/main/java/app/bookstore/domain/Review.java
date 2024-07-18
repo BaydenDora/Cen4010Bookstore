@@ -60,7 +60,7 @@ public class Review {
         this.Review_ID = id;
     }
 
-    public Book getIsbn() {
+    public Book getBook() {
         return myBook;
     }
 
@@ -68,7 +68,7 @@ public class Review {
         myBook = book;
     }
 
-    public User getUsername() {
+    public User getUser() {
         return myUserID;
     }
 

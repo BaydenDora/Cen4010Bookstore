@@ -31,11 +31,15 @@ public class AuthorDTO {
     public AuthorDTO() {}
 
     public AuthorDTO(Author author){
-        this(author.getAuthorID(), author.getFirstName(), 
-        author.getLastName(), author.getBiography(), 
-        author.getPublishers().stream()
-                        .map(Publisher::getID)
-                        .collect(Collectors.toList()));
+        this(
+            author.getAuthorID(), 
+            author.getFirstName(), 
+            author.getLastName(), 
+            author.getBiography(), 
+            author.getPublishers().stream()
+                    .map(Publisher::getID)
+                    .collect(Collectors.toList())
+        );
     }
 
     private AuthorDTO(int authorID, String firstName, String lastName, 

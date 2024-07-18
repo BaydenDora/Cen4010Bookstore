@@ -65,8 +65,8 @@ public class ReviewController {
 
         ReviewDTO reviewDTO = new ReviewDTO();
         reviewDTO.setReviewID(review.get().getID());
-        reviewDTO.setIsbn(review.get().getIsbn().getIsbn());
-        reviewDTO.setUserID(review.get().getUsername().getUserID());
+        reviewDTO.setIsbn(review.get().getBook().getIsbn());
+        reviewDTO.setUserID(review.get().getUser().getUserID());
         reviewDTO.setComment(review.get().getComment());
         reviewDTO.setRating(review.get().getRating());
         reviewDTO.setDate(review.get().getDate());
@@ -81,8 +81,8 @@ public class ReviewController {
         List<ReviewDTO> reviewDTOs = reviews.stream().map(review -> {
             ReviewDTO reviewDTO = new ReviewDTO();
             reviewDTO.setReviewID(review.getID());
-            reviewDTO.setIsbn(review.getIsbn().getIsbn());
-            reviewDTO.setUserID(review.getUsername().getUserID());
+            reviewDTO.setIsbn(review.getBook().getIsbn());
+            reviewDTO.setUserID(review.getUser().getUserID());
             reviewDTO.setComment(review.getComment());
             reviewDTO.setRating(review.getRating());
             reviewDTO.setDate(review.getDate());
