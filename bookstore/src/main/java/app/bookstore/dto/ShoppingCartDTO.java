@@ -6,9 +6,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import app.bookstore.domain.Author;
 import app.bookstore.domain.Book;
-import app.bookstore.domain.Publisher;
 import app.bookstore.domain.ShoppingCart;
 
 @JsonPropertyOrder({"Author ID", "First Name", "Last Name", "Biography", "Publisher IDs"})
@@ -23,7 +21,7 @@ public class ShoppingCartDTO {
     @JsonProperty("Book ISBNs")
     private List<String> bookISBNs;
 
-     public ShoppingCartDTO() {}
+    public ShoppingCartDTO() {}
 
     public ShoppingCartDTO(ShoppingCart shoppingCart){
         this(
@@ -40,7 +38,6 @@ public class ShoppingCartDTO {
         this.userID = userID;
         this.bookISBNs = bookISBNs;
     }
-
 
     // Getters and setters...
 

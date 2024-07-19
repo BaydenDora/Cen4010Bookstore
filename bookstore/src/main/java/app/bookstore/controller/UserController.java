@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,25 +30,22 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<User> users = userRepo.findAll();
-        List<UserDTO> userDTOs = users.stream().map(UserDTO::new)
+        List<UserDTO> userDTOs = userRepo.findAll().stream()
+                                .map(UserDTO::new)
                                 .collect(Collectors.toList());
         return ResponseEntity.ok(userDTOs);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id) {
-        User user = verifyUser(id);
-        UserDTO userDTO = new UserDTO(user);
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.ok(new UserDTO(verifyUser(id)));
     }
 
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        User user = verifyUser(userDTO);
-        User savedUser = userRepo.save(user);
+        User savedUser = userRepo.save(verifyUser(userDTO));
         userDTO.setUserID(savedUser.getUserID());
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
     @PatchMapping("/{username}/edit/username/{newname}")
@@ -132,20 +130,18 @@ public class UserController {
     }
 
 
-
-    private User verifyUser(int id) throws UserNotFoundException{
+    private User verifyUser(int id) throws UserNotFoundException {
         return userRepo.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-
-    private User verifyUser(UserDTO userDTO) throws UserExistsException{
+    private User verifyUser(UserDTO userDTO) throws UserExistsException {
         Optional.of(userDTO.getUserID())
                 .ifPresent(id -> { userRepo.findById(id)
                 .ifPresent(User -> { throw new UserExistsException(id); });});
         
         String username = userDTO.getUsername();
-        userRepo.findByUsername(userDTO.getUsername())
+        userRepo.findByMyUsername(userDTO.getUsername())
                 .ifPresent(User ->  { throw new UserExistsException(username); });
 
         User user = new User();

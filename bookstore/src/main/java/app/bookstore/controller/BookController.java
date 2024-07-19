@@ -76,7 +76,6 @@ public class BookController {
         return ResponseEntity.ok(bookDTOs);
     }
 
-    
     /**
      * Book Details Feature Task #2:
      * Must be able retrieve a book’s details by the ISBN 
@@ -85,12 +84,10 @@ public class BookController {
      */
     @GetMapping("/ISBN/{ISBN}")
     public ResponseEntity<BookDTO> getBookByISBN(@PathVariable String ISBN) {
-        Book book = verifyBook(ISBN);
-        BookDTO bookDTO = new BookDTO(book);
-        return ResponseEntity.ok(bookDTO);
+        return ResponseEntity.ok(new BookDTO(verifyBook(ISBN)));
     }
 
-
+    
     @GetMapping("/getByGenre/{genre}")
     public ResponseEntity<List<BookDTO>> getBookByGenre(@PathVariable Genre genre) {
         logger.info("Finding books with genre: " + genre);

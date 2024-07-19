@@ -44,7 +44,6 @@ public class UserDTO {
     
     // Getters and Setters
 
-
     public int getUserID() {
         return userID;
     }

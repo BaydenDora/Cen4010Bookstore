@@ -3,9 +3,7 @@ package app.bookstore.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import app.bookstore.domain.Author;
 import app.bookstore.domain.Book;
-import app.bookstore.domain.Publisher;
 import app.bookstore.domain.Wishlist;
 
 import java.util.List;

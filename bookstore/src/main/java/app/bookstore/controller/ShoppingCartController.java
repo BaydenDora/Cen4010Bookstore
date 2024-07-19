@@ -4,14 +4,16 @@ import app.bookstore.domain.Book;
 import app.bookstore.domain.ShoppingCart;
 import app.bookstore.domain.User;
 import app.bookstore.dto.ShoppingCartDTO;
+import app.bookstore.exception.ShoppingCart.ShoppingCartNotFoundException;
+import app.bookstore.exception.User.UserNotFoundException;
 import app.bookstore.repo.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,57 +31,42 @@ public class ShoppingCartController {
 
     @PostMapping
     public ResponseEntity<ShoppingCartDTO> createShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO) {
-        Optional<User> user = userRepo.findById(shoppingCartDTO.getUserID());
-        if (!user.isPresent()) {
-            return ResponseEntity.badRequest().body(null);
-        }
-
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(user.get());
-
-        List<Book> books = shoppingCartDTO.getBookISBNs().stream()
-                .map(isbn -> bookRepo.findByIsbn(isbn).orElse(null))
-                .collect(Collectors.toList());
-
-        shoppingCart.setBooksInCart(books);
-
-        ShoppingCart savedCart = shoppingCartRepo.save(shoppingCart);
-
+        ShoppingCart savedCart = shoppingCartRepo.save(verifyShoppingCart(shoppingCartDTO));
         shoppingCartDTO.setCartID(savedCart.getCartID());
-        return ResponseEntity.ok(shoppingCartDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(shoppingCartDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ShoppingCartDTO> getShoppingCartById(@PathVariable int id) {
-        Optional<ShoppingCart> shoppingCart = shoppingCartRepo.findById(id);
-        if (!shoppingCart.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
-        shoppingCartDTO.setCartID(shoppingCart.get().getCartID());
-        shoppingCartDTO.setUserID(shoppingCart.get().getUser().getUserID());
-        shoppingCartDTO.setBookISBNs(shoppingCart.get().getBooksInCart().stream()
-                .map(Book::getIsbn)
-                .collect(Collectors.toList()));
-
-        return ResponseEntity.ok(shoppingCartDTO);
+        return ResponseEntity.ok(new ShoppingCartDTO(verifyShoppingCart(id)));
     }
 
     @GetMapping
     public ResponseEntity<List<ShoppingCartDTO>> getAllShoppingCarts() {
-        List<ShoppingCart> shoppingCarts = shoppingCartRepo.findAll();
-
-        List<ShoppingCartDTO> shoppingCartDTOs = shoppingCarts.stream().map(shoppingCart -> {
-            ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
-            shoppingCartDTO.setCartID(shoppingCart.getCartID());
-            shoppingCartDTO.setUserID(shoppingCart.getUser().getUserID());
-            shoppingCartDTO.setBookISBNs(shoppingCart.getBooksInCart().stream()
-                    .map(Book::getIsbn)
-                    .collect(Collectors.toList()));
-            return shoppingCartDTO;
-        }).collect(Collectors.toList());
-
+        List<ShoppingCartDTO> shoppingCartDTOs = shoppingCartRepo.findAll().stream()
+                    .map(ShoppingCartDTO::new)
+                    .collect(Collectors.toList());
         return ResponseEntity.ok(shoppingCartDTOs);
     }
+
+
+    private ShoppingCart verifyShoppingCart(int id) throws ShoppingCartNotFoundException {
+        return shoppingCartRepo.findById(id)
+                .orElseThrow(() -> new ShoppingCartNotFoundException(id));
+    }
+
+    private ShoppingCart verifyShoppingCart(ShoppingCartDTO shoppingCartDTO) throws UserNotFoundException {
+        User user = userRepo.findById(shoppingCartDTO.getUserID())
+                    .orElseThrow(() -> new UserNotFoundException(shoppingCartDTO.getUserID()));
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        List<Book> books = shoppingCartDTO.getBookISBNs().stream()
+                .map(isbn -> bookRepo.findByIsbn(isbn).orElse(null))
+                .collect(Collectors.toList());
+        shoppingCart.setBooksInCart(books);
+        
+        return shoppingCart;
+    }
+    
 }

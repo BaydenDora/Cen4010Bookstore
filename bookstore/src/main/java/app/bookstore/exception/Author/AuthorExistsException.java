@@ -3,11 +3,11 @@ package app.bookstore.exception.Author;
 public class AuthorExistsException extends RuntimeException {
 
     public AuthorExistsException(int id) {
-        super(String.format("%s%d\n", "Author already exists: ", id));
+        super("Author with ID '" + id + "'already exists");
     }
 
     public AuthorExistsException(String firstName, String lastName) {
-        super(String.format("%s%s %s\n", "Author already exists: ", firstName, lastName));
+        super("Author '" + firstName + " " + lastName + "'already exists");
     }
 
 }

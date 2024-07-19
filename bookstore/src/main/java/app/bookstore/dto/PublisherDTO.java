@@ -50,8 +50,6 @@ public class PublisherDTO {
     
     // Getters and Setters
 
-
-
     @Override
     public String toString() {
         return "PublisherDTO{" +

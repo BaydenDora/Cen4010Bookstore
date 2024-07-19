@@ -6,13 +6,16 @@ import app.bookstore.domain.User;
 import app.bookstore.domain.Wishlist;
 import app.bookstore.dto.BookDTO;
 import app.bookstore.dto.WishlistDTO;
+import app.bookstore.exception.Book.BookNotFoundException;
+import app.bookstore.exception.User.UserNotFoundException;
+import app.bookstore.exception.Wishlist.WishlistNotFoundException;
 import app.bookstore.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,43 +37,17 @@ public class WishlistController {
     // Method to create a new wishlist
     @PostMapping
     public ResponseEntity<WishlistDTO> createWishlist(@RequestBody WishlistDTO wishlistDTO) {
-        Optional<User> user = userRepo.findById(wishlistDTO.getUserID());
-        if (!user.isPresent()) {
-            return ResponseEntity.badRequest().body(null);
-        }
-
-        Wishlist wishlist = new Wishlist();
-        wishlist.setUser(user.get());
-        wishlist.setWishlistName(wishlistDTO.getWishlistName());
-
-        List<Book> books = wishlistDTO.getBookISBNs().stream()
-                .map(isbn -> bookRepo.findByIsbn(isbn).orElse(null))
-                .collect(Collectors.toList());
-
-        wishlist.setBooksInWishlist(books);
-
+        Wishlist wishlist = verifyWishlist(wishlistDTO);
         Wishlist savedWishlist = wishlistRepo.save(wishlist);
-
         wishlistDTO.setWishlistID(savedWishlist.getWishlistID());
-        return ResponseEntity.ok(wishlistDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(wishlistDTO);
     }
 
     // Method to get a wishlist by its ID
     @GetMapping("/{id}")
     public ResponseEntity<WishlistDTO> getWishlistById(@PathVariable int id) {
-        Optional<Wishlist> wishlist = wishlistRepo.findById(id);
-        if (!wishlist.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        WishlistDTO wishlistDTO = new WishlistDTO();
-        wishlistDTO.setWishlistID(wishlist.get().getWishlistID());
-        wishlistDTO.setWishlistName(wishlist.get().getWishlistName());
-        wishlistDTO.setUserID(wishlist.get().getUser().getUserID());
-        wishlistDTO.setBookISBNs(wishlist.get().getBooksInWishlist().stream()
-                .map(Book::getIsbn)
-                .collect(Collectors.toList()));
-
+        Wishlist wishlist = verifyWishlist(id);
+        WishlistDTO wishlistDTO = new WishlistDTO(wishlist);
         return ResponseEntity.ok(wishlistDTO);
     }
 
@@ -79,16 +56,9 @@ public class WishlistController {
     public ResponseEntity<List<WishlistDTO>> getAllWishlists() {
         List<Wishlist> wishlists = wishlistRepo.findAll();
 
-        List<WishlistDTO> wishlistDTOs = wishlists.stream().map(wishlist -> {
-            WishlistDTO wishlistDTO = new WishlistDTO();
-            wishlistDTO.setWishlistID(wishlist.getWishlistID());
-            wishlistDTO.setWishlistName(wishlist.getWishlistName());
-            wishlistDTO.setUserID(wishlist.getUser().getUserID());
-            wishlistDTO.setBookISBNs(wishlist.getBooksInWishlist().stream()
-                    .map(Book::getIsbn)
-                    .collect(Collectors.toList()));
-            return wishlistDTO;
-        }).collect(Collectors.toList());
+        List<WishlistDTO> wishlistDTOs = wishlists.stream()
+                            .map(WishlistDTO::new)
+                            .collect(Collectors.toList());
 
         return ResponseEntity.ok(wishlistDTOs);
     }
@@ -96,25 +66,11 @@ public class WishlistController {
     // Method to get all books in a wishlist by wishlist ID
     @GetMapping("/{id}/books")
     public ResponseEntity<List<BookDTO>> getBooksInWishlist(@PathVariable int id) {
-        Optional<Wishlist> wishlist = wishlistRepo.findById(id);
-        if (!wishlist.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
+        Wishlist wishlist = verifyWishlist(id);
 
-        List<BookDTO> booksInWishlist = wishlist.get().getBooksInWishlist().stream().map(book -> {
-            BookDTO bookDTO = new BookDTO();
-            bookDTO.setId(book.getId());
-            bookDTO.setIsbn(book.getIsbn());
-            bookDTO.setMyTitle(book.getTitle());
-            bookDTO.setMyDescription(book.getDescription());
-            bookDTO.setMyYearPublished(book.getYearPublished());
-            bookDTO.setMyAuthorId(book.getAuthor().getAuthorID());
-            bookDTO.setMyPublisherId(book.getPublisher().getID());
-            bookDTO.setMyGenre(book.getGenre().name());
-            bookDTO.setMyCopiesSold(book.getCopiesSold());
-            bookDTO.setMyPrice(book.getPrice());
-            return bookDTO;
-        }).collect(Collectors.toList());
+        List<BookDTO> booksInWishlist = wishlist.getBooksInWishlist().stream()
+                            .map(BookDTO::new)
+                            .collect(Collectors.toList());
 
         return ResponseEntity.ok(booksInWishlist);
     }
@@ -122,18 +78,8 @@ public class WishlistController {
     // Method to add a book to a wishlist
     @PostMapping("/{wishlistId}/books/{isbn}")
     public ResponseEntity<Void> addBookToWishlist(@PathVariable int wishlistId, @PathVariable String isbn) {
-        Optional<Wishlist> wishlistOptional = wishlistRepo.findById(wishlistId);
-        if (!wishlistOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Optional<Book> bookOptional = bookRepo.findByIsbn(isbn);
-        if (!bookOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Wishlist wishlist = wishlistOptional.get();
-        Book book = bookOptional.get();
+        Wishlist wishlist = verifyWishlist(wishlistId);
+        Book book = bookRepo.findByIsbn(isbn).orElseThrow(() -> new BookNotFoundException(isbn));
 
         List<Book> books = wishlist.getBooksInWishlist();
         if (!books.contains(book)) {
@@ -148,18 +94,8 @@ public class WishlistController {
     // Method to remove a book from a wishlist and add it to the shopping cart
     @DeleteMapping("/{wishlistId}/books/{isbn}")
     public ResponseEntity<Void> removeBookFromWishlist(@PathVariable int wishlistId, @PathVariable String isbn) {
-        Optional<Wishlist> wishlistOptional = wishlistRepo.findById(wishlistId);
-        if (!wishlistOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Optional<Book> bookOptional = bookRepo.findByIsbn(isbn);
-        if (!bookOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Wishlist wishlist = wishlistOptional.get();
-        Book book = bookOptional.get();
+        Wishlist wishlist = verifyWishlist(wishlistId);
+        Book book = bookRepo.findByIsbn(isbn).orElseThrow(() -> new BookNotFoundException(isbn));
 
         List<Book> books = wishlist.getBooksInWishlist();
         if (books.contains(book)) {
@@ -181,4 +117,29 @@ public class WishlistController {
 
         return ResponseEntity.ok().build();
     }
+
+
+    private Wishlist verifyWishlist(int id) throws WishlistNotFoundException {
+        return wishlistRepo.findById(id)
+                .orElseThrow(() -> new WishlistNotFoundException(id));
+    }
+
+
+    private Wishlist verifyWishlist(WishlistDTO wishlistDTO) throws UserNotFoundException {
+        int userID = wishlistDTO.getUserID();
+        User user = userRepo.findById(userID)
+                    .orElseThrow(() -> new UserNotFoundException(userID));
+        
+        Wishlist wishlist = new Wishlist();
+        wishlist.setUser(user);
+        wishlist.setWishlistName(wishlistDTO.getWishlistName());
+
+        List<Book> books = wishlistDTO.getBookISBNs().stream()
+                .map(isbn -> bookRepo.findByIsbn(isbn).orElse(null))
+                .collect(Collectors.toList());
+        wishlist.setBooksInWishlist(books);
+        
+        return wishlist;
+    }
+
 }

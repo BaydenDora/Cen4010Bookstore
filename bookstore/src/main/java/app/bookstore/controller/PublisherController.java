@@ -1,15 +1,19 @@
 package app.bookstore.controller;
 
+import app.bookstore.domain.Book;
 import app.bookstore.domain.Publisher;
 import app.bookstore.dto.PublisherDTO;
+import app.bookstore.exception.NullValueException;
+import app.bookstore.exception.Publisher.PublisherExistsException;
+import app.bookstore.exception.Publisher.PublisherNotFoundException;
 import app.bookstore.repo.PublisherRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,33 +26,20 @@ public class PublisherController {
     @PostMapping
     public ResponseEntity<PublisherDTO> createPublisher(@RequestBody PublisherDTO publisherDTO) {
         System.out.println("Received PublisherDTO: " + publisherDTO); 
-
-        if (publisherDTO.getPublisherName() == null || publisherDTO.getPublisherName().isEmpty()) {
-            System.out.println("Invalid publisher name"); 
-            return ResponseEntity.badRequest().body(null); 
-        }
-
-        Publisher publisher = new Publisher();
-        publisher.setName(publisherDTO.getPublisherName());
-
-        Publisher savedPublisher = publisherRepo.save(publisher);
-
+        Publisher savedPublisher = publisherRepo.save(verifyPublisher(publisherDTO));
         publisherDTO.setPublisherID(savedPublisher.getID());
-        return ResponseEntity.ok(publisherDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(publisherDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PublisherDTO> getPublisherById(@PathVariable int id) {
-        Optional<Publisher> publisher = publisherRepo.findById(id);
-        if (!publisher.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
+        Publisher publisher = verifyPublisher(id);
         PublisherDTO publisherDTO = new PublisherDTO();
-        publisherDTO.setPublisherID(publisher.get().getID());
-        publisherDTO.setPublisherName(publisher.get().getName());
+        publisherDTO.setPublisherID(publisher.getID());
+        publisherDTO.setPublisherName(publisher.getName());
 
-        List<Integer> booksPublishedIds = publisher.get().getBooks().stream()
-                .map(book -> Math.toIntExact(book.getId()))
+        List<Long> booksPublishedIds = publisher.getBooks().stream()
+                .map(Book::getId)
                 .collect(Collectors.toList());
         publisherDTO.setBooksPublished(booksPublishedIds);
 
@@ -57,21 +48,39 @@ public class PublisherController {
 
     @GetMapping
     public ResponseEntity<List<PublisherDTO>> getAllPublishers() {
-        List<Publisher> publishers = (List<Publisher>) publisherRepo.findAll();
-
-        List<PublisherDTO> publisherDTOs = publishers.stream().map(publisher -> {
-            PublisherDTO publisherDTO = new PublisherDTO();
-            publisherDTO.setPublisherID(publisher.getID());
-            publisherDTO.setPublisherName(publisher.getName());
-
-            List<Integer> booksPublishedIds = publisher.getBooks().stream()
-                    .map(book -> Math.toIntExact(book.getId()))
-                    .collect(Collectors.toList());
-            publisherDTO.setBooksPublished(booksPublishedIds);
-
-            return publisherDTO;
-        }).collect(Collectors.toList());
-
+        List<PublisherDTO> publisherDTOs = ((List<Publisher>) publisherRepo.findAll()).stream()
+                                .map(PublisherDTO::new)
+                                .collect(Collectors.toList());
         return ResponseEntity.ok(publisherDTOs);
     }
+
+
+    private Publisher verifyPublisher(int id) throws PublisherNotFoundException {
+        return publisherRepo.findById(id)
+                .orElseThrow(() -> new PublisherNotFoundException(id));
+    }
+
+
+    private Publisher verifyPublisher(PublisherDTO publisherDTO) throws PublisherExistsException {
+        String publisherName = publisherDTO.getPublisherName();
+        if (publisherName == null || publisherName.isEmpty())
+            throw new NullValueException("Publisher Name"); 
+        
+        publisherRepo.findByPublisherName(publisherName)
+                .ifPresent(publisher ->  { throw new PublisherExistsException(publisherName); });
+
+        Publisher publisher;
+        int publisherID =  publisherDTO.getPublisherID();
+        if(publisherID > 0){
+            publisherRepo.findById(publisherID)
+                .ifPresent(p -> { throw new PublisherExistsException(publisherID); });
+            publisher = new Publisher(publisherID, publisherName);
+        } 
+        else {
+            publisher = new Publisher();
+            publisher.setName(publisherName);
+        }
+        return publisher;
+    }
+
 }

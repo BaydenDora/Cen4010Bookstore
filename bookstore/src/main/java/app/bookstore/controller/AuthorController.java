@@ -4,6 +4,7 @@ import app.bookstore.domain.Author;
 import app.bookstore.domain.Publisher;
 import app.bookstore.dto.AuthorDTO;
 import app.bookstore.dto.BookDTO;
+import app.bookstore.exception.NullValueException;
 import app.bookstore.exception.Author.AuthorExistsException;
 import app.bookstore.exception.Author.AuthorNotFoundException;
 import app.bookstore.repo.AuthorRepo;
@@ -38,39 +39,24 @@ public class AuthorController {
      */
     @PostMapping
     public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO) {
-        System.out.println("Received AuthorDTO: " + authorDTO); // Add logging to debug
-        if (authorDTO.getBiography() == null || authorDTO.getBiography().trim().isEmpty()) {
-            System.out.println("Invalid biography: " + authorDTO.getBiography()); // Add logging to debug
-            return ResponseEntity.badRequest().body(null);
-        }
-        Author author = verifyAuthor(authorDTO);
-
-        // Fetch and set publishers
-        List<Publisher> publishers = (List<Publisher>) publisherRepo.findAllById(authorDTO.getPublisherIDs());
-        author.setPublishers(publishers);
-
-        Author savedAuthor = authorRepo.save(author);
+        Author savedAuthor = authorRepo.save(verifyAuthor(authorDTO));
         authorDTO.setAuthorID(savedAuthor.getAuthorID());
         return ResponseEntity.status(HttpStatus.CREATED).body(authorDTO);
     }
 
-
     @GetMapping
     public ResponseEntity<List<AuthorDTO>> getAllAuthors() {
         List<Author> authors = (List<Author>) authorRepo.findAll();
-        List<AuthorDTO> authorDTOs = authors.stream().map(AuthorDTO::new)
-                                                    .collect(Collectors.toList());
+        List<AuthorDTO> authorDTOs = authors.stream()
+                            .map(AuthorDTO::new)
+                            .collect(Collectors.toList());
         return ResponseEntity.ok(authorDTOs);
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable int id) {
-        var author = verifyAuthor(id);
-        AuthorDTO authorDTO = new AuthorDTO(author);
-        return ResponseEntity.ok(authorDTO);
+        return ResponseEntity.ok(new AuthorDTO(verifyAuthor(id)));
     }
-
 
     /**
      * Book Details Feature Task #4:
@@ -80,14 +66,12 @@ public class AuthorController {
      */
     @GetMapping("/{id}/books")
     public ResponseEntity<List<BookDTO>> getBooksById(@PathVariable int id) {
-        var author = verifyAuthor(id);
-        List<BookDTO> bookDTOs = author.getBooksWritten().stream()
+        List<BookDTO> bookDTOs = verifyAuthor(id).getBooksWritten().stream()
                             .map(BookDTO::new)
                             .collect(Collectors.toList());
         return ResponseEntity.ok(bookDTOs);
     }
 
-    
     /**
      * Helper method to verify and return Author given an id.
      * @param id the Author identifier
@@ -98,7 +82,6 @@ public class AuthorController {
         return authorRepo.findById(id)
                 .orElseThrow(() -> new AuthorNotFoundException(id));
     }
-
 
     /**
      * Helper method to verify and return Author given an AuthorDTO.
@@ -115,10 +98,20 @@ public class AuthorController {
         authorRepo.findByFirstNameAndLastName(firstName, lastName)
                 .ifPresent(author ->  { throw new AuthorExistsException(firstName, lastName); });
 
+        if (authorDTO.getBiography() == null || authorDTO.getBiography().trim().isEmpty()) {
+            System.out.println("Invalid biography: " + authorDTO.getBiography()); // Add logging to debug
+            throw new NullValueException(firstName + " " + lastName);
+        }
+
         Author author = new Author();
         author.setFirstName(firstName);
         author.setLastName(lastName);
         author.setBiography(authorDTO.getBiography());
+
+        // Fetch and set publishers
+        List<Publisher> publishers = (List<Publisher>) publisherRepo.findAllById(authorDTO.getPublisherIDs());
+        author.setPublishers(publishers);
+        
         return author;
     }
 
