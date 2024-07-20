@@ -92,14 +92,15 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     private ResponseEntity<ErrorResponse> globalHandler(String msg, HttpStatus status){
-        var error = new ErrorResponse(status.toString(), new ArrayList<>(){{add(msg);}});
+        var error = new ErrorResponse(status.getReasonPhrase(), status.value(), new ArrayList<>(){{add(msg);}});
         try{
             return new ResponseEntity<>(error, status);
-        } catch(Exception e) { 
-            return new ResponseEntity<>(
-                new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.toString(),  
-                    new ArrayList<>(){{add("Error converting to JSON");}}), 
-                HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(Exception e) {
+            var newStatus = HttpStatus.INTERNAL_SERVER_ERROR; 
+            error.setError(newStatus.getReasonPhrase());
+            error.setStatus(newStatus.value());
+            error.setDetails(new ArrayList<>(){{add("Error converting to JSON");}});
+            return new ResponseEntity<>(error, newStatus);
         }
     }
 

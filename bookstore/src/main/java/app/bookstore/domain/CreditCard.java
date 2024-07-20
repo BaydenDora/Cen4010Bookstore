@@ -15,16 +15,16 @@ public class CreditCard
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Card_ID", nullable = false)
-    private long Card_ID;
+    private long cardID;
     
     @Column(name = "CardNumber", nullable = false, unique = true, columnDefinition = "CHAR(16)")
-    private String CardNumber; // Changed to String to handle digits and match SQL schema
+    private String cardNumber; // Changed to String to handle digits and match SQL schema
     
     @Column(name = "ExpirationDate", nullable = false, length = 5)
-    private String ExpirationDate;
+    private String expirationDate;
     
     @Column(name = "CVV", nullable = false, columnDefinition = "CHAR(3)")
-    private String CVV; // Changed to String to handle digits and match SQL schema
+    private String cvv; // Changed to String to handle digits and match SQL schema
     
     @ManyToOne
     @JoinColumn(name ="User_ID", nullable = false)
@@ -36,7 +36,7 @@ public class CreditCard
         setCardID(0);
         setCardNumber("0000000000000000");
         setExpirationDate("00/00");
-        setCVV("000");
+        setCvv("000");
     }
     
     // Constructor
@@ -44,7 +44,7 @@ public class CreditCard
         setCardID(cardID);
         setCardNumber(cardNumber);
         setExpirationDate(expirationDate);
-        setCVV(cvv);
+        setCvv(cvv);
         setUser(user);
     }
     
@@ -53,25 +53,25 @@ public class CreditCard
         setCardID(cloneCard.getCardID());
         setCardNumber(cloneCard.getCardNumber());
         setExpirationDate(cloneCard.getExpirationDate());
-        setCVV(cloneCard.getCVV());
+        setCvv(cloneCard.getCvv());
         setUser(cloneCard.getUser());
     }
     
     // Getters
     public long getCardID() {
-        return Card_ID;
+        return cardID;
     }
 
     public String getCardNumber() {
-        return CardNumber;
+        return cardNumber;
     }
 
     public String getExpirationDate() {
-        return ExpirationDate;
+        return expirationDate;
     }
     
-    public String getCVV() {
-        return CVV;
+    public String getCvv() {
+        return cvv;
     }
 
     public User getUser() {
@@ -81,25 +81,25 @@ public class CreditCard
     // Setters
     protected void setCardID(long cardID)
     {
-        Card_ID = cardID;
+        this.cardID = cardID;
     }
     
     public void setCardNumber(String cardNumber)
     {
-        CardNumber = cardNumber;
+        this.cardNumber = cardNumber;
     }
     
     public void setExpirationDate (String expirationDate)
     {
-        ExpirationDate = expirationDate;
+        this.expirationDate = expirationDate;
     }
     
-    public void setCVV (String cvv)
+    public void setCvv (String cvv)
     {
-        CVV = cvv;
+        this.cvv = cvv;
     }
     
     public void setUser(User user) {
-        myUserID = user;
+        this.myUserID = user;
     }
 }

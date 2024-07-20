@@ -29,7 +29,6 @@ public class AuthorController {
     @Autowired
     private PublisherRepo publisherRepo;
 
-
     /**
      * Book Details Feature Task #3:
      * An administrator must be able to create an author 
@@ -90,17 +89,18 @@ public class AuthorController {
      * @throws AuthorExistsException if the Author already exists in the database
      */
     private Author verifyAuthor(AuthorDTO authorDTO) throws AuthorExistsException{
-        Optional.of(authorDTO.getAuthorID())
-                .ifPresent(id -> { authorRepo.findById(id)
-                .ifPresent(author -> { throw new AuthorExistsException(id); });});
+        Optional.of(authorDTO.getAuthorID()).ifPresent(id -> { 
+            authorRepo.findById(id).ifPresent(author -> { 
+                throw new AuthorExistsException(id); });});
         
         String firstName = authorDTO.getFirstName(), lastName = authorDTO.getLastName();
         authorRepo.findByFirstNameAndLastName(firstName, lastName)
                 .ifPresent(author ->  { throw new AuthorExistsException(firstName, lastName); });
 
-        if (authorDTO.getBiography() == null || authorDTO.getBiography().trim().isEmpty()) {
+        String biography = authorDTO.getBiography();
+        if (biography == null || biography.trim().isEmpty()) {
             System.out.println("Invalid biography: " + authorDTO.getBiography()); // Add logging to debug
-            throw new NullValueException(firstName + " " + lastName);
+            throw new NullValueException("Biography");
         }
 
         Author author = new Author();

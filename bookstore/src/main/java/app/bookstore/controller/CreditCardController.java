@@ -69,13 +69,15 @@ public class CreditCardController {
         User user = userRepo.findById(userID)
                         .orElseThrow(() -> new UserNotFoundException(userID));
 
-        var cardNumber = creditCardDTO.getCardNumber();
-        Optional.of(cardNumber)
-                .ifPresent(cardNum -> { throw new CreditCardExistsException(cardNum); });
+        String cardNumber = creditCardDTO.getCardNumber();
+        Optional.of(cardNumber).ifPresent(num -> { 
+            creditCardRepo.findByCardNumber(num).ifPresent(card -> { 
+                throw new CreditCardExistsException(cardNumber); });});
+                        
         CreditCard creditCard = new CreditCard();
         creditCard.setCardNumber(cardNumber);
         creditCard.setExpirationDate(creditCardDTO.getExpirationDate());
-        creditCard.setCVV(creditCardDTO.getCvv());
+        creditCard.setCvv(creditCardDTO.getCvv());
         creditCard.setUser(user);
         return creditCard;
     }

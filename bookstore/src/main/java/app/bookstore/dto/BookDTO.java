@@ -49,8 +49,8 @@ public class BookDTO {
     public BookDTO(){};
 
     public BookDTO(Book book){
-        this(book.getId(), book.getIsbn(), book.getTitle(), book.getDescription(), book.getYearPublished(), 
-            book.getAuthor().getAuthorID(), book.getPublisher().getID(), 
+        this(book.getId(), book.getIsbn(), book.getTitle(), book.getDescription(), 
+            book.getYearPublished(), book.getAuthor().getAuthorID(), book.getPublisher().getID(), 
             (book.getGenre() != null) ? book.getGenre().getLabel() : null, 
             book.getCopiesSold(), book.getPrice(), book.getSellingPrice());
     }

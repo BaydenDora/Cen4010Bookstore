@@ -27,7 +27,7 @@ public class CreditCardDTO {
 
     public CreditCardDTO(CreditCard creditCard){
         this(creditCard.getCardID(), creditCard.getCardNumber(), creditCard.getExpirationDate(), 
-        creditCard.getCVV(), creditCard.getUser().getUserID());
+        creditCard.getCvv(), creditCard.getUser().getUserID());
     }
 
     private CreditCardDTO(long cardID, String cardNumber, String expirationDate, String cvv, int userID) {

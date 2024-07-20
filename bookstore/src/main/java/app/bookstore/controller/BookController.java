@@ -212,7 +212,7 @@ public class BookController {
                     .ifPresent(book ->  { throw new BookExistsException(isbn); });
         
         Book book = new Book();
-        book.setIsbn(bookDTO.getIsbn());
+        book.setIsbn(isbn);
         book.setTitle(bookDTO.getMyTitle());
         book.setDescription(bookDTO.getMyDescription());
         book.setYearPublished(bookDTO.getMyYearPublished());
