@@ -1,26 +1,47 @@
 package app.bookstore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import app.bookstore.domain.User;
+
+@JsonPropertyOrder({"User ID", "Username", "Name", "Password", "Email Address", "Home Address"})
 public class UserDTO {
-    @JsonProperty("userID")
+    @JsonProperty("User ID")
     private int userID;
 
-    @JsonProperty("username")
+    @JsonProperty("Username")
     private String username;
 
-    @JsonProperty("name")
+    @JsonProperty("Name")
     private String name;
 
-    @JsonProperty("password")
+    @JsonProperty("Password")
     private String password;
 
-    @JsonProperty("emailAddress")
+    @JsonProperty("Email Address")
     private String emailAddress;
 
-    @JsonProperty("homeAddress")
+    @JsonProperty("Home Address")
     private String homeAddress;
 
+    public UserDTO() {}
+
+    public UserDTO(User user){
+        this(user.getUserID(), user.getUsername(), user.getName(), 
+        user.getPassword(), user.getEmailAddress(), user.getHomeAddress());
+    }
+
+    private UserDTO(int userID, String username, String name, String password, String emailAddress, String homeAddress) {
+        this.userID = userID;
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.emailAddress = emailAddress;
+        this.homeAddress = homeAddress;
+    }
+
+    
     // Getters and Setters
 
     public int getUserID() {

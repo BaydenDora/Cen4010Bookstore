@@ -1,22 +1,53 @@
 package app.bookstore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import app.bookstore.domain.Author;
+import app.bookstore.domain.Book;
+import app.bookstore.domain.Publisher;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@JsonPropertyOrder({"Publisher ID", "Publisher Name", "Authors Published", "Books Published"}) 
 public class PublisherDTO {
 
-    @JsonProperty("publisherID") // ensure this matches the JSON key
+    @JsonProperty("Publisher ID") // ensure this matches the JSON key
     private int publisherID;
 
-    @JsonProperty("publisherName") // ensure this matches the JSON key
+    @JsonProperty("Publisher Name") // ensure this matches the JSON key
     private String publisherName;
 
-    @JsonProperty("authorsPublished") // ensure this matches the JSON key
+    @JsonProperty("Authors Published") // ensure this matches the JSON key
     private List<Integer> authorsPublished;
 
-    @JsonProperty("booksPublished") // ensure this matches the JSON key
-    private List<Integer> booksPublished;
+    @JsonProperty("Books Published") // ensure this matches the JSON key
+    private List<Long> booksPublished;
 
+    public PublisherDTO(){};
+
+    public PublisherDTO(Publisher publisher){
+        this(
+            publisher.getID(), 
+            publisher.getName(),
+            publisher.getAuthors().stream()
+                        .map(Author::getAuthorID)
+                        .collect(Collectors.toList()), 
+            publisher.getBooks().stream()
+                        .map(Book::getId)
+                        .collect(Collectors.toList())
+        );
+    }
+
+    private PublisherDTO(int publisherID, String publisherName, List<Integer> authorsPublished,
+            List<Long> booksPublished) {
+        this.publisherID = publisherID;
+        this.publisherName = publisherName;
+        this.authorsPublished = authorsPublished;
+        this.booksPublished = booksPublished;
+    }
+    
     // Getters and Setters
 
     @Override
@@ -53,11 +84,11 @@ public class PublisherDTO {
         this.authorsPublished = authorsPublished;
     }
 
-    public List<Integer> getBooksPublished() {
+    public List<Long> getBooksPublished() {
         return booksPublished;
     }
 
-    public void setBooksPublished(List<Integer> booksPublished) {
+    public void setBooksPublished(List<Long> booksPublished) {
         this.booksPublished = booksPublished;
     }
 }

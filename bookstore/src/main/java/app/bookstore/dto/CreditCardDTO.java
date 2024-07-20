@@ -1,24 +1,44 @@
 package app.bookstore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import app.bookstore.domain.CreditCard;
+
+@JsonPropertyOrder({"Card ID", "Card Number", "Expiration Date", "CVV", "User ID"})
 public class CreditCardDTO {
 
-    @JsonProperty("cardID")
+    @JsonProperty("Card ID")
     private long cardID;
 
-    @JsonProperty("cardNumber")
+    @JsonProperty("Card Number")
     private String cardNumber;
 
-    @JsonProperty("expirationDate")
+    @JsonProperty("Expiration Date")
     private String expirationDate;
 
-    @JsonProperty("cvv")
+    @JsonProperty("CVV")
     private String cvv;
 
-    @JsonProperty("userID")
+    @JsonProperty("User ID")
     private int userID;
 
+    public CreditCardDTO() {}
+
+    public CreditCardDTO(CreditCard creditCard){
+        this(creditCard.getCardID(), creditCard.getCardNumber(), creditCard.getExpirationDate(), 
+        creditCard.getCvv(), creditCard.getUser().getUserID());
+    }
+
+    private CreditCardDTO(long cardID, String cardNumber, String expirationDate, String cvv, int userID) {
+        this.cardID = cardID;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.cvv = cvv;
+        this.userID = userID;
+    }
+
+    
     // Getters and setters
 
     public long getCardID() {

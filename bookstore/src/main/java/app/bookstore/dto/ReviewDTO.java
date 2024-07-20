@@ -1,27 +1,57 @@
 package app.bookstore.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import app.bookstore.domain.Review;
+
+
+@JsonPropertyOrder({"Review ID", "ISBN", "User ID", "Comment", "Rating", "Date"}) 
 public class ReviewDTO {
 
-    @JsonProperty("reviewID")
+    @JsonProperty("Review ID")
     private int reviewID;
 
     @JsonProperty("ISBN")
-    private String ISBN;
+    private String isbn;
 
-    @JsonProperty("userID")
+    @JsonProperty("User ID")
     private int userID;
 
-    @JsonProperty("comment")
+    @JsonProperty("Comment")
     private String comment;
 
-    @JsonProperty("rating")
+    @JsonProperty("Rating")
     private int rating;
 
-    @JsonProperty("date")
+    @JsonProperty("Date")
     private Date date;
+
+
+    public ReviewDTO(){};
+
+    public ReviewDTO(Review review){
+        this(
+            review.getID(), 
+            review.getBook().getIsbn(),
+            review.getUser().getUserID(),
+            review.getComment(),
+            review.getRating(),
+            review.getDate()
+        );
+    }
+
+    public ReviewDTO(int reviewID, String isbn, int userID, String comment, int rating, Date date) {
+        this.reviewID = reviewID;
+        this.isbn = isbn;
+        this.userID = userID;
+        this.comment = comment;
+        this.rating = rating;
+        this.date = date;
+    }
+    
 
     // Getters and Setters
 
@@ -33,12 +63,12 @@ public class ReviewDTO {
         this.reviewID = reviewID;
     }
 
-    public String getISBN() {
-        return ISBN;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public int getUserID() {
@@ -77,7 +107,7 @@ public class ReviewDTO {
     public String toString() {
         return "ReviewDTO{" +
                 "reviewID=" + reviewID +
-                ", ISBN='" + ISBN + '\'' +
+                ", isbn='" + isbn + '\'' +
                 ", userID=" + userID +
                 ", comment='" + comment + '\'' +
                 ", rating=" + rating +

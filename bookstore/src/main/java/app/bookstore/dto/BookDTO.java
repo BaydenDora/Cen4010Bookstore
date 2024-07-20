@@ -1,46 +1,62 @@
 package app.bookstore.dto;
 
+import app.bookstore.domain.Book;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+
+@JsonPropertyOrder({"Book ID", "ISBN", "Book Title", "Description", "Year Published", 
+"Author ID", "Publisher ID", "Genre", "Copies Sold", "Price", "Current Price"})
 public class BookDTO {
+    
+    @JsonProperty("Book ID")
     private Long id;
 
-    @JsonProperty("isbn")
+    @JsonProperty("ISBN")
     private String isbn;
 
-    @JsonProperty("myTitle")
+    @JsonProperty("Book Title")
     private String myTitle;
 
-    @JsonProperty("myDescription")
+    @JsonProperty("Description")
     private String myDescription;
 
-    @JsonProperty("myYearPublished")
+    @JsonProperty("Year Published")
     private int myYearPublished;
 
-    @JsonProperty("myAuthorId")
+    @JsonProperty("Author ID")
     private Integer myAuthorId;
 
-    @JsonProperty("myPublisherId")
+    @JsonProperty("Publisher ID")
     private Integer myPublisherId;
 
-    @JsonProperty("myGenre")
+    @JsonProperty("Genre")
     private String myGenre;
 
-    @JsonProperty("myCopiesSold")
+    @JsonProperty("Copies Sold")
     private int myCopiesSold;
 
-    @JsonProperty("myPrice")
+    @JsonProperty("Price")
     private float myPrice;
     
-    @JsonProperty("myCurrentPrice")
+    @JsonProperty("Current Price")
     private float myCurrentPrice;
 
     public BookDTO(){};
 
-    public BookDTO(Long id, String isbn, String myTitle, String myDescription, int myYearPublished, 
-            Integer myAuthorId, Integer myPublisherId, String myGenre, int myCopiesSold, float myPrice) {
+    public BookDTO(Book book){
+        this(book.getId(), book.getIsbn(), book.getTitle(), book.getDescription(), 
+            book.getYearPublished(), book.getAuthor().getAuthorID(), book.getPublisher().getID(), 
+            (book.getGenre() != null) ? book.getGenre().getLabel() : null, 
+            book.getCopiesSold(), book.getPrice(), book.getSellingPrice());
+    }
+
+    private BookDTO(Long id, String isbn, String myTitle, String myDescription, int myYearPublished, 
+            Integer myAuthorId, Integer myPublisherId, String myGenre, int myCopiesSold, float myPrice, float myCurrentPrice) {
         this.id = id;
         this.isbn = isbn;
         this.myTitle = myTitle;
@@ -51,13 +67,15 @@ public class BookDTO {
         this.myGenre = myGenre;
         this.myCopiesSold = myCopiesSold;
         this.myPrice = myPrice;
+        this.myCurrentPrice = myCurrentPrice;
+        this.roundPrices();
     }
 
     //  Not Null Constructor
     public BookDTO(Long id, String isbn, String myTitle, Integer myAuthorId, Integer myPublisherId, 
-        int myCopiesSold, float myPrice) {
+        int myCopiesSold, float myPrice, float myCurrentPrice) {
                 this(id, isbn, myTitle, null, 0000, myAuthorId, 
-                    myPublisherId, null, myCopiesSold, myPrice);
+                    myPublisherId, null, myCopiesSold, myPrice, myCurrentPrice);
     }
 
     // Getters and setters
@@ -70,11 +88,11 @@ public class BookDTO {
         this.id = id;
     }
 
-    public String getISBN() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setISBN(String isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 

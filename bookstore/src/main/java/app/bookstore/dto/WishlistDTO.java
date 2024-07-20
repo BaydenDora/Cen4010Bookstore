@@ -1,21 +1,49 @@
 package app.bookstore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import app.bookstore.domain.Book;
+import app.bookstore.domain.Wishlist;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@JsonPropertyOrder({"Wishlist ID", "Wishlist Name", "User ID", "Book ISBNS"})
 public class WishlistDTO {
 
-    @JsonProperty("wishlistID")
+    @JsonProperty("Wishlist ID")
     private int wishlistID;
 
-    @JsonProperty("wishlistName")
+    @JsonProperty("Wishlist Name")
     private String wishlistName;
 
-    @JsonProperty("userID")
+    @JsonProperty("User ID")
     private int userID;
 
-    @JsonProperty("bookISBNs")
+    @JsonProperty("Book ISBNS")
     private List<String> bookISBNs;
+
+    public WishlistDTO(){};
+
+    public WishlistDTO(Wishlist wishlist){
+        this(
+            wishlist.getWishlistID(), 
+            wishlist.getWishlistName(),
+            wishlist.getUser().getUserID(),
+            wishlist.getBooksInWishlist().stream()
+                        .map(Book::getIsbn)
+                        .collect(Collectors.toList())
+        );
+    }
+    
+
+    private WishlistDTO(int wishlistID, String wishlistName, int userID, List<String> bookISBNs) {
+        this.wishlistID = wishlistID;
+        this.wishlistName = wishlistName;
+        this.userID = userID;
+        this.bookISBNs = bookISBNs;
+    }
 
     // Getters and Setters
     public int getWishlistID() {

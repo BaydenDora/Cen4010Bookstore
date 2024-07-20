@@ -1,5 +1,0 @@
-1	Publisher 1
-2	Publisher 2
-3	Publisher 3
-4	Random House
-5	Penguin Books

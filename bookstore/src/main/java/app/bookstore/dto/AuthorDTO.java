@@ -1,35 +1,54 @@
 package app.bookstore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import app.bookstore.domain.Author;
+import app.bookstore.domain.Publisher;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@JsonPropertyOrder({"Author ID", "First Name", "Last Name", "Biography", "Publisher IDs"})
 public class AuthorDTO {
 
-    @JsonProperty("authorID")
+    @JsonProperty("Author ID")
     private int authorID;
 
-    @JsonProperty("firstName")
+    @JsonProperty("First Name")
     private String firstName;
 
-    @JsonProperty("lastName")
+    @JsonProperty("Last Name")
     private String lastName;
 
-    @JsonProperty("biography")
+    @JsonProperty("Biography")
     private String biography;
 
-    @JsonProperty("publisherIds")
-    private List<Integer> publisherIds;
+    @JsonProperty("Publisher IDs")
+    private List<Integer> publisherIDs;
 
     // Default constructor
-    public AuthorDTO() {
+    public AuthorDTO() {}
+
+    public AuthorDTO(Author author){
+        this(
+            author.getAuthorID(), 
+            author.getFirstName(), 
+            author.getLastName(), 
+            author.getBiography(), 
+            author.getPublishers().stream()
+                    .map(Publisher::getID)
+                    .collect(Collectors.toList())
+        );
     }
 
-    public AuthorDTO(int authorID, String firstName, String lastName, String biography, List<Integer> publisherIds) {
+    private AuthorDTO(int authorID, String firstName, String lastName, 
+                String biography, List<Integer> publisherIds) {
         this.authorID = authorID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.biography = biography;
-        this.publisherIds = publisherIds;
+        this.publisherIDs = publisherIds;
     }
 
 
@@ -67,12 +86,12 @@ public class AuthorDTO {
         this.biography = biography;
     }
 
-    public List<Integer> getPublisherIds() {
-        return publisherIds;
+    public List<Integer> getPublisherIDs() {
+        return publisherIDs;
     }
 
-    public void setPublisherIds(List<Integer> publisherIds) {
-        this.publisherIds = publisherIds;
+    public void setPublisherIDs(List<Integer> publisherIds) {
+        this.publisherIDs = publisherIds;
     }
 
     @Override
@@ -82,7 +101,7 @@ public class AuthorDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", biography='" + biography + '\'' +
-                ", publisherIds=" + publisherIds +
+                ", publisherIds=" + publisherIDs +
                 '}';
     }
 }

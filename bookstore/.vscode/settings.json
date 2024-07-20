@@ -1,3 +1,8 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "editor.codeLens": true,
+    "editor.parameterHints.enabled": true,
+    "editor.parameterHints.cycle": true,
+    "editor.suggest.showTypeParameters": true,
+    "breadcrumbs.showTypeParameters": true
 }
