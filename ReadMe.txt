@@ -3,7 +3,7 @@ Bayden Dora
 Marlon Delrosario
 Bryan Diaz
 Lucas Dos Santos
-Christian (Calderon? please correct me if I'm wrong) 
+Christian Calderon 
 
 Dependencies(things to download):
 MySql
