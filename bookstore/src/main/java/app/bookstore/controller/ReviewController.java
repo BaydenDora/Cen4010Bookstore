@@ -2,6 +2,21 @@
 
 package app.bookstore.controller;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import app.bookstore.domain.Book;
 import app.bookstore.domain.Review;
 import app.bookstore.domain.User;
@@ -9,18 +24,10 @@ import app.bookstore.dto.ReviewDTO;
 import app.bookstore.exception.Book.BookNotFoundException;
 import app.bookstore.exception.Review.ReviewExistsException;
 import app.bookstore.exception.Review.ReviewNotFoundException;
-import app.bookstore.exception.User.UserNotFoundException;
-import app.bookstore.repo.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import app.bookstore.exception.User.UserNotFoundExceptionID;
+import app.bookstore.repo.BookRepo;
+import app.bookstore.repo.ReviewRepo;
+import app.bookstore.repo.UserRepo;
 
 
 @RestController
@@ -103,7 +110,7 @@ public class ReviewController {
         String isbn = reviewDTO.getIsbn();
         Book book = bookRepo.findByIsbn(isbn).orElseThrow(() -> new BookNotFoundException(isbn));
         int userID = reviewDTO.getUserID();
-        User user = userRepo.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
+        User user = userRepo.findById(userID).orElseThrow(() -> new UserNotFoundExceptionID(userID));
 
         Review review = new Review();
         review.setIsbn(book);

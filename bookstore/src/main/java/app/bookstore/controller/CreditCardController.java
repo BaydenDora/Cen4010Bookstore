@@ -20,7 +20,7 @@ import app.bookstore.dto.CreditCardDTO;
 import app.bookstore.exception.CreditCard.CreditCardExistsException;
 import app.bookstore.exception.CreditCard.CreditCardNotFoundException;
 import app.bookstore.exception.User.UserExistsException;
-import app.bookstore.exception.User.UserNotFoundException;
+import app.bookstore.exception.User.UserNotFoundExceptionID;
 import app.bookstore.repo.CreditCardRepo;
 import app.bookstore.repo.UserRepo;
 
@@ -67,7 +67,7 @@ public class CreditCardController {
     private CreditCard verifyCreditCard(CreditCardDTO creditCardDTO) throws UserExistsException{
         int userID = creditCardDTO.getUserID();
         User user = userRepo.findById(userID)
-                        .orElseThrow(() -> new UserNotFoundException(userID));
+                        .orElseThrow(() -> new UserNotFoundExceptionID(userID));
 
         String cardNumber = creditCardDTO.getCardNumber();
         Optional.of(cardNumber).ifPresent(num -> { 

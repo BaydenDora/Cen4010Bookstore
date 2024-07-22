@@ -36,9 +36,14 @@ public class UserController {
         return ResponseEntity.ok(userDTOs);
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id) {
         return ResponseEntity.ok(new UserDTO(verifyUser(id)));
+    }*/
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable String username) {
+        return ResponseEntity.ok(new UserDTO(verifyUser(username)));
     }
 
     @PostMapping
@@ -130,15 +135,15 @@ public class UserController {
     }
 
 
-    private User verifyUser(int id) throws UserNotFoundException {
-        return userRepo.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+    private User verifyUser(String username) throws UserNotFoundException {
+        return userRepo.findByMyUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
     }
 
     private User verifyUser(UserDTO userDTO) throws UserExistsException {
-        Optional.of(userDTO.getUserID())
-                .ifPresent(id -> { userRepo.findById(id)
-                .ifPresent(User -> { throw new UserExistsException(id); });});
+        Optional.of(userDTO.getUsername())
+                .ifPresent(username -> { userRepo.findByMyUsername(username)
+                .ifPresent(User -> { throw new UserExistsException(username); });});
         
         String username = userDTO.getUsername();
         userRepo.findByMyUsername(userDTO.getUsername())

@@ -1,5 +1,19 @@
 package app.bookstore.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import app.bookstore.domain.Book;
 import app.bookstore.domain.ShoppingCart;
 import app.bookstore.domain.User;
@@ -7,16 +21,12 @@ import app.bookstore.domain.Wishlist;
 import app.bookstore.dto.BookDTO;
 import app.bookstore.dto.WishlistDTO;
 import app.bookstore.exception.Book.BookNotFoundException;
-import app.bookstore.exception.User.UserNotFoundException;
+import app.bookstore.exception.User.UserNotFoundExceptionID;
 import app.bookstore.exception.Wishlist.WishlistNotFoundException;
-import app.bookstore.repo.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import app.bookstore.repo.BookRepo;
+import app.bookstore.repo.ShoppingCartRepo;
+import app.bookstore.repo.UserRepo;
+import app.bookstore.repo.WishlistRepo;
 
 @RestController
 @RequestMapping("/wishlists")
@@ -125,10 +135,10 @@ public class WishlistController {
     }
 
 
-    private Wishlist verifyWishlist(WishlistDTO wishlistDTO) throws UserNotFoundException {
+    private Wishlist verifyWishlist(WishlistDTO wishlistDTO) throws UserNotFoundExceptionID {
         int userID = wishlistDTO.getUserID();
         User user = userRepo.findById(userID)
-                    .orElseThrow(() -> new UserNotFoundException(userID));
+                    .orElseThrow(() -> new UserNotFoundExceptionID(userID));
         
         Wishlist wishlist = new Wishlist();
         wishlist.setUser(user);

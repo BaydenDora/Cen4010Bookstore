@@ -1,20 +1,27 @@
 package app.bookstore.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import app.bookstore.domain.Book;
 import app.bookstore.domain.ShoppingCart;
 import app.bookstore.domain.User;
 import app.bookstore.dto.ShoppingCartDTO;
 import app.bookstore.exception.ShoppingCart.ShoppingCartNotFoundException;
-import app.bookstore.exception.User.UserNotFoundException;
-import app.bookstore.repo.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import app.bookstore.exception.User.UserNotFoundExceptionID;
+import app.bookstore.repo.BookRepo;
+import app.bookstore.repo.ShoppingCartRepo;
+import app.bookstore.repo.UserRepo;
 
 @RestController
 @RequestMapping("/shoppingcarts")
@@ -55,9 +62,9 @@ public class ShoppingCartController {
                 .orElseThrow(() -> new ShoppingCartNotFoundException(id));
     }
 
-    private ShoppingCart verifyShoppingCart(ShoppingCartDTO shoppingCartDTO) throws UserNotFoundException {
+    private ShoppingCart verifyShoppingCart(ShoppingCartDTO shoppingCartDTO) throws UserNotFoundExceptionID {
         User user = userRepo.findById(shoppingCartDTO.getUserID())
-                    .orElseThrow(() -> new UserNotFoundException(shoppingCartDTO.getUserID()));
+                    .orElseThrow(() -> new UserNotFoundExceptionID(shoppingCartDTO.getUserID()));
 
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
