@@ -11,6 +11,7 @@ import app.bookstore.repo.AuthorRepo;
 import app.bookstore.repo.PublisherRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Streamable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +61,7 @@ public class AuthorController {
     /**
      * Book Details Feature Task #4:
      * Must be able to retrieve a list of books associated with an author
-     * @param id
+     * @param id a unique Book identifier 
      * @return ResponseEntity<BookDTO> containing HTTP status code 200 and the found BookDTO list
      */
     @GetMapping("/{id}/books")
@@ -109,7 +110,7 @@ public class AuthorController {
         author.setBiography(authorDTO.getBiography());
 
         // Fetch and set publishers
-        List<Publisher> publishers = (List<Publisher>) publisherRepo.findAllById(authorDTO.getPublisherIDs());
+        List<Publisher> publishers = Streamable.of(publisherRepo.findAllById(authorDTO.getPublisherIDs())).toList();
         author.setPublishers(publishers);
         
         return author;

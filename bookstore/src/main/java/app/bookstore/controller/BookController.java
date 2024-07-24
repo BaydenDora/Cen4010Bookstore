@@ -44,7 +44,7 @@ public class BookController {
      * Book Details Feature Task #1: 
      * An administrator must be able to create a book with the book ISBN, book name, 
      * book description, price, author, genre, publisher, year published and copies sold
-     * @param bookDTO
+     * @param bookDTO an input Book object's arguments in JSON format
      * @return ResponseEntity<BookDTO> containing HTTP status code 201 and the created BookDTO
      */
     @PostMapping
@@ -79,8 +79,8 @@ public class BookController {
     /**
      * Book Details Feature Task #2:
      * Must be able retrieve a book’s details by the ISBN 
-     * @param ISBN
-     * @return ResponseEntity<BookDTO> containing HTTP status code 200 and the found BookDTO
+     * @param ISBN a Book's ISBN
+     * @return ResponseEntity<BookDTO> containing HTTP status code 200 and the found Book as a BookDTO
      */
     @GetMapping("/ISBN/{ISBN}")
     public ResponseEntity<BookDTO> getBookByISBN(@PathVariable String ISBN) {

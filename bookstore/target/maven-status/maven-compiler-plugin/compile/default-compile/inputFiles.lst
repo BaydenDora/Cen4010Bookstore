@@ -1,5 +1,4 @@
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/BookstoreApplication.java
-/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/WebConfig.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/controller/AuthorController.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/controller/BookController.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/controller/CreditCardController.java
@@ -29,7 +28,6 @@
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Author/AuthorExistsException.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Author/AuthorNotFoundException.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Book/BookExistsException.java
-/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Book/BookNotFoundAdvice.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Book/BookNotFoundException.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/CreditCard/CreditCardExistsException.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/CreditCard/CreditCardNotFoundException.java
@@ -44,6 +42,7 @@
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/ShoppingCart/ShoppingCartNotFoundException.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/User/UserExistsException.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/User/UserNotFoundException.java
+/home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/User/UserNotFoundExceptionID.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/exception/Wishlist/WishlistNotFoundException.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/repo/AuthorRepo.java
 /home/christian/pgm/Summer24/CEN/Cen4010Bookstore/bookstore/src/main/java/app/bookstore/repo/BookRepo.java

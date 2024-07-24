@@ -10,11 +10,9 @@ CREATE TABLE Publisher (
 
 CREATE TABLE Author (
     Author_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Publisher_ID INT,
     FirstName VARCHAR(100) NOT NULL,
     LastName VARCHAR(100) NOT NULL,
-    Biography VARCHAR(1000) NOT NULL,
-    FOREIGN KEY (Publisher_ID) REFERENCES Publisher(Publisher_ID) ON UPDATE CASCADE ON DELETE SET NULL
+    Biography VARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE Author_Publisher (
