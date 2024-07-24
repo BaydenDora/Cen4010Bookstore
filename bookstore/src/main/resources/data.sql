@@ -11,12 +11,12 @@ INSERT INTO Publisher(Publisher_ID, PublisherName) VALUES
     (5, 'Penguin Books');
 
 -- Authors
-INSERT INTO Author (Author_ID, Publisher_ID, FirstName, LastName, Biography) VALUES
-    (1, 1, 'John', 'Smith', 'John Smith is an acclaimed author known for his thrilling novels.'),
-    (2, 2, 'Jane', 'Doe', 'Jane Doe is a renowned writer of non-fiction works.'),
-    (3, 1, 'Alice', 'Johnson', 'Alice Johnson writes compelling science fiction stories.'),
-    (4, 3, 'Bob', 'Brown', 'Bob Brown is a famous fantasy novelist.'),
-    (5, 2, 'Carol', 'Davis', 'Carol Davis is a well-known biographer.');
+INSERT INTO Author (Author_ID, FirstName, LastName, Biography) VALUES
+    (1, 'John', 'Smith', 'John Smith is an acclaimed author known for his thrilling novels.'),
+    (2, 'Jane', 'Doe', 'Jane Doe is a renowned writer of non-fiction works.'),
+    (3, 'Alice', 'Johnson', 'Alice Johnson writes compelling science fiction stories.'),
+    (4, 'Bob', 'Brown', 'Bob Brown is a famous fantasy novelist.'),
+    (5, 'Carol', 'Davis', 'Carol Davis is a well-known biographer.');
 
 -- Books
 INSERT INTO Book(ISBN, BookName, Author_ID, Publisher_ID, BookDescription, Genre, YearPublished, CopiesSold, Price, SellingPrice, id) VALUES
@@ -30,6 +30,13 @@ INSERT INTO Book(ISBN, BookName, Author_ID, Publisher_ID, BookDescription, Genre
     ('9780743273565', 'Eighth Book Title', 4, 3, 'A charming children\'s story.', 'SCIENCEFICTION', 2021, 550000, 26.99, 26.99, 8),
     ('9780452284234', 'Ninth Book Here', 1, 2, 'An action-packed adventure.', 'FANTASY', 2020, 600000, 33.99, 33.99, 9),
     ('9780743273568', 'Tenth Book Example', 2, 1, 'A heartwarming autobiography.', 'BIOGRAPHY', 2023, 200000, 23.99, 23.99, 10);
+
+INSERT INTO Author_Publisher (Author_ID, Publisher_ID) VALUES
+    (1, 1),
+    (2, 2),
+    (3, 1),
+    (4, 3),
+    (5, 2);
 
 -- Users
 INSERT INTO `User` (User_ID, Username, FullName, Email, Pass, HomeAddress, Wishlist_ID, Cart_ID) VALUES
