@@ -34,7 +34,7 @@ public class Author {
     private String biography;
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "Author_Publisher", 
         joinColumns = @JoinColumn(name = "Author_ID"), 
